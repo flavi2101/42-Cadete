@@ -1,0 +1,5 @@
+**/.gitignore
+**/a.out
+**/*.o
+**/*.swp
+**/*.sh
