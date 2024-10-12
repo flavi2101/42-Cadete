@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 08:53:43 by flferrei          #+#    #+#             */
+/*   Updated: 2024/10/12 08:54:41 by flferrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 int	ft_isdigit(int c)
 {
-	unsigned char digit;
-	digit = (unsigned char)(c);
+	unsigned char	digit;
 
-	if (digit >= 48 && digit  <= 57)
+	digit = (unsigned char)(c);
+	if (digit >= 48 && digit <= 57)
 		return (1);
-	return (0);	
+	return (0);
 }
