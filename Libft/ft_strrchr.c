@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/12 10:04:24 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/12 13:49:04 by flferrei         ###   ########.fr       */
+/*   Created: 2024/10/12 13:48:02 by flferrei          #+#    #+#             */
+/*   Updated: 2024/10/12 13:57:34 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef LIBFT_H
-# define LIBFT_H
-# include <stddef.h>
 
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_isalnum(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int		ft_toupper(int c);
-int		ft_tolower(int c);
-size_t	ft_strlen(const char	*s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strrchr(const char *s, int c);
-#endif
+#include "libft.h"
+
+char	*ft_strrchr(const char *s, int c)
+{
+	size_t		size;
+	size_t		counter;
+	char		*position;
+
+	counter = 0;
+	position = NULL;
+	size = ft_strlen(s) + 1;
+	while (counter < size)
+	{
+		if (s[counter] == (char)c)
+			position = (char *)s + counter;
+		++counter;
+	}
+	return (position);
+}
