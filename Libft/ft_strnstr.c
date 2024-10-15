@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:22:14 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/15 14:18:34 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:14:42 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -23,7 +23,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	while (big[big_iterator] && big_iterator < len)
 	{
 		if ((big_iterator + little_size <= len)
-			&& !(ft_strncmp((&big[big_iterator]), little, len)))
+			&& !(ft_strncmp((&big[big_iterator]), little, little_size)))
 			return ((char *)(&big[big_iterator]));
 		big_iterator++;
 	}

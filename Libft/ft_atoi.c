@@ -6,11 +6,11 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:07:05 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/15 13:08:46 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 19:13:09 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	atoi(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
 	int	return_value;
 	int	flag;
