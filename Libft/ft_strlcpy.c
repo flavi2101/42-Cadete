@@ -1,5 +1,5 @@
 #include "libft.h"
-size_t  ft_strlcpy(char *restrict dst, const char *restrict src, size_t dst_size)
+size_t  ft_strlcpy(char *dst, const char *src, size_t dst_size)
 {
 	size_t	src_size;
 	size_t	counter;
