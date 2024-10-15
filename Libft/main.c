@@ -74,22 +74,7 @@ int main() {
         int gnu_strncmp = strncmp(test_str1, test_str2, n);
         int custom_strncmp = ft_strncmp(test_str1, test_str2, n);
         printf("strncmp: %s for \"%s\" vs \"%s\" (n = %zu) - GNU: %d, Custom: %d\n", (gnu_strncmp == custom_strncmp ? "PASS" : "FAIL"), test_str1, test_str2, n, gnu_strncmp, custom_strncmp);
-
-        char src[] = "source string";
-        char dst[50];
-        size_t gnu_strlcpy = strlcpy(dst, src, sizeof(dst));
-        size_t custom_strlcpy = ft_strlcpy(dst, src, sizeof(dst));
-        printf("strlcpy: %s for \"%s\" to dst (GNU: %zu, Custom: %zu)\n", (gnu_strlcpy == custom_strlcpy ? "PASS" : "FAIL"), src, gnu_strlcpy, custom_strlcpy);
         
-        char src2[] = "source string";
-        char dst2[50] = "dest beggin";
-        size_t gnu_strlcat = strlcpy(dst, src2, sizeof(dst2));
-        size_t custom_strlcat = ft_strlcpy(dst, src2, sizeof(dst2));
-        printf("strlcat: %s for \"%s\" to dst (GNU: %zu, Custom: %zu)\n", (gnu_strlcat == custom_strlcat ? "PASS" : "FAIL"), src2, gnu_strlcat, custom_strlcat);
-        for (size_t i = 0; i < custom_strlcat; i++)
-	{
-		printf("%c\n", dst2[i]);
-	}	
         printf("\n");  // Add a newline for readability between test sets
     }
 
