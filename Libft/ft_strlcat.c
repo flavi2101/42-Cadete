@@ -1,6 +1,6 @@
 
 #include "libft.h"
-size_t  ft_strlcat(char *restrict dst, const char *restrict src, size_t dst_size)
+size_t  ft_strlcat(char *dst, const char *src, size_t dst_size)
 {
 	size_t	counter;
 	size_t	dst_avaliable;
