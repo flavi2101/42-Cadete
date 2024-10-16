@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:07:05 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/15 23:23:55 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/16 15:51:16 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_atoi(const char *nptr)
 	if (*nptr == '-')
 		flag *= -1;
 	if (*nptr == '-' || *nptr == '+')
-		++nptr;	
+		++nptr;
 	if (!(*nptr >= '0' && *nptr <= '9'))
 		return (return_value);
 	while (*nptr && (*nptr >= '0' && *nptr <= '9'))

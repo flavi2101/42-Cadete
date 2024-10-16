@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 10:04:24 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/16 10:20:36 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/16 18:30:01 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -33,4 +33,7 @@ int		ft_atoi(const char *nptr);
 void	*ft_memset(void *str, int c, size_t n);
 void	ft_bzero(void *str, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_memccpy(void *dest, const void *src, int c, size_t n);
+void	*ft_memchr(const void *s, int c, size_t n);
 #endif
