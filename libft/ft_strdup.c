@@ -6,10 +6,9 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 13:09:34 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/15 22:10:09 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/16 10:20:55 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
 #include "libft.h"
 
 char	*ft_strdup(const char *s)
