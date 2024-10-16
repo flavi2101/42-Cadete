@@ -1,11 +1,13 @@
+NAME=libft
 BINARY=a.out
 LIBRARY=libft.a
 CURRDIR=.
-CC=gcc
+CC=cc
 OPT=-O0
 DEBUG=-ggdb
 DEPFLAGS=-MP -MD
-CFLAGS=-Wall -Wextra -Werror $(DEBUG) $(OPT) $(DEPFLAGS)
+MEMORY=-fsanitize=address
+CFLAGS=-Wall -Wextra -Werror $(DEBUG) $(OPT) $(DEPFLAGS) $(MEMORY)
 
 CFILES=$(foreach D, $(CURRDIR),$(wildcard $(D)/*.c))
 OBJECTS=$(patsubst %.c,%.o,$(CFILES))
@@ -18,7 +20,7 @@ $(LIBRARY): $(OBJECTS)
 	ar rcs $@ $^
 
 $(BINARY): $(OBJECTS)
-	$(CC) -o $@ $^ -L. -lft
+	$(CC) -o $@ $^ -L. -lft -lasan
 
 # Only want the .c file dependency here, thus $< instead of $^.
 %.o: %.c
@@ -32,3 +34,4 @@ fclean: clean
 
 re: fclean all
 
+.PHONY: all clean fclean re

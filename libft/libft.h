@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 10:04:24 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/15 13:42:29 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:17:05 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -29,4 +29,5 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dsiz);
 char	*ft_strdup(const char *s);
 int		ft_atoi(const char *nptr);
+void	*ft_memset(void *str, int c, size_t n);
 #endif
