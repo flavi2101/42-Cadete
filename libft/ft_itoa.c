@@ -6,13 +6,13 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 13:25:22 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/18 18:30:36 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:14:19 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*count_digis(int user_inp, int *counter)
+static char	*count_digis(int user_inp, int *counter)
 {
 	unsigned int	temp;
 
