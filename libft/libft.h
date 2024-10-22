@@ -6,13 +6,20 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 10:04:24 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/21 14:42:17 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/22 18:16:04 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <stddef.h>
 # include <stdlib.h>
+# include <unistd.h>
+
+typedef struct s_list
+{
+	struct s_list	*next;
+	void			*content;
+}			t_list;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -42,4 +49,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const	*s1, char const *set);
 char	**ft_split(char const	*s, char c);
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void	ft_striteri(char *s, void (*f)(unsigned int, char *));
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *c, int fd);
+void	ft_putendl_fd(char *c, int fd);
+void	ft_putnbr_fd(int n, int fd);
 #endif

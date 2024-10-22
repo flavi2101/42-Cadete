@@ -1,31 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/12 13:48:02 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/12 13:57:34 by flferrei         ###   ########.fr       */
+/*   Created: 2024/10/22 16:34:47 by flferrei          #+#    #+#             */
+/*   Updated: 2024/10/22 17:35:48 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
-
-char	*ft_strrchr(const char *s, int c)
+void	print_val(unsigned int val, int fd)
 {
-	size_t		size;
-	size_t		counter;
-	char		*position;
-
-	counter = 0;
-	position = NULL;
-	size = ft_strlen(s);
-	while (counter < size)
+	unsigned int	aux;
+	if (val <= 9)
 	{
-		if (s[counter] == (char)c)
-			position = (char *)s + counter;
-		++counter;
+		val = val + 48;
+		write(fd,&val,1 );
 	}
-	return (position);
+	else
+	{
+		print_val(val/10, fd);
+		aux =(val % 10) + 48;
+		write (fd, &aux, 1);		
+	}
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	unsigned int	value;
+
+	if(n < 0)
+	{
+		value = (0xffffffff ^ n) + 1; 
+		write(fd, "-", 1);
+	}
+	else
+		value = n;
+	print_val(value, fd);	
 }
