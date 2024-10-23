@@ -1,5 +1,5 @@
 # Compiler and flags
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 # Library name
@@ -15,7 +15,9 @@ SRC = ft_atoi.c     ft_isalpha.c  ft_isdigit.c  ft_memset.c  ft_strdup.c \
 	ft_strmapi.c	ft_striteri.c	ft_putchar_fd.c	ft_putstr_fd.c \
 	ft_putendl_fd.c		ft_putnbr_fd.c	
 # Bonus Sourc
-BONUS = ft_lstnew.c	ft_lstadd_front.c
+BONUS = ft_lstnew.c	ft_lstadd_front.c	ft_lstsize.c	ft_lstlast.c \
+	ft_lstadd_back.c	ft_lstdelone.c	ft_lstclear.c	ft_lstiter.c \
+	ft_lstmap.c
 
 # Object files
 OBJ = $(SRC:.c=.o) $(BONUS:.c=.o)
@@ -44,10 +46,6 @@ fclean: clean
 
 # Rule to recompile everything from scratch
 re: fclean all
-
-# Rule to generate an executable (optional, depends on main.c)
-exec: $(NAME)
-	$(CC) $(CFLAGS) -o exec main.c -L. -lft
 
 bonus:	$(OBJ)
 	ar rcs $(NAME) $(OBJ)

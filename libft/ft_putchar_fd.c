@@ -6,12 +6,12 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:46:31 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/22 16:05:23 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/10/23 13:04:56 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void    ft_putchar_fd(char c, int fd)
+void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
