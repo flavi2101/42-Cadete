@@ -15,10 +15,10 @@ SRC = ft_atoi.c     ft_isalpha.c  ft_isdigit.c  ft_memset.c  ft_strdup.c \
 	ft_strmapi.c	ft_striteri.c	ft_putchar_fd.c	ft_putstr_fd.c \
 	ft_putendl_fd.c		ft_putnbr_fd.c	
 # Bonus Sourc
-BONUS = 
+BONUS = ft_lstnew.c	ft_lstadd_front.c
 
 # Object files
-OBJ = $(SRC:.c=.o) $(BONUS:.C=.o)
+OBJ = $(SRC:.c=.o) $(BONUS:.c=.o)
 
 # Header files
 HEADERS = libft.h
@@ -49,5 +49,7 @@ re: fclean all
 exec: $(NAME)
 	$(CC) $(CFLAGS) -o exec main.c -L. -lft
 
+bonus:	$(OBJ)
+	ar rcs $(NAME) $(OBJ)
 .PHONY: all clean fclean re exec
 
