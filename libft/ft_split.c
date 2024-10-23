@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 09:54:39 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/22 14:26:40 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:34:09 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -71,9 +71,7 @@ char	**ft_split(char const	*s, char c)
 {
 	char	**ptr;
 	int		splits;
-	int		counter;
 
-	counter = 0;
 	splits = count_word((char *)s, c);
 	ptr = (char **)malloc(sizeof(char *) * (splits + 1));
 	if (!ptr)
