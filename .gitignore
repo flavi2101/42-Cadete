@@ -1,3 +1,4 @@
+***/.a
 **/.gitignore
 **/a.out
 **/*.o
@@ -6,3 +7,4 @@
 **/*.d
 **/.vscode/*
 **/trim.c
+**/main.c

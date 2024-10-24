@@ -6,17 +6,15 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 12:43:13 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/23 20:37:02 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/24 17:13:22 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-
-	if (!(lst))
-		return ;	
+	if (!(lst) || !del)
+		return ;
 	(*del)(lst->content);
 	free(lst);
 }
