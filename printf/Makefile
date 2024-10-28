@@ -1,37 +1,38 @@
-NAME = libftprintf.a
-
 CC = cc
 
-DEP = libft.a
+CFLAGS = -Wall -Wextra -Werror -I./libft -I. -ggdb -O0
 
-CFLAGS = -Wall -Wextra -Werror -I
+SRCS = ft_printf.c 
 
-SRCS = ft_printf.c
+#NAME = libftprint.a 
+NAME = a.out
 
-BONUS = 
-
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a  # Full path to the library
 OBJS = $(SRCS:.c=.o)
 
-BONUS_OBJ = $(BONUS:.c=.o)
+all: $(NAME)
 
-all: $(DEP) $(NAME)
+# This is the linkder phase, put togheter all unit files
+$(NAME): $(LIBFT) $(OBJS) 
+	$(CC) $(CFLAGS) -o $@ $^ -L$(LIBFT_DIR) -lft
 
-$(DEP):
-	make -C ./libfg
+#$(NAME): $(LIBFT) $(OBJS) 
+#	ar rcs $(NAME) $(LIFT) $(OBJS)
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
-$(NAME): $(OBJS) $(DEP)
-	
-	ar rcs $(NAME) $(OBJS)
-
-bonus: $(NAME) 
-	ar rcs $(NAME) $(OBJS) $(BONUS_OBJ)
+# This is the compiler phase - generate object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(OBJS) $(BONUS_OBJ)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(OBJS)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
+
