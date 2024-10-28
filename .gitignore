@@ -8,3 +8,4 @@
 **/.vscode/*
 **/trim.c
 **/main.c
+**/printf/libft

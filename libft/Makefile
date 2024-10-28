@@ -1,54 +1,31 @@
-# Compiler and flags
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -I.
-
-# Library name
 NAME = libft.a
 
-# Source files
-SRC = ft_atoi.c     ft_isalpha.c  ft_isdigit.c  ft_memset.c  ft_strdup.c \
-	ft_strlcpy.c  ft_strncmp.c  ft_strrchr.c  ft_toupper.c  \
-	ft_isalnum.c  ft_isascii.c  ft_isprint.c  ft_strchr.c \
-	ft_strlcat.c  ft_strlen.c   ft_strnstr.c  ft_tolower.c ft_bzero.c \
-	ft_memmove.c  ft_memcpy.c   ft_memchr.c   ft_calloc.c ft_itoa.c \
-	ft_itoa.c ft_substr.c 	ft_strjoin.c	ft_strtrim.c	ft_split.c \
-	ft_strmapi.c	ft_striteri.c	ft_putchar_fd.c	ft_putstr_fd.c \
-	ft_putendl_fd.c		ft_putnbr_fd.c	ft_memcmp.c
-# Bonus Sourc
-BONUS = ft_lstnew.c	ft_lstadd_front.c	ft_lstsize.c	ft_lstlast.c \
-	ft_lstadd_back.c	ft_lstdelone.c	ft_lstclear.c	ft_lstiter.c \
-	ft_lstmap.c
+CC = cc
 
-# Object files
-OBJ = $(SRC:.c=.o)
-OBJBONUS = $(BONUS:.c=.o)
+CFLAGS = -Wall -Wextra -Werror
 
-# Header files
-HEADERS = libft.h
+SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
-# The default rule that builds the library
+BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
+
+OBJS = $(SRCS:.c=.o)
+
+BONUS_OBJ = $(BONUS:.c=.o)
+
 all: $(NAME)
 
-# Rule to create object files
-%.o: %.c 
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
-# Rule to build the static library
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+bonus: $(NAME) $(BONUS_OBJ)
+	ar rcs $(NAME) $(OBJS) $(BONUS_OBJ)
 
-# Rule to clean object files
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJS) $(BONUS_OBJ)
 
-# Rule to clean object files and the library
 fclean: clean
-	rm -f $(NAME) $(OBJBONUS)
+	rm -f $(NAME)
 
-# Rule to recompile everything from scratch
 re: fclean all
 
-bonus:	$(OBJBONUS) 
-	ar rcs $(NAME) $(OBJBONUS)
-.PHONY: all clean fclean re exec bonus
-
+.PHONY: all clean fclean re bonus
