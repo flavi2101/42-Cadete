@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/30 11:00:28 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/30 17:10:26 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ increment the len that represet the size of string and
 	 increment to count this flag plus the conversion char.
 allocate all this information in the flag_info struct. 
 */
+int	handle_char(t_strfla *flags_info, char conversion, char *compatibility)
+{
+	if(parse(flags_info->flags, flags_info->len_flags,))
+}
 
 static t_strfla *get_flags_and_delimiter(const char * spc_value, int * len)
 {
@@ -79,19 +83,25 @@ static t_strfla *get_flags_and_delimiter(const char * spc_value, int * len)
 	}
 int print_args(va_list args, t_strfla *flags_info)
 {
-/*	if (*spc_value == 'c')
+	char	*compatibility;
+
+	if (flags_info->conversion == 'c')
+	{
+		compatibility = "-";
+		handle_char(flags_info, va_arg(args, int), compatibility);
+	}
+/*		ft_putchar_fd(*spc_value, 1);
+	else if (flags_info->conversion == 's')	
 		ft_putchar_fd(*spc_value, 1);
-	else if (*spc_value == 's')	
+	else if (flags_info->conversion == 'p')	
 		ft_putchar_fd(*spc_value, 1);
-	else if (*spc_value == 'p')	
+	else if (flags_info->conversion == 'd')	
 		ft_putchar_fd(*spc_value, 1);
-	else if (*spc_value == 'd')	
+	else if (flags_info->conversion == 'i')	
 		ft_putchar_fd(*spc_value, 1);
-	else if (*spc_value == 'i')	
+	else if (flags_info->conversion == 'u')	
 		ft_putchar_fd(*spc_value, 1);
-	else if (*spc_value == 'u')	
-		ft_putchar_fd(*spc_value, 1);
-	else if (*spc_value == 'x')	
+	else if (flags_info->conversion == 'x')	
 		ft_putchar_fd(*spc_value, 1);
 	else if (*spc_value == 'X')	
 		ft_putchar_fd(*spc_value, 1);
@@ -109,7 +119,6 @@ int	ft_printf(const char *str, ...)
 	len = 0;
 	args_len = 0;
 	va_start(args, str);
-	
 	while(str[len])
 	{
 		while(str[len] && str[len] != '%')
@@ -117,12 +126,12 @@ int	ft_printf(const char *str, ...)
 		// preciso usar o len na func abaixo para iterar depois das flags.
 		flags_info = get_flags_and_delimiter(str + len + 1, &len);
 		args_len += print_args(args, flags_info);
-	// se eu incrementar o len baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
-	// intereçao. salvar em uma outra variavel todos os len dor args e no final somar com o len da impressao do que não esta no args	
+		// se eu incrementar o len baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
+		// intereçao. salvar em uma outra variavel todos os len dor args e no final somar com o len da impressao do que não esta no args	
 		if (str[len] != '\0')
 			++len;
 	}
-	
+	va_end(args);	
 	return (len + args_len);
 }
 int	main(void)
