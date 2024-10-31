@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/30 17:10:26 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/10/31 20:20:39 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,9 @@
 • %X Imprime um número em formato hexadecimal (base 16) em maiúsculas.
 • %% Imprime um sinal de porcentagem.
  */
-#include "printf.h"
+#include "ft_printf.h"
 #include "./libft/libft.h"
-
-typedef struct s_flag_info_plus_conver
-{
-	char conversion;
-	char *flags;
-	int	len_flags;
-} t_strfla;
-
+#include <assert.h>
 int	parse(char *in_flags, int len_in_flags, char *check_flag)
 {
 	int	size_check_flag;
@@ -52,35 +45,83 @@ increment the len that represet the size of string and
 	 increment to count this flag plus the conversion char.
 allocate all this information in the flag_info struct. 
 */
-int	handle_char(t_strfla *flags_info, char conversion, char *compatibility)
-{
-	if(parse(flags_info->flags, flags_info->len_flags,))
-}
 
-static t_strfla *get_flags_and_delimiter(const char * spc_value, int * len)
+int count_digis(int user_inp)
 {
-	char	*in_flags;
-	int	flag_counter;
-	t_strfla	*flags_info;
+	int len;
 
-	flag_counter = 0;
-	flags_info = NULL;
-	while (!ft_isalpha(spc_value[flag_counter]))
-		flag_counter++;
-	*len +=  flag_counter + 1 ;
-	flags_info->len_flags = flag_counter;
-	flags_info->conversion = *(spc_value + flag_counter);
-	in_flags = (char *)malloc(sizeof(char) * flag_counter);
-	in_flags[flag_counter] = '\0';
-	while (--flag_counter >= 0)
-		in_flags[flag_counter] = *(spc_value + flag_counter);
-	if(!parse(in_flags, flags_info->len_flags,"-0.# +"))
-		// return NULL if flags are invalid;
-		// i must make a clean in the in_flags;
-		return (NULL);	
-	flags_info->flags = in_flags;
-	return flags_info;
+	len = 0;
+	while (user_inp > 0)
+	{
+		user_inp = user_inp / 10;
+		len++;
 	}
+	return (len);
+}
+static	int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num_qnty)
+{
+	int	flags_len;
+	char	flag_num_of_width;
+	char	flag_num_of_precision;
+
+	flags_len = 0;
+	flag_num_of_width = '1';
+	flag_num_of_precision = '1';
+	while (!ft_isalpha(flags[flags_len]))
+	{
+		if (flags[flags_len] != '0' && ft_isdigit(flags[flags_len]) && flag_num_of_width)
+		{
+			pt_flags_info->width = ft_atoi(&flags[flags_len]);
+			flag_num_of_width = '\0';
+			*num_qnty += count_digis(pt_flags_info->width); 
+		}
+		if (flags[flags_len] == '.' && flag_num_of_precision)
+		{
+			pt_flags_info->precision = ft_atoi(&flags[flags_len + 1]);	
+			flag_num_of_precision = '\0';
+			*num_qnty += count_digis(pt_flags_info->precision); 
+		}	
+		flags_len++;
+	}
+	return (flags_len);
+
+}	
+static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_percentage, int * len)
+{
+	char	*usr_inp_flags;
+	int	flags_len;
+	int	flags_len_adjust_num;
+	int	flags_total_len;
+
+	flags_len_adjust_num = 0;	
+	t_strfla	*flags_info;
+	flags_info = (t_strfla *)malloc(sizeof(t_strfla));
+	if (!flags_info)
+		return (NULL);
+	flags_len = get_width_and_precision(flags_info, ptr_after_percentage, &flags_len_adjust_num); 	
+	*len += flags_len + 1;
+	flags_info->conversion = *(ptr_after_percentage + flags_len);
+	flags_total_len = flags_len - flags_len_adjust_num;
+	flags_info->len_flags = flags_total_len;
+	usr_inp_flags = (char *)malloc(sizeof(char) * (flags_total_len));
+	if (!usr_inp_flags)
+		// clean flags_info return null
+		return (NULL);
+	usr_inp_flags[flags_total_len--] = '\0';
+	while (--flags_len >= 0)
+	{
+		if(*(ptr_after_percentage + flags_len) == '0') 	
+			usr_inp_flags[flags_total_len--] = *(ptr_after_percentage + flags_len);
+		else if (!ft_isdigit(*(ptr_after_percentage + flags_len))) 
+			usr_inp_flags[flags_total_len--] = *(ptr_after_percentage + flags_len);
+	}
+	if(!parse(usr_inp_flags, flags_info->len_flags,"-0.# +"))
+		// return NULL if flags are invalid;
+		// i must make a clean in the usr_inp_flags and flag_info;
+		return (NULL);	
+	flags_info->flags = usr_inp_flags;
+	return flags_info;
+}
 int print_args(va_list args, t_strfla *flags_info)
 {
 	char	*compatibility;
@@ -88,7 +129,9 @@ int print_args(va_list args, t_strfla *flags_info)
 	if (flags_info->conversion == 'c')
 	{
 		compatibility = "-";
-		handle_char(flags_info, va_arg(args, int), compatibility);
+		va_arg(args, int);
+		//handle_char(flags_info, va_arg(args, int), compatibility);
+		assert(*compatibility != '-');
 	}
 /*		ft_putchar_fd(*spc_value, 1);
 	else if (flags_info->conversion == 's')	
@@ -107,6 +150,7 @@ int print_args(va_list args, t_strfla *flags_info)
 		ft_putchar_fd(*spc_value, 1);
 */
 // lembrar de liberar memoria de flags_info  apos escrever os dados de 
+	return (0);
 }
 
 int	ft_printf(const char *str, ...)
@@ -124,10 +168,10 @@ int	ft_printf(const char *str, ...)
 		while(str[len] && str[len] != '%')
 			ft_putchar_fd(str[len++], 1);
 		// preciso usar o len na func abaixo para iterar depois das flags.
-		flags_info = get_flags_and_delimiter(str + len + 1, &len);
+		flags_info = get_flags_width_precision_delimiter(str + len + 1, &len);
 		args_len += print_args(args, flags_info);
 		// se eu incrementar o len baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
-		// intereçao. salvar em uma outra variavel todos os len dor args e no final somar com o len da impressao do que não esta no args	
+		// intereçao. salvar em uma outra variavel todos os len dor args e no final somar com o len da impressao do que não esta no args. Considerar que os caracteres das flags estão sendo somados no len, isso vai dar um tamanho errado.
 		if (str[len] != '\0')
 			++len;
 	}
@@ -136,5 +180,5 @@ int	ft_printf(const char *str, ...)
 }
 int	main(void)
 {
-	ft_printf("casa%0.#c do");
+	ft_printf("casa%058.#c do");
 }
