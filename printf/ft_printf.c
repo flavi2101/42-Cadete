@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/31 21:58:03 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/31 22:37:31 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ static	int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, i
 	flag_num_of_precision = '1';
 	while (!ft_isalpha(flags[flags_len]))
 	{
-		if (flags[flags_len] != '0' && ft_isdigit(flags[flags_len]) && flag_num_of_width)
+		if (flag_num_of_width && flags[flags_len] != '0' && ft_isdigit(flags[flags_len]))
 		{
 			pt_flags_info->width = ft_atoi(&flags[flags_len]);
 			flag_num_of_width = '\0';
 			*num_qnty += count_digis(pt_flags_info->width); 
 		}
-		if (flags[flags_len] == '.' && flag_num_of_precision)
+		if (flag_num_of_precision && flags[flags_len] == '.')
 		{
 			pt_flags_info->precision = ft_atoi(&flags[flags_len + 1]);	
 			flag_num_of_precision = '\0';
@@ -156,27 +156,27 @@ int print_args(va_list args, t_strfla *flags_info)
 int	ft_printf(const char *str, ...)
 {
 	va_list args;
-	int	len;
+	int	len_str_plus_len_flags;
 	int	args_len;
 	t_strfla	*flags_info;
 
-	len = 0;
+	len_str_plus_len_flags = 0;
 	args_len = 0;
 	va_start(args, str);
-	while(str[len])
+	while(str[len_str_plus_len_flags])
 	{
-		while(str[len] && str[len] != '%')
-			ft_putchar_fd(str[len++], 1);
-		// preciso usar o len na func abaixo para iterar depois das flags.
-		flags_info = get_flags_width_precision_delimiter(str + len + 1, &len);
-		args_len += print_args(args, flags_info);
-		// se eu incrementar o len baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
-		// intereçao. salvar em uma outra variavel todos os len dor args e no final somar com o len da impressao do que não esta no args. Considerar que os caracteres das flags estão sendo somados no len, isso vai dar um tamanho errado.
-		if (str[len] != '\0')
-			++len;
+		while(str[len_str_plus_len_flags] && str[len_str_plus_len_flags] != '%')
+			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
+		// preciso usar o len_str_plus_len_flags na func abaixo para iterar depois das flags.
+		flags_info = get_flags_width_precision_delimiter(str + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
+		args_len += print_args(args, flags_info) - flags_info->len_flags;
+		// se eu incrementar o len_str_plus_len_flags baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
+		// intereçao. salvar em uma outra variavel todos os len_str_plus_len_flags dor args e no final somar com o len_str_plus_len_flags da impressao do que não esta no args. Considerar que os caracteres das flags estão sendo somados no len_str_plus_len_flags, isso vai dar um tamanho errado.
+		if (str[len_str_plus_len_flags] != '\0')
+			++len_str_plus_len_flags;
 	}
 	va_end(args);	
-	return (len + args_len);
+	return (len_str_plus_len_flags + args_len);
 }
 int	main(void)
 {
