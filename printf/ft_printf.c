@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/31 20:20:39 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/10/31 21:58:03 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_perc
 	usr_inp_flags[flags_total_len--] = '\0';
 	while (--flags_len >= 0)
 	{
-		if(*(ptr_after_percentage + flags_len) == '0') 	
+		if(*(ptr_after_percentage + flags_len) == '0' && !ft_isdigit(*(ptr_after_percentage + flags_len - 1))) 	
 			usr_inp_flags[flags_total_len--] = *(ptr_after_percentage + flags_len);
 		else if (!ft_isdigit(*(ptr_after_percentage + flags_len))) 
 			usr_inp_flags[flags_total_len--] = *(ptr_after_percentage + flags_len);
@@ -180,5 +180,5 @@ int	ft_printf(const char *str, ...)
 }
 int	main(void)
 {
-	ft_printf("casa%058.#c do");
+	ft_printf("% 010.2f");
 }
