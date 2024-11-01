@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/01 01:24:59 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/01 09:17:08 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "ft_printf.h"
 #include "./libft/libft.h"
 #include <assert.h>
+// check if the flag are valid and are related with the correct delimiter 
 int	parse(char *in_flags, int len_in_flags, char *check_flag)
 {
 	int	size_check_flag;
@@ -37,14 +38,6 @@ int	parse(char *in_flags, int len_in_flags, char *check_flag)
 	}
 	return (1);	
 }
-/*
-recive the string after the % char
-iterate to get the symbols using !ft_isalpha
-increment the len that represet the size of string and
-	 plus two because of flag_counter stop at last flag,so
-	 increment to count this flag plus the conversion char.
-allocate all this information in the flag_info struct. 
-*/
 
 int count_digis(int user_inp)
 {
@@ -58,6 +51,8 @@ int count_digis(int user_inp)
 	}
 	return (len);
 }
+//calculate the lenght the flag separed with the lenght of values
+//insert in the struct this values as integers 
 static	int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num_qnty)
 {
 	int	flags_len;
@@ -86,40 +81,55 @@ static	int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, i
 	return (flags_len);
 
 }	
-static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_percentage, int * len)
+// store only flags in the return
+// to a 0 be flag it not must preceded by another number.
+static char	*get_flags(int len_only_flags, int len_flags_plus_nums, const char * ptr_after_percentage)
 {
 	char	*usr_inp_flags;
-	int	flags_len;
-	int	flags_len_adjust_num;
-	int	flags_total_len;
-	t_strfla	*flags_info;
+	char	current_char;
 
-	flags_len_adjust_num = 0;	
-	flags_info = (t_strfla *)malloc(sizeof(t_strfla));
-	if (!flags_info)
-		return (NULL);
-	flags_len = get_width_and_precision(flags_info, ptr_after_percentage, &flags_len_adjust_num); 	
-	*len += flags_len + 2;
-	flags_info->conversion = *(ptr_after_percentage + flags_len);
-	flags_total_len = flags_len - flags_len_adjust_num; 
-	flags_info->len_flags = flags_len;
-	usr_inp_flags = (char *)malloc(sizeof(char) * (flags_total_len));
+	usr_inp_flags = (char *)malloc(sizeof(char) * (len_only_flags));
 	if (!usr_inp_flags)
 		// clean flags_info return null
 		return (NULL);
-	usr_inp_flags[flags_total_len--] = '\0';
-	while (--flags_len >= 0)
+	usr_inp_flags[len_only_flags--] = '\0';
+	while (--len_flags_plus_nums >= 0)
 	{
-		if(*(ptr_after_percentage + flags_len) == '0' && !ft_isdigit(*(ptr_after_percentage + flags_len - 1))) 	
-			usr_inp_flags[flags_total_len--] = *(ptr_after_percentage + flags_len);
-		else if (!ft_isdigit(*(ptr_after_percentage + flags_len))) 
-			usr_inp_flags[flags_total_len--] = *(ptr_after_percentage + flags_len);
+		current_char = *(ptr_after_percentage + len_flags_plus_nums); 
+		if(current_char == '0' && !ft_isdigit(*(ptr_after_percentage + len_flags_plus_nums - 1)))
+			usr_inp_flags[len_only_flags--] = current_char;
+		else if (!ft_isdigit(current_char)) 
+			usr_inp_flags[len_only_flags--] = current_char;
 	}
-	if(!parse(usr_inp_flags, flags_info->len_flags - flags_len_adjust_num,"-0.# +"))
+	return (usr_inp_flags);
+
+}
+// generate all information necessary to fetch the struct
+// one function responsible to get only the width and precision
+// another to get only flags
+// the last one to validaded if the flags are valid 
+static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_percentage, int * len)
+{
+	int	len_flags_plus_nums;
+	int	len_only_nums;
+	int	len_only_flags;
+	t_strfla	*flags_info;
+
+	len_only_nums = 0;	
+	flags_info = (t_strfla *)malloc(sizeof(t_strfla));
+	if (!flags_info)
+		return (NULL);
+	len_flags_plus_nums = get_width_and_precision(flags_info, ptr_after_percentage, &len_only_nums); 	
+	*len += len_flags_plus_nums + 2;
+	flags_info->conversion = *(ptr_after_percentage + len_flags_plus_nums);
+	len_only_flags = len_flags_plus_nums - len_only_nums; 
+	flags_info->total_len = len_flags_plus_nums;
+	flags_info->flags = get_flags(len_only_flags, len_flags_plus_nums, ptr_after_percentage);
+
+	if(!parse(flags_info->flags, flags_info->total_len - len_only_nums,"-0.# +"))
 		// return NULL if flags are invalid;
 		// i must make a clean in the usr_inp_flags and flag_info;
 		return (NULL);	
-	flags_info->flags = usr_inp_flags;
 	return flags_info;
 }
 int print_args(va_list args, t_strfla *flags_info)
@@ -150,8 +160,7 @@ int print_args(va_list args, t_strfla *flags_info)
 		ft_putchar_fd(*spc_value, 1);
 */
 // lembrar de liberar memoria de flags_info  apos escrever os dados de 
-	return (0);
-}
+	return (0); }
 
 int	ft_printf(const char *str, ...)
 {
@@ -169,7 +178,8 @@ int	ft_printf(const char *str, ...)
 			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
 		// preciso usar o len_str_plus_len_flags na func abaixo para iterar depois das flags.
 		flags_info = get_flags_width_precision_delimiter(str + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
-		args_len += print_args(args, flags_info) - flags_info->len_flags;
+		args_len += print_args(args, flags_info) - flags_info->total_len - 2;
+		// SERA PRECISO DA CLEAR NO STRACTURE AFTER ESCREVER A CADA ITERAÇÃO ?
 		// se eu incrementar o len_str_plus_len_flags baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
 		// intereçao. salvar em uma outra variavel todos os len_str_plus_len_flags dor args e no final somar com o len_str_plus_len_flags da impressao do que não esta no args. Considerar que os caracteres das flags estão sendo somados no len_str_plus_len_flags, isso vai dar um tamanho errado.
 		if (str[len_str_plus_len_flags] != '\0')
