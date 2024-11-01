@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/10/31 22:37:31 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/01 01:24:59 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,17 @@ static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_perc
 	int	flags_len;
 	int	flags_len_adjust_num;
 	int	flags_total_len;
+	t_strfla	*flags_info;
 
 	flags_len_adjust_num = 0;	
-	t_strfla	*flags_info;
 	flags_info = (t_strfla *)malloc(sizeof(t_strfla));
 	if (!flags_info)
 		return (NULL);
 	flags_len = get_width_and_precision(flags_info, ptr_after_percentage, &flags_len_adjust_num); 	
-	*len += flags_len + 1;
+	*len += flags_len + 2;
 	flags_info->conversion = *(ptr_after_percentage + flags_len);
-	flags_total_len = flags_len - flags_len_adjust_num;
-	flags_info->len_flags = flags_total_len;
+	flags_total_len = flags_len - flags_len_adjust_num; 
+	flags_info->len_flags = flags_len;
 	usr_inp_flags = (char *)malloc(sizeof(char) * (flags_total_len));
 	if (!usr_inp_flags)
 		// clean flags_info return null
@@ -115,7 +115,7 @@ static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_perc
 		else if (!ft_isdigit(*(ptr_after_percentage + flags_len))) 
 			usr_inp_flags[flags_total_len--] = *(ptr_after_percentage + flags_len);
 	}
-	if(!parse(usr_inp_flags, flags_info->len_flags,"-0.# +"))
+	if(!parse(usr_inp_flags, flags_info->len_flags - flags_len_adjust_num,"-0.# +"))
 		// return NULL if flags are invalid;
 		// i must make a clean in the usr_inp_flags and flag_info;
 		return (NULL);	
