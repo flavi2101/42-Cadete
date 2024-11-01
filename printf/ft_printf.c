@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/01 17:35:36 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:14:14 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,26 +132,44 @@ static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_perc
 		return (NULL);	
 	return flags_info;
 }
-int print_args(va_list args, t_strfla *flags_info)
+int	error_handle(t_strfla	*flags_info, char *conversion_opt)
 {
+	size_t	len_flag_input;
+
+	len_flag_input = ft_strlen(flags_info->flags);
+	if (len_flag_input > ft_strlen(conversion_opt))
+		return (0);
+	if(!parse(flags_info->flags, len_flag_input, conversion_opt))
+		return (0);	
+	return (1);
+}	
+
+int	handle_args(t_strfla *flags_info)
+{
+	int valid_input;
+
+	valid_input = 0;
 	if (flags_info->conversion == 'c')
-		handle_char(flags_info, va_arg(args, int), "-");
-	else if (flags_info->conversion == 's')	
-		handle_char(flags_info, va_arg(args, char *), "-.");
-	else if (flags_info->conversion == 'p')	
-		handle_char(flags_info, (unsigned long)va_arg(args, void *), "");
-	else if (flags_info->conversion == 'd')	
-		handle_char(flags_info, va_arg(args, int), "-0. +");
-	else if (flags_info->conversion == 'i')	
-		handle_char(flags_info, va_arg(args, int), "-0. +");
-	else if (flags_info->conversion == 'u')	
-		handle_char(flags_info, va_arg(args, unsigned int), "-0.");
-	else if (flags_info->conversion == 'x')	
-		handle_char(flags_info, va_arg(args, unsigned int), "-0.#");
-	else if (flags_info->conversion == 'X')	
-		handle_char(flags_info, va_arg(args, unsigned int), "-0.#");
+		valid_input =	error_handle(flags_info,"-");
+	 else if (flags_info->conversion == 's')	
+		valid_input =	error_handle(flags_info,"-.");
+	 else if (flags_info->conversion == 'p')	
+		valid_input =	error_handle(flags_info,"");
+	 else if (flags_info->conversion == 'd')	
+		valid_input =	error_handle(flags_info,"-0. +");
+	 else if (flags_info->conversion == 'i')	
+		valid_input =	error_handle(flags_info,"-0. +");
+	 else if (flags_info->conversion == 'u')	
+		valid_input =	error_handle(flags_info,"-0.");
+	 else if (flags_info->conversion == 'x')	
+		valid_input =	error_handle(flags_info,"-0.#");
+	 else if (flags_info->conversion == 'X')	
+		valid_input =	error_handle(flags_info,"-0.#");
 // lembrar de liberar memoria de flags_info  apos escrever os dados de 
-	return (0); }
+	if (!valid_input)
+		return (0);
+	return (1);
+}
 
 int	ft_printf(const char *str, ...)
 {
@@ -169,7 +187,11 @@ int	ft_printf(const char *str, ...)
 			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
 		// preciso usar o len_str_plus_len_flags na func abaixo para iterar depois das flags.
 		flags_info = get_flags_width_precision_delimiter(str + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
+		if(!handle_args(flags_info))
+			return (0);
+		// what return when invalid input?
 		args_len += print_args(args, flags_info) - flags_info->total_len - 2;
+
 		// SERA PRECISO DA CLEAR NO STRACTURE AFTER ESCREVER A CADA ITERAÇÃO ?
 		// se eu incrementar o len_str_plus_len_flags baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
 		// intereçao. salvar em uma outra variavel todos os len_str_plus_len_flags dor args e no final somar com o len_str_plus_len_flags da impressao do que não esta no args. Considerar que os caracteres das flags estão sendo somados no len_str_plus_len_flags, isso vai dar um tamanho errado.
@@ -181,5 +203,5 @@ int	ft_printf(const char *str, ...)
 }
 int	main(void)
 {
-	ft_printf("% 010.2f");
+	ft_printf("% 010.2c");
 }
