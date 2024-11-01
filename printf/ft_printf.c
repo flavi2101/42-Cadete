@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/01 12:40:45 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:35:36 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	parse(char *in_flags, int len_in_flags, char *check_flag)
 	int	size_check_flag;
 
 	size_check_flag = ft_strlen(check_flag);	
-	while(--len_in_flags > 0)
+	while(len_in_flags-- > 0)
 	{
 		if(!ft_memchr(check_flag, *in_flags++, size_check_flag))
 			return (0);
