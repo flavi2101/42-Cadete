@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/01 09:17:08 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/01 12:40:45 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,31 +134,22 @@ static	t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_perc
 }
 int print_args(va_list args, t_strfla *flags_info)
 {
-	char	*compatibility;
-
 	if (flags_info->conversion == 'c')
-	{
-		compatibility = "-";
-		va_arg(args, int);
-		//handle_char(flags_info, va_arg(args, int), compatibility);
-		assert(*compatibility != '-');
-	}
-/*		ft_putchar_fd(*spc_value, 1);
+		handle_char(flags_info, va_arg(args, int), "-");
 	else if (flags_info->conversion == 's')	
-		ft_putchar_fd(*spc_value, 1);
+		handle_char(flags_info, va_arg(args, char *), "-.");
 	else if (flags_info->conversion == 'p')	
-		ft_putchar_fd(*spc_value, 1);
+		handle_char(flags_info, (unsigned long)va_arg(args, void *), "");
 	else if (flags_info->conversion == 'd')	
-		ft_putchar_fd(*spc_value, 1);
+		handle_char(flags_info, va_arg(args, int), "-0. +");
 	else if (flags_info->conversion == 'i')	
-		ft_putchar_fd(*spc_value, 1);
+		handle_char(flags_info, va_arg(args, int), "-0. +");
 	else if (flags_info->conversion == 'u')	
-		ft_putchar_fd(*spc_value, 1);
+		handle_char(flags_info, va_arg(args, unsigned int), "-0.");
 	else if (flags_info->conversion == 'x')	
-		ft_putchar_fd(*spc_value, 1);
-	else if (*spc_value == 'X')	
-		ft_putchar_fd(*spc_value, 1);
-*/
+		handle_char(flags_info, va_arg(args, unsigned int), "-0.#");
+	else if (flags_info->conversion == 'X')	
+		handle_char(flags_info, va_arg(args, unsigned int), "-0.#");
 // lembrar de liberar memoria de flags_info  apos escrever os dados de 
 	return (0); }
 
