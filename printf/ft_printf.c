@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/02 00:20:47 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/02 16:14:15 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,29 @@
  */
 #include "ft_printf.h"
 #include "./libft/libft.h"
-int	print_args(va_list args, t_strfla flag_info)
+int	print_args(va_list args, t_strfla *flag_info)
 {
-	return (0);
+	int arg_len;
+
+	arg_len = 0;
+	if (flag_info->conversion == 'c')
+		arg_len = print_char(flag_info,va_arg(args, int));
+/*	 else if (flags_info->conversion == 's')	
+		arg_len =	error_handle(flags_info,"-.");
+	 else if (flags_info->conversion == 'p')	
+		arg_len =	error_handle(flags_info,"");
+	 else if (flags_info->conversion == 'd')	
+		arg_len =	error_handle(flags_info,"-0. +");
+	 else if (flags_info->conversion == 'i')	
+		arg_len =	error_handle(flags_info,"-0. +");
+	 else if (flags_info->conversion == 'u')	
+		arg_len =	error_handle(flags_info,"-0.");
+	 else if (flags_info->conversion == 'x')	
+		arg_len =	error_handle(flags_info,"-0.#");
+	 else if (flags_info->conversion == 'X')	
+		arg_len =	error_handle(flags_info,"-0.#");
+*/
+	return (arg_len);
 }
 
 
@@ -44,18 +64,13 @@ int	ft_printf(const char *str, ...)
 	{
 		while(str[len_str_plus_len_flags] && str[len_str_plus_len_flags] != '%')
 			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
-		// preciso usar o len_str_plus_len_flags na func abaixo para iterar depois das flags.
 		flags_info = get_flags_width_precision_delimiter(str + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
 		if (flags_info == NULL)
-			return (0);
+			return (-1);
 		if(!handle_args(flags_info))
-			return (0);
+			return (-1);
 		// what return when invalid input?
-		 args_len += print_args(args, flags_info) - flags_info->total_len - 2;
-
-		// SERA PRECISO DA CLEAR NO STRACTURE AFTER ESCREVER A CADA ITERAÇÃO ?
-		// se eu incrementar o len_str_plus_len_flags baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
-		// intereçao. salvar em uma outra variavel todos os len_str_plus_len_flags dor args e no final somar com o len_str_plus_len_flags da impressao do que não esta no args. Considerar que os caracteres das flags estão sendo somados no len_str_plus_len_flags, isso vai dar um tamanho errado.
+		args_len += print_args(args, flags_info) - flags_info->total_len - 2;
 		if (str[len_str_plus_len_flags] != '\0')
 			++len_str_plus_len_flags;
 	}
