@@ -2,7 +2,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -I./libft -I. -ggdb -O0
 
-SRCS = ft_printf.c 
+SRCS = ft_printf.c ft_flags_delimiter_parser.c ft_handle_args.c
 
 #NAME = libftprint.a 
 NAME = a.out
