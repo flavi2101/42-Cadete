@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/02 00:20:47 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/02 21:24:40 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,47 @@
  */
 #include "ft_printf.h"
 #include "./libft/libft.h"
-int	print_args(va_list args, t_strfla flag_info)
+int	print_char(t_strfla *flag_info, va_list args)
 {
-	return (0);
-}
+	int	arg = va_arg(args,int);
+	int	temp_count;
 
+	temp_count = flag_info->width;
+	if (!temp_count)
+	{
+		ft_putchar_fd((char)arg, 1);
+		return (1);
+	}
+	while (temp_count-- > 0)
+		ft_putchar_fd(' ',1);	
+	ft_putchar_fd((char)arg, 1);
+	return (flag_info->width + 1);
+}
+void	set_func_conversion(t_strfla *flag_info)
+{
+	if (flag_info->conversion == 'c')
+		flag_info->fuc = print_char;
+/*	else if (flag_info->conversion == 's')	
+		error_handle(flags_info,"-.");
+	else if (flag_info->conversion == 'p')	
+		error_handle(flags_info,"");
+	else if (flag_info->conversion == 'd')	
+		error_handle(flags_info,"-0. +");
+	else if (flag_info->conversion == 'i')	
+		error_handle(flags_info,"-0. +");
+	else if (flag_info->conversion == 'u')	
+		error_handle(flags_info,"-0.");
+	else if (flag_info->conversion == 'x')	
+		error_handle(flags_info,"-0.#");
+	else if (flag_info->conversion == 'X')	
+		error_handle(flags_info,"-0.#");
+*/
+}
+int	print_args(va_list args, t_strfla *flag_info)
+{
+	set_func_conversion(flag_info);
+	return (flag_info->fuc(flag_info, args));
+}
 
 int	ft_printf(const char *str, ...)
 {
@@ -44,25 +80,23 @@ int	ft_printf(const char *str, ...)
 	{
 		while(str[len_str_plus_len_flags] && str[len_str_plus_len_flags] != '%')
 			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
-		// preciso usar o len_str_plus_len_flags na func abaixo para iterar depois das flags.
+		if (str[len_str_plus_len_flags + 1] == '%' && ++len_str_plus_len_flags)
+		{
+			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
+			continue;	
+		}
 		flags_info = get_flags_width_precision_delimiter(str + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
 		if (flags_info == NULL)
 			return (0);
 		if(!handle_args(flags_info))
 			return (0);
-		// what return when invalid input?
-		 args_len += print_args(args, flags_info) - flags_info->total_len - 2;
-
-		// SERA PRECISO DA CLEAR NO STRACTURE AFTER ESCREVER A CADA ITERAÇÃO ?
-		// se eu incrementar o len_str_plus_len_flags baseado no tamanho do que estiver nos args, vou pegar a posição errada na proxima 
-		// intereçao. salvar em uma outra variavel todos os len_str_plus_len_flags dor args e no final somar com o len_str_plus_len_flags da impressao do que não esta no args. Considerar que os caracteres das flags estão sendo somados no len_str_plus_len_flags, isso vai dar um tamanho errado.
+		args_len += print_args(args, flags_info) - flags_info->total_len - 2;
 		if (str[len_str_plus_len_flags] != '\0')
 			++len_str_plus_len_flags;
 	}
-	va_end(args);	
 	return (len_str_plus_len_flags + args_len);
 }
 int	main(void)
 {
-	ft_printf("% 010.2c");
+	ft_printf("%-5c",'a');
 }

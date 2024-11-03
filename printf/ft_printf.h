@@ -8,6 +8,7 @@ typedef struct s_flag_info_plus_conver
 	char	*flags;
 	int	total_len;
 	int	precision;
+	int	(*fuc)(struct s_flag_info_plus_conver *, va_list);
 
 } t_strfla;
 int	parse(char *in_flags, int len_in_flags, char *check_flag);
