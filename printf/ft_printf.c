@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/02 21:24:40 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/03 11:50:43 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,44 @@ int	print_args(va_list args, t_strfla *flag_info)
 	set_func_conversion(flag_info);
 	return (flag_info->fuc(flag_info, args));
 }
+int	invalid_input(const char *str_input)
+{
+	int	len_str_plus_len_flags;
+	t_strfla	*flags_info;
 
+	if (!str_input)	
+		return (1);
+	len_str_plus_len_flags = 0;
+	while(str_input[len_str_plus_len_flags])
+	{
+		while(str_input[len_str_plus_len_flags] && str_input[len_str_plus_len_flags] != '%')
+			len_str_plus_len_flags++;
+		if (str_input[len_str_plus_len_flags + 1] == '%' && ++len_str_plus_len_flags)
+		{
+			len_str_plus_len_flags++;
+			continue;	
+		}
+		flags_info = get_flags_width_precision_delimiter(str_input + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
+		if (flags_info == NULL)
+			return (1);
+		if(!handle_args(flags_info))
+			return (1);
+		free(flags_info->flags);
+		free(flags_info);
+		if (str_input[len_str_plus_len_flags] != '\0')
+			++len_str_plus_len_flags;
+	}
+	return (0);
+}
+int	check_percentage(const char *str, int *position)
+{
+	if (str[*position + 1] == '%' && ++(*position))
+	{
+		ft_putchar_fd(str[(*position)++], 1);
+		return (1);
+	}
+	return (0);
+}
 int	ft_printf(const char *str, ...)
 {
 	va_list args;
@@ -76,27 +113,25 @@ int	ft_printf(const char *str, ...)
 	len_str_plus_len_flags = 0;
 	args_len = 0;
 	va_start(args, str);
+	if (invalid_input(str))
+		return (-1);
 	while(str[len_str_plus_len_flags])
 	{
 		while(str[len_str_plus_len_flags] && str[len_str_plus_len_flags] != '%')
 			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
-		if (str[len_str_plus_len_flags + 1] == '%' && ++len_str_plus_len_flags)
-		{
-			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
+		if (check_percentage(str, &len_str_plus_len_flags))
 			continue;	
-		}
 		flags_info = get_flags_width_precision_delimiter(str + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
-		if (flags_info == NULL)
-			return (0);
-		if(!handle_args(flags_info))
-			return (0);
+		// the minus two below is related with plus two in the alteration of the len_str_plus in the line above, but 
+		// it's hindering the with the correct position in the condition below.
 		args_len += print_args(args, flags_info) - flags_info->total_len - 2;
 		if (str[len_str_plus_len_flags] != '\0')
 			++len_str_plus_len_flags;
+		// i need to free the flags_info
 	}
 	return (len_str_plus_len_flags + args_len);
 }
 int	main(void)
 {
-	ft_printf("%-5c",'a');
+	ft_printf("testando -primeira letra: %-10c -segunda letra %-4c",'A','B');
 }
