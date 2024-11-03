@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/03 17:31:26 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/03 19:37:35 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@
  */
 #include "ft_printf.h"
 #include "./libft/libft.h"
+void	free_str_flags(t_strfla *flags_info)
+{
+		if(flags_info->flags)
+		{
+			free(flags_info->flags);
+			flags_info->flags = NULL;
+		}
+		free(flags_info);
+		flags_info = NULL;
+}
+
+
 int	print_char(t_strfla *flag_info, va_list args)
 {
 	int	arg = va_arg(args,int);
@@ -98,8 +110,7 @@ int	invalid_input(const char *str_input)
 			return (1);
 		if(!handle_args(flags_info))
 			return (1);
-		free(flags_info->flags);
-		free(flags_info);
+		free_str_flags(flags_info);
 		// the same problem of printf implementation below - curr_position increment
 		//if (str_input[curr_position] != '\0')
 		//	++curr_position;
@@ -124,17 +135,19 @@ int	ft_printf(const char *str, ...)
 			ft_putchar_fd(str[len_str_plus_len_flags++], 1);
 		if (check_percentage(str, &len_str_plus_len_flags))
 			continue;	
+		if (!str[len_str_plus_len_flags])
+			return (len_str_plus_len_flags + args_len);
 		flags_info = get_flags_width_precision_delimiter(str + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
-		// the minus two below is related with plus two in the alteration of the len_str_plus in the line above, but 
-		// it's hindering the with the correct position in the condition below.
+		// removing the condition belown i am getting the correct size? 
 		args_len += print_args(args, flags_info) - flags_info->total_len - 2;
-		if (str[len_str_plus_len_flags] != '\0')
-			++len_str_plus_len_flags;
+		//if (str[len_str_plus_len_flags] != '\0')
+		//	++len_str_plus_len_flags;
 		// i need to free the flags_info
+		free_str_flags(flags_info);
 	}
 	return (len_str_plus_len_flags + args_len);
 }
 int	main(void)
 {
-	ft_printf("testando -primeira letra: %-10c -segunda letra %-4c",'A','B');
+	ft_printf("%c", 'A');
 }

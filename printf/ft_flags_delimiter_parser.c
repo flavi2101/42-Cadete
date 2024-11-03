@@ -94,6 +94,7 @@ t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_percentage,
 	flags_info = (t_strfla *)malloc(sizeof(t_strfla));
 	if (!flags_info)
 		return (NULL);
+	ft_memset(flags_info,0, sizeof(t_strfla));
 	len_flags_plus_nums = get_width_and_precision(flags_info, ptr_after_percentage, &len_only_nums); 	
 	*len += len_flags_plus_nums + 2;
 	flags_info->conversion = *(ptr_after_percentage + len_flags_plus_nums);
