@@ -67,30 +67,31 @@ int	print_args(va_list args, t_strfla *flag_info)
 }
 int	invalid_input(const char *str_input)
 {
-	int	len_str_plus_len_flags;
+	int	curr_position;
 	t_strfla	*flags_info;
 
 	if (!str_input)	
 		return (1);
-	len_str_plus_len_flags = 0;
-	while(str_input[len_str_plus_len_flags])
+	curr_position = 0;
+	while(str_input[curr_position])
 	{
-		while(str_input[len_str_plus_len_flags] && str_input[len_str_plus_len_flags] != '%')
-			len_str_plus_len_flags++;
-		if (str_input[len_str_plus_len_flags + 1] == '%' && ++len_str_plus_len_flags)
+		while(str_input[curr_position] && str_input[curr_position] != '%')
+			curr_position++;
+		if (str_input[curr_position + 1] == '%' && ++curr_position)
 		{
-			len_str_plus_len_flags++;
+			curr_position++;
 			continue;	
 		}
-		flags_info = get_flags_width_precision_delimiter(str_input + len_str_plus_len_flags + 1, &len_str_plus_len_flags);
+		flags_info = get_flags_width_precision_delimiter(str_input + curr_position + 1, &curr_position);
 		if (flags_info == NULL)
 			return (1);
 		if(!handle_args(flags_info))
 			return (1);
 		free(flags_info->flags);
 		free(flags_info);
-		if (str_input[len_str_plus_len_flags] != '\0')
-			++len_str_plus_len_flags;
+		// the same problem of printf implementation below - curr_position increment
+		if (str_input[curr_position] != '\0')
+			++curr_position;
 	}
 	return (0);
 }
