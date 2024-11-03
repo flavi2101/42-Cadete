@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/03 11:50:43 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/03 17:31:26 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ int	print_args(va_list args, t_strfla *flag_info)
 	set_func_conversion(flag_info);
 	return (flag_info->fuc(flag_info, args));
 }
+int	check_percentage(const char *str, int *position)
+{
+	if (str[*position] &&  str[*position + 1] == '%' && ++(*position))
+	{
+		ft_putchar_fd(str[(*position)++], 1);
+		return (1);
+	}
+	return (0);
+}
+// this is a trad off implemenation, or i parse the string twice
+// or i will need to store the string of each iteration to avoid
+// beggin the print and after find a invalid flag + conversion.
 int	invalid_input(const char *str_input)
 {
 	int	curr_position;
@@ -77,11 +89,10 @@ int	invalid_input(const char *str_input)
 	{
 		while(str_input[curr_position] && str_input[curr_position] != '%')
 			curr_position++;
-		if (str_input[curr_position + 1] == '%' && ++curr_position)
-		{
-			curr_position++;
+		if (check_percentage(str_input, &curr_position))
 			continue;	
-		}
+		if(!str_input[curr_position])
+			return (0);
 		flags_info = get_flags_width_precision_delimiter(str_input + curr_position + 1, &curr_position);
 		if (flags_info == NULL)
 			return (1);
@@ -90,17 +101,8 @@ int	invalid_input(const char *str_input)
 		free(flags_info->flags);
 		free(flags_info);
 		// the same problem of printf implementation below - curr_position increment
-		if (str_input[curr_position] != '\0')
-			++curr_position;
-	}
-	return (0);
-}
-int	check_percentage(const char *str, int *position)
-{
-	if (str[*position + 1] == '%' && ++(*position))
-	{
-		ft_putchar_fd(str[(*position)++], 1);
-		return (1);
+		//if (str_input[curr_position] != '\0')
+		//	++curr_position;
 	}
 	return (0);
 }
