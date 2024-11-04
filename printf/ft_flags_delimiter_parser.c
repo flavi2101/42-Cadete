@@ -27,6 +27,7 @@ int count_digis(int user_inp)
 	return (len);
 }
 //calculate the lenght the flag separed with the lenght of values
+//after the dot must be a number to be a valid precision.
 //insert in the struct this values as integers 
 int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num_qnty)
 {
@@ -45,7 +46,7 @@ int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num
 			flag_num_of_width = '\0';
 			*num_qnty += count_digis(pt_flags_info->width); 
 		}
-		if (flag_num_of_precision && flags[flags_len] == '.')
+		if (flag_num_of_precision && flags[flags_len] == '.' && ft_isdigit(flags[flags_len + 1]))
 		{
 			pt_flags_info->precision = ft_atoi(&flags[flags_len + 1]);	
 			flag_num_of_precision = '\0';
@@ -57,16 +58,19 @@ int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num
 
 }	
 // store only flags in the return
-// to a 0 be flag it not must preceded by another number.
-char	*get_flags(int len_only_flags, int len_flags_plus_nums, const char * ptr_after_percentage)
+// to a 0 be flag it not must preceded by another number (second if).
+char	*get_flags(t_strfla *flag_info, int len_only_flags, int len_flags_plus_nums, const char * ptr_after_percentage)
 {
 	char	*usr_inp_flags;
 	char	current_char;
 
 	usr_inp_flags = (char *)malloc(sizeof(char) * (len_only_flags));
+	ft_memset(usr_inp_flags,0, len_only_flags);
 	if (!usr_inp_flags)
-		// clean flags_info return null
+	{
+		free_flags(flag_info);
 		return (NULL);
+	}
 	usr_inp_flags[len_only_flags--] = '\0';
 	while (--len_flags_plus_nums >= 0)
 	{
@@ -100,7 +104,7 @@ t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_percentage,
 	flags_info->conversion = *(ptr_after_percentage + len_flags_plus_nums);
 	len_only_flags = len_flags_plus_nums - len_only_nums; 
 	flags_info->total_len = len_flags_plus_nums;
-	flags_info->flags = get_flags(len_only_flags, len_flags_plus_nums, ptr_after_percentage);
+	flags_info->flags = get_flags(flags_info, len_only_flags, len_flags_plus_nums, ptr_after_percentage);
 
 	if(!parse(flags_info->flags, flags_info->total_len - len_only_nums,"-0.# +"))
 		// return NULL if flags are invalid;
