@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/03 19:37:35 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/03 21:59:30 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ int	print_char(t_strfla *flag_info, va_list args)
 		ft_putchar_fd((char)arg, 1);
 		return (1);
 	}
+	if (ft_strlen(flag_info->flags))
+		ft_putchar_fd((char)arg, 1);
 	while (temp_count-- > 0)
-		ft_putchar_fd(' ',1);	
-	ft_putchar_fd((char)arg, 1);
+		ft_putchar_fd('p',1);	
+	if (!ft_strlen(flag_info->flags))
+		ft_putchar_fd((char)arg, 1);
 	return (flag_info->width + 1);
 }
 void	set_func_conversion(t_strfla *flag_info)
 {
 	if (flag_info->conversion == 'c')
 		flag_info->fuc = print_char;
-/*	else if (flag_info->conversion == 's')	
-		error_handle(flags_info,"-.");
-	else if (flag_info->conversion == 'p')	
 		error_handle(flags_info,"");
 	else if (flag_info->conversion == 'd')	
 		error_handle(flags_info,"-0. +");
@@ -149,5 +149,5 @@ int	ft_printf(const char *str, ...)
 }
 int	main(void)
 {
-	ft_printf("%c", 'A');
+	ft_printf("%-10c", 'A');
 }
