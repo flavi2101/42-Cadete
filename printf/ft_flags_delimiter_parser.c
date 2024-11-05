@@ -64,7 +64,7 @@ char	*get_flags(t_strfla *flag_info, int len_only_flags, int len_flags_plus_nums
 	char	*usr_inp_flags;
 	char	current_char;
 
-	usr_inp_flags = (char *)malloc(sizeof(char) * (len_only_flags));
+	usr_inp_flags = (char *)malloc(sizeof(char) * (len_only_flags + 1));
 	ft_memset(usr_inp_flags,0, len_only_flags);
 	if (!usr_inp_flags)
 	{
