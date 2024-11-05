@@ -19,5 +19,6 @@ t_strfla	*get_flags_width_precision_delimiter(const char * ptr_after_percentage,
 int	error_handle(t_strfla	*flags_info, char *conversion_opt);
 int	handle_args(t_strfla *flags_info);
 void	free_flags(t_strfla *flags_info);
+int	print_string(t_strfla *flag_info, va_list args);
 #endif
 

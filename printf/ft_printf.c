@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/03 21:59:30 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/05 01:24:00 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  */
 #include "ft_printf.h"
 #include "./libft/libft.h"
-void	free_str_flags(t_strfla *flags_info)
+void	free_flags(t_strfla *flags_info)
 {
 		if(flags_info->flags)
 		{
@@ -35,21 +35,20 @@ void	free_str_flags(t_strfla *flags_info)
 		flags_info = NULL;
 }
 
-
 int	print_char(t_strfla *flag_info, va_list args)
 {
 	int	arg = va_arg(args,int);
-	int	temp_count;
+	int	width;
 
-	temp_count = flag_info->width;
-	if (!temp_count)
+	width = flag_info->width;
+	if (!width)
 	{
 		ft_putchar_fd((char)arg, 1);
 		return (1);
 	}
 	if (ft_strlen(flag_info->flags))
 		ft_putchar_fd((char)arg, 1);
-	while (temp_count-- > 0)
+	while (width-- > 0)
 		ft_putchar_fd('p',1);	
 	if (!ft_strlen(flag_info->flags))
 		ft_putchar_fd((char)arg, 1);
@@ -59,6 +58,9 @@ void	set_func_conversion(t_strfla *flag_info)
 {
 	if (flag_info->conversion == 'c')
 		flag_info->fuc = print_char;
+	else if (flag_info->conversion == 's')	
+		flag_info->fuc = print_string;
+/*	else if (flag_info->conversion == 'p')	
 		error_handle(flags_info,"");
 	else if (flag_info->conversion == 'd')	
 		error_handle(flags_info,"-0. +");
@@ -95,7 +97,7 @@ int	invalid_input(const char *str_input)
 	t_strfla	*flags_info;
 
 	if (!str_input)	
-		return (1);
+		return (-1);
 	curr_position = 0;
 	while(str_input[curr_position])
 	{
@@ -110,7 +112,7 @@ int	invalid_input(const char *str_input)
 			return (1);
 		if(!handle_args(flags_info))
 			return (1);
-		free_str_flags(flags_info);
+		free_flags(flags_info);
 		// the same problem of printf implementation below - curr_position increment
 		//if (str_input[curr_position] != '\0')
 		//	++curr_position;
@@ -143,11 +145,14 @@ int	ft_printf(const char *str, ...)
 		//if (str[len_str_plus_len_flags] != '\0')
 		//	++len_str_plus_len_flags;
 		// i need to free the flags_info
-		free_str_flags(flags_info);
+		free_flags(flags_info);
 	}
 	return (len_str_plus_len_flags + args_len);
 }
 int	main(void)
 {
-	ft_printf("%-10c", 'A');
+//	ft_printf("%-2.2s\n","Hello");
+//	ft_printf("%2.8s\n","Hello");
+	ft_printf("%6.2s\n","Hello");
+//	ft_printf("%-6.8s\n","Hello");
 }
