@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/05 15:02:59 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/05 17:49:57 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ void	set_func_conversion(t_strfla *flag_info)
 		flag_info->fuc = print_char;
 	else if (flag_info->conversion == 's')	
 		flag_info->fuc = print_string;
-/*	else if (flag_info->conversion == 'p')	
-		error_handle(flags_info,"");
-	else if (flag_info->conversion == 'd')	
+/*	else if (flag_info->conversion == 'd')	
 		error_handle(flags_info,"-0. +");
 	else if (flag_info->conversion == 'i')	
 		error_handle(flags_info,"-0. +");
@@ -48,8 +46,13 @@ void	set_func_conversion(t_strfla *flag_info)
 }
 int	print_args(va_list args, t_strfla *flag_info)
 {
-	set_func_conversion(flag_info);
-	return (flag_info->fuc(flag_info, args));
+	if (flag_info->conversion != 'p')
+	{
+		set_func_conversion(flag_info);
+		return (flag_info->fuc(flag_info, args));
+	}
+	return print_pointer(args);
+		
 }
 int	check_percentage(const char *str, int *position)
 {
@@ -123,8 +126,6 @@ int	ft_printf(const char *str, ...)
 }
 int	main(void)
 {
-	ft_printf("%-2.2s\n","Hello");
-	ft_printf("%2.8s\n","Hello");
-	ft_printf("%6.2s\n","Hello");
-	ft_printf("%-6.8s\n","Hello");
+	int	test = 0;
+ft_printf("%p\n", &test);
 }
