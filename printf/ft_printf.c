@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/05 01:24:00 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/05 15:02:59 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,8 @@
  */
 #include "ft_printf.h"
 #include "./libft/libft.h"
-void	free_flags(t_strfla *flags_info)
-{
-		if(flags_info->flags)
-		{
-			free(flags_info->flags);
-			flags_info->flags = NULL;
-		}
-		free(flags_info);
-		flags_info = NULL;
-}
+#include "./prints/prints.h"
 
-int	print_char(t_strfla *flag_info, va_list args)
-{
-	int	arg = va_arg(args,int);
-	int	width;
-
-	width = flag_info->width;
-	if (!width)
-	{
-		ft_putchar_fd((char)arg, 1);
-		return (1);
-	}
-	if (ft_strlen(flag_info->flags))
-		ft_putchar_fd((char)arg, 1);
-	while (width-- > 0)
-		ft_putchar_fd('p',1);	
-	if (!ft_strlen(flag_info->flags))
-		ft_putchar_fd((char)arg, 1);
-	return (flag_info->width + 1);
-}
 void	set_func_conversion(t_strfla *flag_info)
 {
 	if (flag_info->conversion == 'c')
@@ -151,8 +123,8 @@ int	ft_printf(const char *str, ...)
 }
 int	main(void)
 {
-//	ft_printf("%-2.2s\n","Hello");
-//	ft_printf("%2.8s\n","Hello");
+	ft_printf("%-2.2s\n","Hello");
+	ft_printf("%2.8s\n","Hello");
 	ft_printf("%6.2s\n","Hello");
-//	ft_printf("%-6.8s\n","Hello");
+	ft_printf("%-6.8s\n","Hello");
 }

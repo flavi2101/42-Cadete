@@ -1,6 +1,7 @@
-#include "ft_printf.h"
-#include "./libft/libft.h"
-int	error_handle(t_strfla	*flags_info, char *conversion_opt)
+#include "../ft_printf.h"
+#include "../libft/libft.h"
+#include "../utils/utils.h"
+static int	error_handle(t_strfla	*flags_info, char *conversion_opt)
 {
 	size_t	len_flag_input;
 

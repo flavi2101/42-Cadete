@@ -1,35 +1,11 @@
-#include "ft_printf.h"
-#include "./libft/libft.h"
-// check if the flag are valid and are related with the correct delimiter 
-int	parse(char *in_flags, int len_in_flags, char *check_flag)
-{
-	int	size_check_flag;
+#include "../ft_printf.h"
+#include "../libft/libft.h"
+#include "../utils/utils.h"
 
-	size_check_flag = ft_strlen(check_flag);	
-	while(len_in_flags-- > 0)
-	{
-		if(!ft_memchr(check_flag, *in_flags++, size_check_flag))
-			return (0);
-	}
-	return (1);	
-}
-
-int count_digis(int user_inp)
-{
-	int len;
-
-	len = 0;
-	while (user_inp > 0)
-	{
-		user_inp = user_inp / 10;
-		len++;
-	}
-	return (len);
-}
 //calculate the lenght the flag separed with the lenght of values
 //after the dot must be a number to be a valid precision.
 //insert in the struct this values as integers 
-int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num_qnty)
+static int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num_qnty)
 {
 	int	flags_len;
 	char	flag_num_of_width;
@@ -59,7 +35,7 @@ int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num
 }	
 // store only flags in the return
 // to a 0 be flag it not must preceded by another number (second if).
-char	*get_flags(t_strfla *flag_info, int len_only_flags, int len_flags_plus_nums, const char * ptr_after_percentage)
+static char	*get_flags(t_strfla *flag_info, int len_only_flags, int len_flags_plus_nums, const char * ptr_after_percentage)
 {
 	char	*usr_inp_flags;
 	char	current_char;
