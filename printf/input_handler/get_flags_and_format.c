@@ -20,13 +20,13 @@ static int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, i
 		{
 			pt_flags_info->width = ft_atoi(&flags[flags_len]);
 			flag_num_of_width = '\0';
-			*num_qnty += count_digis(pt_flags_info->width); 
+			*num_qnty += count_digits(pt_flags_info->width); 
 		}
 		if (flag_num_of_precision && flags[flags_len] == '.' && ft_isdigit(flags[flags_len + 1]))
 		{
 			pt_flags_info->precision = ft_atoi(&flags[flags_len + 1]);	
 			flag_num_of_precision = '\0';
-			*num_qnty += count_digis(pt_flags_info->precision); 
+			*num_qnty += count_digits(pt_flags_info->precision); 
 		}	
 		flags_len++;
 	}

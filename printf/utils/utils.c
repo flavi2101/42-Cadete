@@ -3,18 +3,16 @@
 #include "../ft_printf.h"
 int	parse(char *in_flags, int len_in_flags, char *check_flag)
 {
-	int	size_check_flag;
 
-	size_check_flag = ft_strlen(check_flag);	
 	while(len_in_flags-- > 0)
 	{
-		if(!ft_memchr(check_flag, *in_flags++, size_check_flag))
+		if(!ft_strchr(check_flag, *in_flags++))
 			return (0);
 	}
 	return (1);	
 }
 
-int count_digis(int user_inp)
+int count_digits(int user_inp)
 {
 	int len;
 

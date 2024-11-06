@@ -55,15 +55,13 @@ int	print_string(t_strfla *flag_info, va_list args)
 {
 	char	*arg; 
 	const void	*flags;
-	int	flags_len;
 	char	symb;
 	void	*has_signal;
 
 	flags = flag_info->flags;
-	flags_len = ft_strlen(flag_info->flags);
 	arg = va_arg(args,char *);
 	symb = 'P';
-	has_signal = ft_memchr(flags, (int)'-', flags_len);
+	has_signal = ft_strchr(flags, (int)'-');
 	// check if i can remove the condition below
 	if (flag_info->width == 0 && flag_info->precision == 0)
 	{
