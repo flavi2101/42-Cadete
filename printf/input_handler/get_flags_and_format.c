@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_flags_and_format.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 15:27:51 by flferrei          #+#    #+#             */
+/*   Updated: 2024/11/07 16:11:53 by flferrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../ft_printf.h"
 #include "../libft/libft.h"
 #include "../utils/utils.h"
@@ -5,86 +17,89 @@
 //calculate the lenght the flag separed with the lenght of values
 //after the dot must be a number to be a valid precision.
 //insert in the struct this values as integers 
-static int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, int *num_qnty)
+static int	width_precision(t_strfla *flags_info, const char *flags, int *qnty)
 {
-	int	flags_len;
-	char	flag_num_of_width;
-	char	flag_num_of_precision;
+	char	width;
+	char	precision;
+	int		len;
 
-	flags_len = 0;
-	flag_num_of_width = '1';
-	flag_num_of_precision = '1';
-	while (!ft_isalpha(flags[flags_len]))
+	len = 0;
+	width = '1';
+	precision = '1';
+	while (!ft_isalpha(flags[len]))
 	{
-		if (flag_num_of_width && flags[flags_len] != '0' && ft_isdigit(flags[flags_len]) && flags[flags_len -1] != '.')
+		if (width && flags[len] != '0'
+			&& ft_isdigit(flags[len]) && flags[len -1] != '.')
 		{
-			pt_flags_info->width = ft_atoi(&flags[flags_len]);
-			flag_num_of_width = '\0';
-			*num_qnty += count_digits(pt_flags_info->width); 
+			flags_info->width = ft_atoi(&flags[len]);
+			width = '\0';
+			*qnty += count_digits(flags_info->width);
 		}
-		if (flag_num_of_precision && flags[flags_len] == '.' && ft_isdigit(flags[flags_len + 1]))
+		if (precision && flags[len] == '.' && ft_isdigit(flags[len + 1]))
 		{
-			pt_flags_info->precision = ft_atoi(&flags[flags_len + 1]);	
-			flag_num_of_precision = '\0';
-			*num_qnty += count_digits(pt_flags_info->precision); 
-		}	
-		flags_len++;
+			flags_info->precision = ft_atoi(&flags[len + 1]);
+			precision = '\0';
+			*qnty += count_digits(flags_info->precision);
+		}
+		len++;
 	}
-	return (flags_len);
+	return (len);
+}
 
-}	
 // store only flags in the return
 // to a 0 be flag it not must preceded by another number (second if).
-static char	*get_flags(t_strfla *flag_info, int len_only_flags, int len_flags_plus_nums, const char * ptr_after_percentage)
+static char	*get_flags(t_strfla *flag_info, int len_flags,
+int len_fla_num, const char *ptr_aft_perc)
 {
 	char	*usr_inp_flags;
 	char	current_char;
 
-	usr_inp_flags = (char *)malloc(sizeof(char) * (len_only_flags + 1));
-	ft_memset(usr_inp_flags,0, len_only_flags);
+	usr_inp_flags = (char *)malloc(sizeof(char) * (len_flags + 1));
+	ft_memset(usr_inp_flags, 0, len_flags);
 	if (!usr_inp_flags)
 	{
 		free_flags(flag_info);
 		return (NULL);
 	}
-	usr_inp_flags[len_only_flags--] = '\0';
-	while (--len_flags_plus_nums >= 0)
+	usr_inp_flags[len_flags--] = '\0';
+	while (--len_fla_num >= 0)
 	{
-		current_char = *(ptr_after_percentage + len_flags_plus_nums); 
-		if(current_char == '0' && !ft_isdigit(*(ptr_after_percentage + len_flags_plus_nums - 1)))
-			usr_inp_flags[len_only_flags--] = current_char;
-		else if (!ft_isdigit(current_char)) 
-			usr_inp_flags[len_only_flags--] = current_char;
+		current_char = *(ptr_aft_perc + len_fla_num);
+		if (current_char == '0'
+			&& !ft_isdigit(*(ptr_aft_perc + len_fla_num - 1)))
+			usr_inp_flags[len_flags--] = current_char;
+		else if (!ft_isdigit(current_char))
+			usr_inp_flags[len_flags--] = current_char;
 	}
 	return (usr_inp_flags);
-
 }
 // generate all information necessary to fetch the struct
 // one function responsible to get only the width and precision
 // another to get only flags
 // the last one to validaded if the flags are valid 
-t_strfla *get_flags_width_precision_delimiter(const char * ptr_after_percentage, int * len)
-{
-	int	len_flags_plus_nums;
-	int	len_only_nums;
-	int	len_only_flags;
-	t_strfla	*flags_info;
 
-	len_only_nums = 0;	
+t_strfla	*get_flags_info(const char *ptr_percent, int *len)
+{
+	t_strfla	*flags_info;
+	int			len_flag_num;
+	int			len_nums;
+	int			len_flag;
+
+	len_nums = 0;
 	flags_info = (t_strfla *)malloc(sizeof(t_strfla));
 	if (!flags_info)
 		return (NULL);
-	ft_memset(flags_info,0, sizeof(t_strfla));
-	len_flags_plus_nums = get_width_and_precision(flags_info, ptr_after_percentage, &len_only_nums); 	
-	*len += len_flags_plus_nums + 2;
-	flags_info->conversion = *(ptr_after_percentage + len_flags_plus_nums);
-	len_only_flags = len_flags_plus_nums - len_only_nums; 
-	flags_info->total_len = len_flags_plus_nums;
-	flags_info->flags = get_flags(flags_info, len_only_flags, len_flags_plus_nums, ptr_after_percentage);
-
-	if(!parse(flags_info->flags, flags_info->total_len - len_only_nums,"-0.# +"))
+	ft_memset(flags_info, 0, sizeof(t_strfla));
+	len_flag_num = width_precision(flags_info, ptr_percent, &len_nums);
+	*len += len_flag_num + 2;
+	flags_info->conversion = *(ptr_percent + len_flag_num);
+	len_flag = len_flag_num - len_nums;
+	flags_info->total_len = len_flag_num;
+	flags_info->flags = get_flags(flags_info, len_flag,
+			len_flag_num, ptr_percent);
+	if (!parse(flags_info->flags, flags_info->total_len - len_nums, "-0.# +"))
 		// return NULL if flags are invalid;
 		// i must make a clean in the usr_inp_flags and flag_info;
-		return (NULL);	
-	return flags_info;
+		return (NULL);
+	return (flags_info);
 }

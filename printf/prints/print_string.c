@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_string.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/07 17:26:03 by flferrei          #+#    #+#             */
+/*   Updated: 2024/11/07 17:30:20 by flferrei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "../ft_printf.h"
 #include "../libft/libft.h"
 /* incomplete, don't consider the precision'
@@ -7,25 +18,28 @@ static int	size_of_arg(int str_len, int width)
 		return (str_len);
 	return (width);
 }*/
-static void	set_order_print(int signed_flag, int padding, int precision, char *arg)
+
+static void	set_order_print(int signed_flag, int padding,
+		int precision, char *arg)
 {
 	if (signed_flag)
 	{
-		while (precision-- > 0 )
+		while (precision-- > 0)
 			ft_putchar_fd(*arg++, 1);
-		while (padding-- > 0 )
+		while (padding-- > 0)
 			ft_putchar_fd('P', 1);
 	}
 	else
 	{
-		while (padding-- > 0 )
+		while (padding-- > 0)
 			ft_putchar_fd('P', 1);
-		while (precision-- > 0 )
+		while (precision-- > 0)
 			ft_putchar_fd(*arg++, 1);
 	}
 }
 
-static void	handle_signal_in_string(t_strfla * flag_info, char * arg, int	signed_flag)
+static void	handle_signal_in_string(t_strfla *flag_info,
+		char *arg, int signed_flag)
 {
 	int	padding;
 	int	str_len;
@@ -50,25 +64,25 @@ static void	handle_signal_in_string(t_strfla * flag_info, char * arg, int	signed
 		set_order_print(signed_flag, padding, flag_info->precision, arg);
 	}
 }
+
 int	print_string(t_strfla *flag_info, va_list args)
 {
-	char	*arg; 
 	const void	*flags;
 	void	*has_signal;
+	char	*arg;
 
 	flags = flag_info->flags;
-	arg = va_arg(args,char *);
-	has_signal = ft_strchr(flags, (int)'-');
+	arg = va_arg(args, char *);
+	has_signal = ft_strchr(flags, (int) '-');
 	// check if i can remove the condition below
 	if (flag_info->width == 0 && flag_info->precision == 0)
 	{
-		ft_putstr_fd(arg, 1);	
-		return ft_strlen((char const *)arg);
+		ft_putstr_fd(arg, 1);
+		return (ft_strlen((char const *)arg));
 	}
-	else if(has_signal)
+	else if (has_signal)
 		handle_signal_in_string(flag_info, arg, 1);
 	else
 		handle_signal_in_string(flag_info, arg, 0);
-
 	return (14580);
 }
