@@ -37,19 +37,22 @@ int	print_based_all_flags(int value, int len, unsigned char flags, t_strfla *inf
 {
 	int	padding_space;
 	char	*str_of_num;	
-	padding_space = info->width - len - info->precision;
+	padding_space = info->width - len;
 	str_of_num = ft_itoa(value); 
 	if (flags & minus)
 	{
-		if(flags & plus && value > 0)
+		if(flags & plus && value > 0 && padding_space--)
 			ft_putchar_fd('+',1);
-		else if (flags & space && value > 0)
+		else if (flags & space && value > 0 && padding_space--)
 			ft_putchar_fd(' ',1);
 		else if (value < 0 && padding_space--)
 			ft_putchar_fd('-',1);
-		while (info->precision-- - len > 0)	
+		while (info->precision-- - len > 0 && padding_space--)	
 			ft_putchar_fd('0',1);
-		ft_putstr_fd(str_of_num + 1, 1);
+		if (value < 0)
+			ft_putstr_fd(str_of_num + 1, 1);
+		else
+			ft_putstr_fd(str_of_num, 1);
 		while (padding_space-- > 0)
 			ft_putchar_fd(' ',1);
 	}
