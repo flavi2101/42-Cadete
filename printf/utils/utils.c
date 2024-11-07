@@ -17,7 +17,7 @@ int count_digits(int user_inp)
 	int len;
 
 	len = 0;
-	while (user_inp > 0)
+	while (user_inp != 0)
 	{
 		user_inp = user_inp / 10;
 		len++;

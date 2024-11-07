@@ -16,7 +16,7 @@ static int get_width_and_precision(t_strfla *pt_flags_info, const char	*flags, i
 	flag_num_of_precision = '1';
 	while (!ft_isalpha(flags[flags_len]))
 	{
-		if (flag_num_of_width && flags[flags_len] != '0' && ft_isdigit(flags[flags_len]))
+		if (flag_num_of_width && flags[flags_len] != '0' && ft_isdigit(flags[flags_len]) && flags[flags_len -1] != '.')
 		{
 			pt_flags_info->width = ft_atoi(&flags[flags_len]);
 			flag_num_of_width = '\0';
