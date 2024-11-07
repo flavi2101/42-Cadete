@@ -7,26 +7,25 @@ static int	size_of_arg(int str_len, int width)
 		return (str_len);
 	return (width);
 }*/
-static void	set_order_print(int signed_flag, int padding, int precision, char *arg, char symb)
+static void	set_order_print(int signed_flag, int padding, int precision, char *arg)
 {
 	if (signed_flag)
 	{
 		while (precision-- > 0 )
 			ft_putchar_fd(*arg++, 1);
 		while (padding-- > 0 )
-			ft_putchar_fd(symb, 1);
+			ft_putchar_fd('P', 1);
 	}
 	else
 	{
 		while (padding-- > 0 )
-			ft_putchar_fd(symb, 1);
+			ft_putchar_fd('P', 1);
 		while (precision-- > 0 )
 			ft_putchar_fd(*arg++, 1);
 	}
-
 }
 
-static void	handle_signal_in_string(t_strfla * flag_info, char * arg, int	signed_flag, char symb)
+static void	handle_signal_in_string(t_strfla * flag_info, char * arg, int	signed_flag)
 {
 	int	padding;
 	int	str_len;
@@ -40,7 +39,7 @@ static void	handle_signal_in_string(t_strfla * flag_info, char * arg, int	signed
 		else
 			padding = str_len - flag_info->precision;
 		padding += flag_info->width - str_len;
-		set_order_print(signed_flag, padding, flag_info->precision, arg, symb);
+		set_order_print(signed_flag, padding, flag_info->precision, arg);
 	}
 	else
 	{
@@ -48,19 +47,17 @@ static void	handle_signal_in_string(t_strfla * flag_info, char * arg, int	signed
 		if (flag_info->precision > str_len)
 			flag_info->precision = str_len;
 		padding += flag_info->width - str_len;
-		set_order_print(signed_flag, padding, flag_info->precision, arg, symb);
+		set_order_print(signed_flag, padding, flag_info->precision, arg);
 	}
 }
 int	print_string(t_strfla *flag_info, va_list args)
 {
 	char	*arg; 
 	const void	*flags;
-	char	symb;
 	void	*has_signal;
 
 	flags = flag_info->flags;
 	arg = va_arg(args,char *);
-	symb = 'P';
 	has_signal = ft_strchr(flags, (int)'-');
 	// check if i can remove the condition below
 	if (flag_info->width == 0 && flag_info->precision == 0)
@@ -69,9 +66,9 @@ int	print_string(t_strfla *flag_info, va_list args)
 		return ft_strlen((char const *)arg);
 	}
 	else if(has_signal)
-		handle_signal_in_string(flag_info, arg, 1, symb);
+		handle_signal_in_string(flag_info, arg, 1);
 	else
-		handle_signal_in_string(flag_info, arg, 0, symb);
+		handle_signal_in_string(flag_info, arg, 0);
 
 	return (14580);
 }
