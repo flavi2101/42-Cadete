@@ -24,6 +24,7 @@ int	handle_args(t_strfla *flags_info)
 		valid_input =	error_handle(flags_info,"-.");
 	else if (flags_info->conversion == 'p')	
 		valid_input =	error_handle(flags_info,"");
+	// even all are allow between them they are mutual exclusive.
 	else if (flags_info->conversion == 'd')	
 		valid_input =	error_handle(flags_info,"-0. +");
 	else if (flags_info->conversion == 'i')	

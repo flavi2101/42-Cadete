@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/05 17:49:57 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/07 00:14:27 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	set_func_conversion(t_strfla *flag_info)
 		flag_info->fuc = print_char;
 	else if (flag_info->conversion == 's')	
 		flag_info->fuc = print_string;
-/*	else if (flag_info->conversion == 'd')	
-		error_handle(flags_info,"-0. +");
-	else if (flag_info->conversion == 'i')	
+	else if (flag_info->conversion == 'd')	
+		flag_info->fuc = print_decimal;
+/*	else if (flag_info->conversion == 'i')	
 		error_handle(flags_info,"-0. +");
 	else if (flag_info->conversion == 'u')	
 		error_handle(flags_info,"-0.");
@@ -126,6 +126,16 @@ int	ft_printf(const char *str, ...)
 }
 int	main(void)
 {
-	int	test = 0;
-ft_printf("%p\n", &test);
+	int	num = 27;
+	ft_printf("|%10d|\n", num);         // Width only, right-aligned
+	ft_printf("|%-10d|\n", num);        // Width only, left-aligned
+	ft_printf("|%010d|\n", num);        // Width with zero-padding
+	ft_printf("|%+10d|\n", num);        // Width with sign
+	ft_printf("|% 10d|\n", num);        // Width with space for positive
+	ft_printf("|%.5d|\n", num);         // Precision only
+	ft_printf("|%10.5d|\n", num);       // Width and precision, right-aligned
+	ft_printf("|%-10.5d|\n", num);      // Width and precision, left-aligned
+	ft_printf("|%+10.5d|\n", num);      // Width, precision, and sign
+	ft_printf("|% 10.5d|\n", num);      // Width, precision, and space for positive
+	ft_printf("|%010.5d|\n", num);      // Width with zero-padding and precision	
 }
