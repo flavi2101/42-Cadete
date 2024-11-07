@@ -1,6 +1,7 @@
-#include "ft_printf.h"
-#include "./libft/libft.h"
-int	error_handle(t_strfla	*flags_info, char *conversion_opt)
+#include "../ft_printf.h"
+#include "../libft/libft.h"
+#include "../utils/utils.h"
+static int	error_handle(t_strfla	*flags_info, char *conversion_opt)
 {
 	size_t	len_flag_input;
 
@@ -19,19 +20,20 @@ int	handle_args(t_strfla *flags_info)
 	valid_input = 0;
 	if (flags_info->conversion == 'c')
 		valid_input =	error_handle(flags_info,"-");
-	 else if (flags_info->conversion == 's')	
+	else if (flags_info->conversion == 's')	
 		valid_input =	error_handle(flags_info,"-.");
-	 else if (flags_info->conversion == 'p')	
+	else if (flags_info->conversion == 'p')	
 		valid_input =	error_handle(flags_info,"");
-	 else if (flags_info->conversion == 'd')	
+	// even all are allow between them they are mutual exclusive.
+	else if (flags_info->conversion == 'd')	
 		valid_input =	error_handle(flags_info,"-0. +");
-	 else if (flags_info->conversion == 'i')	
+	else if (flags_info->conversion == 'i')	
 		valid_input =	error_handle(flags_info,"-0. +");
-	 else if (flags_info->conversion == 'u')	
+	else if (flags_info->conversion == 'u')	
 		valid_input =	error_handle(flags_info,"-0.");
-	 else if (flags_info->conversion == 'x')	
+	else if (flags_info->conversion == 'x')	
 		valid_input =	error_handle(flags_info,"-0.#");
-	 else if (flags_info->conversion == 'X')	
+	else if (flags_info->conversion == 'X')	
 		valid_input =	error_handle(flags_info,"-0.#");
 	return (valid_input);
 }

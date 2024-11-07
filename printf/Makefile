@@ -1,8 +1,8 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I./libft -I. -ggdb -O0
+CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -ggdb -O0 -fsanitize=address
 
-SRCS = ft_printf.c ft_flags_delimiter_parser.c ft_handle_args.c
+SRCS = ft_printf.c ./input_handler/flag_is_valid.c ./input_handler/get_flags_and_format.c ./prints/print_char.c ./prints/print_string.c ./prints/print_pointer.c ./prints/print_decimal.c ./utils/utils.c \
 
 #NAME = libftprint.a 
 NAME = a.out
