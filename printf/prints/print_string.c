@@ -6,83 +6,31 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:26:03 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/07 17:30:20 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:44:38 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../ft_printf.h"
 #include "../libft/libft.h"
-/* incomplete, don't consider the precision'
-static int	size_of_arg(int str_len, int width)
-{
-	if(str_len > width) 
-		return (str_len);
-	return (width);
-}*/
-
-static void	set_order_print(int signed_flag, int padding,
-		int precision, char *arg)
-{
-	if (signed_flag)
-	{
-		while (precision-- > 0)
-			ft_putchar_fd(*arg++, 1);
-		while (padding-- > 0)
-			ft_putchar_fd('P', 1);
-	}
-	else
-	{
-		while (padding-- > 0)
-			ft_putchar_fd('P', 1);
-		while (precision-- > 0)
-			ft_putchar_fd(*arg++, 1);
-	}
-}
-
-static void	handle_signal_in_string(t_strfla *flag_info,
-		char *arg, int signed_flag)
-{
-	int	padding;
-	int	str_len;
-
-	str_len = ft_strlen(arg);
-	padding = 0;
-	if (flag_info->width > str_len)
-	{
-		if (flag_info->precision > str_len)
-			flag_info->precision = str_len;
-		else
-			padding = str_len - flag_info->precision;
-		padding += flag_info->width - str_len;
-		set_order_print(signed_flag, padding, flag_info->precision, arg);
-	}
-	else
-	{
-		flag_info->width = str_len;
-		if (flag_info->precision > str_len)
-			flag_info->precision = str_len;
-		padding += flag_info->width - str_len;
-		set_order_print(signed_flag, padding, flag_info->precision, arg);
-	}
-}
-
+#include "prints.h"
 int	print_string(t_strfla *flag_info, va_list args)
 {
-	const void	*flags;
-	void	*has_signal;
-	char	*arg;
+	unsigned char	all_flags;
+	void	*arg;
+	int	count;
+	char	*value;
 
-	flags = flag_info->flags;
-	arg = va_arg(args, char *);
-	has_signal = ft_strchr(flags, (int) '-');
-	// check if i can remove the condition below
-	if (flag_info->width == 0 && flag_info->precision == 0)
-	{
-		ft_putstr_fd(arg, 1);
-		return (ft_strlen((char const *)arg));
-	}
-	else if (has_signal)
-		handle_signal_in_string(flag_info, arg, 1);
-	else
-		handle_signal_in_string(flag_info, arg, 0);
-	return (14580);
+	all_flags = 0x00;
+	value = va_arg(args, char *);
+	count = ft_strlen(value);
+	arg = value;
+	set_flags_values(&all_flags, flag_info, count);
+	all_flags &= ~plus;
+	all_flags &= ~space;
+	all_flags &= ~zero;
+	all_flags &= ~hash;
+	if (flag_info->precision < count && flag_info->precision > 0)
+		all_flags |= padding_precision;
+	else 
+		all_flags &= ~padding_precision;
+	show_str(arg, TYPE_CHAR_PTR, all_flags, flag_info);
+	return (14785);
 }

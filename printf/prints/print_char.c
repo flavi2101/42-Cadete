@@ -6,33 +6,32 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:23:38 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/08 18:27:52 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/10 01:25:12 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
-#include "../libft/libft.h"
-/*
-The minus flag is used to left-align the output of the character.
-Meneaing will first print the character and then the padding.
-*/
+#include "prints.h"
+
 int	print_char(t_strfla *flag_info, va_list args)
 {
-	int	arg;
-	int	width;
 
-	arg = va_arg(args, int);
-	width = flag_info->width;
-	if (!width)
-	{
-		ft_putchar_fd((char)arg, 1);
-		return (1);
-	}
-	if (ft_strlen(flag_info->flags))
-		ft_putchar_fd((char)arg, 1);
-	while (width-- > 0)
-		ft_putchar_fd(' ', 1);
-	if (!ft_strlen(flag_info->flags))
-		ft_putchar_fd((char)arg, 1);
-	return (flag_info->width + 1);
+	unsigned char	all_flags;
+	void	*arg;
+	int	count;
+	int	value;
+
+	all_flags = 0x00;
+	count = 1;
+	value = va_arg(args, int);
+	arg = &value;
+	set_flags_values(&all_flags, flag_info, count);
+	all_flags &= ~plus;
+	all_flags &= ~space;
+	all_flags &= ~dot;
+	all_flags &= ~zero;
+	all_flags &= ~hash;
+	all_flags &= ~padding_width;
+	all_flags &= ~padding_precision;
+	show_str(arg, TYPE_CHAR, all_flags, flag_info);
+	return (14872);
 }

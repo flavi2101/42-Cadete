@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:27:51 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/09 21:24:43 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/10 12:24:39 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ static int	width_precision(t_strfla *flags_info, const char *flags, int *qnty)
 		if (precision && flags[len] == '.' && ft_isdigit(flags[len + 1]))
 		{
 			flags_info->precision = ft_atoi(&flags[len + 1]);
-			precision = '\0';
 			*qnty += count_digits(flags_info->precision);
+			precision = '\0';
+			width = '\0';
 		}
 		len++;
 	}
@@ -60,9 +61,9 @@ int len_fla_num, const char *ptr_aft_perc)
 		free_flags(flag_info);
 		return (NULL);
 	}
-	ft_memset(usr_inp_flags, 0, len_flags);
+	ft_memset(usr_inp_flags, 0, len_flags + 1);
 	usr_inp_flags[len_flags--] = '\0';
-	while (--len_fla_num >= 0)
+	while (--len_fla_num >= 0 )
 	{
 		current_char = *(ptr_aft_perc + len_fla_num);
 		if (current_char == '0'
@@ -91,7 +92,7 @@ t_strfla	*get_flags_info(const char *ptr_percent, int *len)
 		return (NULL);
 	ft_memset(flags_info, 0, sizeof(t_strfla));
 	len_flag_num = width_precision(flags_info, ptr_percent, &len_nums);
-// was two the line below, i change
+// was two the line below, i change is one because i am jump the letter in the caller 
 	*len += len_flag_num + 1;
 	flags_info->conversion = *(ptr_percent + len_flag_num);
 	len_flag = len_flag_num - len_nums;

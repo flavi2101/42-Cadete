@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/07 18:21:37 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/10 13:42:51 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "ft_printf.h"
 #include "./libft/libft.h"
 #include "./prints/prints.h"
-
+#include <stdio.h>
 void	set_func_conversion(t_strfla *flag_info)
 {
 	if (flag_info->conversion == 'c')
@@ -34,9 +34,9 @@ void	set_func_conversion(t_strfla *flag_info)
 	else if (flag_info->conversion == 'd')
 		flag_info->fuc = print_decimal;
 /*	else if (flag_info->conversion == 'i')	
-		error_handle(flags_info,"-0. +");
+		flag_info->fuc = print_decimal;
 	else if (flag_info->conversion == 'u')	
-		error_handle(flags_info,"-0.");
+		flag_info->fuc = print_decimal_wbase;
 	else if (flag_info->conversion == 'x')	
 		error_handle(flags_info,"-0.#");
 	else if (flag_info->conversion == 'X')	
@@ -44,6 +44,8 @@ void	set_func_conversion(t_strfla *flag_info)
 */
 }
 
+// necessary split the p because the unsed variable
+// t_strfla in the protytype of the fun inside flag_info
 int	print_args(va_list args, t_strfla *flag_info)
 {
 	if (flag_info->conversion != 'p')
@@ -53,7 +55,7 @@ int	print_args(va_list args, t_strfla *flag_info)
 	}
 	return (print_pointer(args));
 }
-
+// check if i have two consecutives percentagem in the string
 int	check_percentage(const char *str, int *position)
 {
 	if (str[*position] && str[*position + 1] == '%' && ++(*position))
@@ -112,16 +114,18 @@ int	ft_printf(const char *str, ...)
 	{
 		while (str[len_str_flags] && str[len_str_flags] != '%')
 			ft_putchar_fd(str[len_str_flags++], 1);
+		// i have a problem with this percentage
 		if (check_percentage(str, &len_str_flags))
 			continue ;
 		if (!str[len_str_flags])
-			return (len_str_flags + args_len);
+			return (len_str_flags);
 		flags_info = get_flags_info(str + len_str_flags + 1, &len_str_flags);
 		// removing the condition belown i am getting the correct size? 
-		args_len += print_args(args, flags_info) - flags_info->total_len - 2;
-		//if (str[len_str_flags] != '\0')
-		//	++len_str_flags;
-		// i need to free the flags_info
+		//  since i change in get_flags_info to 1 i am change here to
+		args_len += print_args(args, flags_info) - flags_info->total_len - 1;
+		// i need comment this again 
+		if (str[len_str_flags] != '\0')
+			++len_str_flags;
 		free_flags(flags_info);
 	}
 	return (len_str_flags + args_len);
@@ -129,19 +133,55 @@ int	ft_printf(const char *str, ...)
 
 int	main(void)
 {
-	int	num = 27;
+	char *s2 = "Hello my frind";        // Empty string
+	char *s1 = "cinco";   // Simple string
+	char c1 = 'a';        // Lowercase letter
+	char c2 = 'Z';        // Uppercase letter
+	char c3 = '@';        // Symbol
 
-	ft_printf("|%-10d|\n", num);         // Width only, right-aligned
-	ft_printf("|%-10.5d|\n", num);         // Width only, right-aligned
-	ft_printf("|%-+10d|\n", num);        // Width only, left-aligned
-	ft_printf("|%-+10d|\n", -1*num);        // Width only, left-aligned
-/*	ft_printf("|%010d|\n", num);        // Width with zero-padding
-	ft_printf("|%+10d|\n", num);        // Width with sign
-	ft_printf("|% 10d|\n", num);        // Width with space for positive
-	ft_printf("|%.5d|\n", num);         // Precision only
-	ft_printf("|%10.5d|\n", num);       // Width and precision, right-aligned
-	ft_printf("|%+10.5d|\n", num);      // Width, precision, and sign
-	ft_printf("|% 10.5d|\n", num);      // Width, precision, and space for positive
-	ft_printf("|%010.5d|\n", num);      // Width with zero-padding and precision	
-*/ 
+	ft_printf("|%c|\n",c1);
+	ft_printf("|%c|\n",c2);
+	ft_printf("|%c|\n",c3);
+	ft_printf("|%-10c|\n",c1);
+	ft_printf("|%-10c|\n",c2);
+	ft_printf("|%-10c|\n",c3);
+	ft_printf("|%10c|\n",c1);
+	ft_printf("|%10c|\n",c2);
+	ft_printf("|%10c|\n",c3);
+	ft_printf("-----------\n");
+	
+	ft_printf("|%s|\n",s1);
+	ft_printf("|%s|\n",s2);
+	ft_printf("|%-2s|\n",s1);
+	ft_printf("|%-5s|\n",s2);
+	ft_printf("|%2s|\n",s1);
+	ft_printf("|%5s|\n",s2);
+	ft_printf("|%-8s|\n",s1);
+	ft_printf("|%-15s|\n",s2);
+	ft_printf("|%8s|\n",s1);
+	ft_printf("|%15s|\n",s2);
+	ft_printf("-----------\n");
+	
+	ft_printf("|%s|\n",s1);
+	ft_printf("|%s|\n",s2);
+	ft_printf("|%-.2s|\n",s1);
+	ft_printf("|%-.5s|\n",s2);
+	ft_printf("|%.2s|\n",s1);
+	ft_printf("|%.5s|\n",s2);
+	ft_printf("|%-.8s|\n",s1);
+	ft_printf("|%-.15s|\n",s2);
+	ft_printf("|%.8s|\n",s1);
+	ft_printf("|%.15s|\n",s2);
+	ft_printf("-----------\n");
+	
+	ft_printf("|%2s|\n",s1);
+	ft_printf("|%5s|\n",s2);
+	ft_printf("|%-2.2s|\n",s1);
+	ft_printf("|%-5.5s|\n",s2);
+	ft_printf("|%8.2s|\n",s1);
+	ft_printf("|%17.5s|\n",s2);
+	ft_printf("|%-9.8s|\n",s1);
+	ft_printf("|%-17.15s|\n",s2);
+	ft_printf("|%2.3s|\n",s1);
+	ft_printf("|%5.15s|\n",s2);
 }
