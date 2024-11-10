@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/10 13:42:51 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/10 15:50:39 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	set_func_conversion(t_strfla *flag_info)
 		flag_info->fuc = print_string;
 	else if (flag_info->conversion == 'd')
 		flag_info->fuc = print_decimal;
-/*	else if (flag_info->conversion == 'i')	
+	else if (flag_info->conversion == 'i')	
 		flag_info->fuc = print_decimal;
-	else if (flag_info->conversion == 'u')	
+/*	else if (flag_info->conversion == 'u')	
 		flag_info->fuc = print_decimal_wbase;
 	else if (flag_info->conversion == 'x')	
 		error_handle(flags_info,"-0.#");
@@ -133,12 +133,14 @@ int	ft_printf(const char *str, ...)
 
 int	main(void)
 {
-	char *s2 = "Hello my frind";        // Empty string
+	int  num = 42;	
+/*	char *s2 = "Hello my frind";        // Empty string
 	char *s1 = "cinco";   // Simple string
 	char c1 = 'a';        // Lowercase letter
 	char c2 = 'Z';        // Uppercase letter
 	char c3 = '@';        // Symbol
-
+	int  zero = 0;
+	ft_printf("Printing char");
 	ft_printf("|%c|\n",c1);
 	ft_printf("|%c|\n",c2);
 	ft_printf("|%c|\n",c3);
@@ -150,6 +152,7 @@ int	main(void)
 	ft_printf("|%10c|\n",c3);
 	ft_printf("-----------\n");
 	
+	ft_printf("Printing string");
 	ft_printf("|%s|\n",s1);
 	ft_printf("|%s|\n",s2);
 	ft_printf("|%-2s|\n",s1);
@@ -184,4 +187,41 @@ int	main(void)
 	ft_printf("|%-17.15s|\n",s2);
 	ft_printf("|%2.3s|\n",s1);
 	ft_printf("|%5.15s|\n",s2);
+*/
+	ft_printf("-----------\n");
+	ft_printf("Basic: |%d|\n", num);
+	ft_printf("Negative: |%d|\n", -num);
+	ft_printf("Zero: |%d|\n", zero);
+	ft_printf("Width 5: |%5d|\n", num);
+	ft_printf("Width 5, negative: |%5d|\n", -num);
+	ft_printf("Width 2 for 3 digits: |%2d|\n", 123);
+	ft_printf("Width 5 with zeros: |%05d|\n", num);
+	ft_printf("Width 5 with zeros, negative: |%05d|\n", -num);
+	ft_printf("Left-justify width 5: |%-5d|\n", num);
+	ft_printf("Left-justify width 5, negative: |%-5d|\n", -num);
+	ft_printf("Precision 4: |%.4d|\n", num);
+	ft_printf("Precision 4, negative: |%.4d|\n", -num);
+	ft_printf("Precision 0: |%.0d|\n", num);
+	ft_printf("Precision 0, zero: |%.0d|\n", zero);
+	ft_printf("Width 8, Precision 4: |%8.4d|\n", num);
+	ft_printf("Width 8, Precision 4, negative: |%8.4d|\n", -num);
+	ft_printf("Width 2, Precision 4: |%2.4d|\n", num);
+	ft_printf("Plus flag: |%+d|\n", num);
+	ft_printf("Plus flag, negative: |%+d|\n", -num);
+	ft_printf("Plus flag, zero: |%+d|\n", num);
+	ft_printf("Space flag: |% d|\n", num);
+	ft_printf("Space flag, negative: |% d|\n", -num);
+	ft_printf("Space flag, zero: |% d|\n", zero);
+	ft_printf("Everything: |%+8.4d|\n", num);
+	ft_printf("Everything, negative: |%+8.4d|\n", -num);
+	ft_printf("Left-justify, plus, width, prec: |%-+8.4d|\n", num);
+	ft_printf("Space, width, precision: |% 8.4d|\n", num);
+	ft_printf("Zero, width, no precision: |%08d|\n", num);
+	ft_printf("Max int: |%d|\n", 2147483647);
+	ft_printf("Min int: |%d|\n", -2147483648);
+	ft_printf("Zero precision with zero: |%.0d|\n",num);
+	ft_printf("Zero width with zero: |%0d|\n", zero);
+	ft_printf("Space and plus: |%+ d|\n", num);
+	ft_printf("Zero and minus: |%-05d|\n", num);
+	ft_printf("All together: |%-+ 8.4d|\n", num);
 }

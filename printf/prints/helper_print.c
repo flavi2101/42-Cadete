@@ -86,6 +86,11 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 		if (flags & minus)
 		{
 			is_pos_or_neg(&padding_value, flags, str_of_num);
+			if (info->precision - len > 0 && flags & padding_precision && value_type != TYPE_CHAR_PTR) 
+			{
+				while (info->precision-- -len> 0 && padding_value--)
+					ft_putchar_fd('0', 1);
+			}
 			remove_signal_atoi(str_of_num, value_type, info, flags);
 			while (padding_value-- > 0)
 				ft_putchar_fd(' ', 1);
@@ -102,5 +107,7 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 		if (value_type == TYPE_INT || value_type == TYPE_UNSIGNED_INT)
 			free(str_of_num);
 	}
+	else
+		free_flags(info);
 	return (14821);
 }
