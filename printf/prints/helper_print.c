@@ -1,6 +1,8 @@
 #include "../libft/libft.h"
 #include "prints.h"
 #include "../utils/utils.h"
+
+
 void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, unsigned char flags)
 {
 		if (str_of_num[0] == '-')
@@ -46,7 +48,7 @@ int	general_case(t_strfla *info, unsigned char flags, char *value, int len)
 	}
 	return (1);
 }
-char	*get_len(void *value, e_argType value_type, int *len)
+char	*get_len(void *value, e_argType value_type, int *len, char conversion)
 {
 	char	*str;
 	
@@ -71,7 +73,22 @@ char	*get_len(void *value, e_argType value_type, int *len)
 			str = (char *)value;
 		}
 	}
-	return (str);
+	else if (value_type == TYPE_UNSIGNED_INT || value_type == TYPE_HEX)
+	{
+		char *temp;
+		*len = count_udigits(*(unsigned int *)value);	
+		if (value_type == TYPE_HEX)
+		{
+			temp = (char *)malloc(sizeof(char) * (*len + 1));
+			if (!temp)
+				return (NULL);
+			temp[(*len)--] = '\0';
+			str = uitoa_with_malloc(*(unsigned int *)value, len, temp, conversion);
+		}
+		else
+			str = ft_uitoa(*(unsigned int *)value, *len);	
+	}
+       	return (str);
 }
 int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *info)
 {
@@ -79,7 +96,7 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 	int		padding_value;
 	int	len;
 	len = 0;	
-	str_of_num = get_len(value, value_type, &len);
+	str_of_num = get_len(value, value_type, &len, info->conversion);
 	if (str_of_num)
 	{
 		padding_value = info->width - len;
@@ -98,6 +115,7 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 		else if (!(flags & minus) && !(flags & dot) && (flags & zero))
 		{
 			is_pos_or_neg(&padding_value, flags, str_of_num);
+
 			while (padding_value-- > 0)
 				ft_putchar_fd('0', 1);
 			remove_signal_atoi(str_of_num, value_type, info, flags);
