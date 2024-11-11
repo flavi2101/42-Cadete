@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:23:40 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/10 10:35:14 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/11 11:08:03 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,19 @@ int	count_digits(int user_inp)
 	while (user_inp != 0)
 	{
 		user_inp = user_inp / 10;
+		len++;
+	}
+	return (len);
+}
+
+int	count_udigits(unsigned int user_inp, int base)
+{
+	int	len;
+
+	len = 0;
+	while (user_inp != 0)
+	{
+		user_inp = user_inp / base;
 		len++;
 	}
 	return (len);

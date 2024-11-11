@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/11 08:31:42 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/11 15:58:42 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_printf(const char *str, ...)
 int	main(void)
 {
 	unsigned  num1 = 4052;	
-/*	unsigned int  zero2 = 0;
+	unsigned int  zero2 = 0;
 	int  num = 42;	
 	char *s2 = "Hello my frind";        // Empty string
 	char *s1 = "cinco";   // Simple string
@@ -252,6 +252,9 @@ int	main(void)
 	ft_printf("Zero precision with zero2: |%.0u|\n",num1);
 	ft_printf("Zero width with zero2: |%0u|\n", zero2);
 	ft_printf("Zero and minus: |%-05u|\n", num1);
-*/
-	ft_printf("tes hex: |%x|",num1);
+
+	ft_printf("tes hex: |%#x|\n",num1);
+	ft_printf("tes hex: |%4.3x|\n",num1);
+	ft_printf("tes hex: |%08.1x|\n",num1);
+	ft_printf("tes hex: |%8x|\n",num1);
 }

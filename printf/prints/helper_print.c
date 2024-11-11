@@ -48,6 +48,7 @@ int	general_case(t_strfla *info, unsigned char flags, char *value, int len)
 	}
 	return (1);
 }
+
 char	*get_len(void *value, e_argType value_type, int *len, char conversion)
 {
 	char	*str;
@@ -73,23 +74,21 @@ char	*get_len(void *value, e_argType value_type, int *len, char conversion)
 			str = (char *)value;
 		}
 	}
-	else if (value_type == TYPE_UNSIGNED_INT || value_type == TYPE_HEX)
+	else if (value_type == TYPE_HEX)
 	{
-		char *temp;
-		*len = count_udigits(*(unsigned int *)value);	
-		if (value_type == TYPE_HEX)
-		{
-			temp = (char *)malloc(sizeof(char) * (*len + 1));
-			if (!temp)
-				return (NULL);
-			temp[(*len)--] = '\0';
-			str = uitoa_with_malloc(*(unsigned int *)value, len, temp, conversion);
-		}
-		else
-			str = ft_uitoa(*(unsigned int *)value, *len);	
+		*len = count_udigits(*(unsigned int *)value, 16);	
+		str = ft_uitoa(*(unsigned int *)value, *len, 16, conversion);
+	
+	}
+	else if (value_type == TYPE_UNSIGNED_INT)
+	{
+		*len = count_udigits(*(unsigned int *)value, 10);	
+		str = ft_uitoa(*(unsigned int *)value, *len, 10, conversion);	
+	
 	}
        	return (str);
 }
+
 int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *info)
 {
 	char	*str_of_num;
@@ -122,7 +121,7 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 		}
 		else if (general_case(info, flags, str_of_num, len))
 			remove_signal_atoi(str_of_num, value_type, info, flags);
-		if (value_type == TYPE_INT || value_type == TYPE_UNSIGNED_INT)
+		if (value_type == TYPE_INT || value_type == TYPE_UNSIGNED_INT || value_type == TYPE_HEX)
 			free(str_of_num);
 	}
 	else

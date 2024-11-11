@@ -34,8 +34,6 @@ void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value);
 int	general_case(t_strfla *info, unsigned char flags, char *value, int len);
 char	*get_len(void *value, e_argType value_type, int *len, char conversion);
 int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *info);
-char	*ft_uitoa(unsigned n, int counter);
-int	count_udigits(unsigned int user_inp);
+char	*ft_uitoa(unsigned n, int counter, int base, char conversion);
 int	print_hex(t_strfla *flag_info, va_list args);
-char	*uitoa_with_malloc(unsigned int value, int *len, char * str_of_num, char conversion);
 #endif

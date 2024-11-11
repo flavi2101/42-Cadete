@@ -2,18 +2,16 @@
 #include "../libft/libft.h"
 #include "prints.h"
 #include "../utils/utils.h"
-// to get the correct len in the malloc i need divide by 16, 
-// i can't use *len = count_udigits in helper_print.c in line 79'
-char	*uitoa_with_malloc(unsigned int value,int *len, char *str_of_num, char conversion)
+
+/*void	uitoa_with_malloc(unsigned int value,int *index, char *str_of_num, char conversion)
 {
-	if (value > 0)
-		uitoa_with_malloc(value / 16,len, str_of_num, conversion);
+	if (value >= 16)
+		uitoa_with_malloc(value / 16, index, str_of_num, conversion);
 	if (conversion == 'x')
-		str_of_num[(*len)--] = "0123456789abcdef"[value % 16];
+		str_of_num[(*index)++] = "0123456789abcdef"[value % 16];
 	else
-		str_of_num[(*len)--] = "0123456789ABCDEF"[value % 16];
-	return (str_of_num);
-}
+		str_of_num[(*index)++] = "0123456789ABCDEF"[value % 16];
+}*/
 
 
 int	print_hex(t_strfla *flag_info, va_list args)
@@ -25,7 +23,7 @@ int	print_hex(t_strfla *flag_info, va_list args)
 
         all_flags = 0x00;
         value = va_arg(args,unsigned int);
-        count = count_udigits(value);
+        count = count_udigits(value, 16);
         arg = &value;
         set_flags_values(&all_flags, flag_info, count);
 	all_flags &= ~space;

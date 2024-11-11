@@ -6,25 +6,13 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/10 19:19:27 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/11 13:16:30 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../libft/libft.h"
 #include "prints.h"
 #include "../utils/utils.h"
-int	count_udigits(unsigned int user_inp)
-{
-	int	len;
-
-	len = 0;
-	while (user_inp != 0)
-	{
-		user_inp = user_inp / 10;
-		len++;
-	}
-	return (len);
-}
-char	*ft_uitoa(unsigned n, int counter)
+char	*ft_uitoa(unsigned n, int counter, int base, char conversion)
 {
 	char			*ptr;
 	
@@ -41,8 +29,13 @@ char	*ft_uitoa(unsigned n, int counter)
 	ptr[counter--] = '\0';
 	while (n != 0)
 	{
-		ptr[counter--] = "0123456789"[(n % 10)];
-		n = n / 10;
+		if (conversion == 'x')
+			ptr[counter--] = "0123456789abcdef"[(n % base)];
+		else if (conversion == 'X')
+			ptr[counter--] = "0123456789ABCDEF"[(n % base)];
+		else
+			ptr[counter--] = "0123456789"[(n % base)];
+		n = n / base;
 	}
 	return (ptr);
 }
@@ -56,7 +49,7 @@ int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
 
         all_flags = 0x00;
         value = va_arg(args, unsigned int);
-        count = count_udigits(value);
+        count = count_udigits(value, 10);
         arg = &value;
         set_flags_values(&all_flags, flag_info, count);
 	all_flags &= ~hash;
