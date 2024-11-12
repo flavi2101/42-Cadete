@@ -42,7 +42,9 @@ int	general_case(t_strfla *info, unsigned char flags, char *value, int len)
 	while (padding_space_value-- > 0)
 	{
 		ft_putchar_fd(' ', 1);
-		if ((flags & plus) && padding_space_value == 1)
+		if ((flags & plus || flags & space) && padding_space_value == 1)
+			break;
+		if ((value[0] == '-') && padding_space_value == 1)
 			break;
 	}
 	is_pos_or_neg(&padding_space_value, flags, value);

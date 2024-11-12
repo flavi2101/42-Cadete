@@ -6,21 +6,10 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/12 00:10:37 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/12 19:30:41 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// Sua função deve lidar com as seguintes conversões: cspdiuxX%
-/*%c Imprime um único caractere.
-• %s Imprime uma string (conforme definido pela convenção comum do C).
-• %p O endereço do ponteiro void * deve ser impresso em formato hexadecimal.
-• %d Imprime um número decimal (base 10).
-• %i Imprime um inteiro em base 10.
-• %u Imprime um número decimal (base 10) sem sinal.
-• %x Imprime um número em formato hexadecimal (base 16) em minúsculas.
-• %X Imprime um número em formato hexadecimal (base 16) em maiúsculas.
-• %% Imprime um sinal de porcentagem.
- */
 #include "ft_printf.h"
 #include "./libft/libft.h"
 #include "./prints/prints.h"
@@ -41,7 +30,6 @@ void	set_func_conversion(t_strfla *flag_info)
 		flag_info->fuc = print_hex;
 	else if (flag_info->conversion == 'X')	
 		flag_info->fuc = print_hex;
-
 }
 
 // necessary split the p because the unsed variable
@@ -68,7 +56,6 @@ int	check_percentage(const char *str, int *position)
 // this is a trad off implemenation, or i parse the string twice
 // or i will need to store the string of each iteration to avoid
 // beggin the print and after find a invalid flag + conversion.
-
 int	invalid_input(const char *str_input)
 {
 	int			posit;
@@ -142,121 +129,208 @@ int	main(void)
 	char c2 = 'Z';        // Uppercase letter
 	char c3 = '@';        // Symbol
 	int  zero = 0;
-	ft_printf("Printing char");
+	ft_printf("Printing char\n");
 	ft_printf("|%c|\n",c1);
+	printf("|%c|\n",c1);
 	ft_printf("|%c|\n",c2);
+	printf("|%c|\n",c2);
 	ft_printf("|%c|\n",c3);
+	printf("|%c|\n",c3);
 	ft_printf("|%-10c|\n",c1);
+	printf("|%-10c|\n",c1);
 	ft_printf("|%-10c|\n",c2);
+	printf("|%-10c|\n",c2);
 	ft_printf("|%-10c|\n",c3);
+	printf("|%-10c|\n",c3);
 	ft_printf("|%10c|\n",c1);
+	printf("|%10c|\n",c1);
 	ft_printf("|%10c|\n",c2);
+	printf("|%10c|\n",c2);
 	ft_printf("|%10c|\n",c3);
+	printf("|%10c|\n",c3);
 	ft_printf("-----------\n");
 	
-	ft_printf("Printing string");
+	ft_printf("Printing string\n");
 	ft_printf("|%s|\n",s1);
+	printf("|%s|\n",s1);
 	ft_printf("|%s|\n",s2);
+	printf("|%s|\n",s2);
 	ft_printf("|%-2s|\n",s1);
+	printf("|%-2s|\n",s1);
 	ft_printf("|%-5s|\n",s2);
+	printf("|%-5s|\n",s2);
 	ft_printf("|%2s|\n",s1);
+	printf("|%2s|\n",s1);
 	ft_printf("|%5s|\n",s2);
+	printf("|%5s|\n",s2);
 	ft_printf("|%-8s|\n",s1);
+	printf("|%-8s|\n",s1);
 	ft_printf("|%-15s|\n",s2);
+	printf("|%-15s|\n",s2);
 	ft_printf("|%8s|\n",s1);
+	printf("|%8s|\n",s1);
 	ft_printf("|%15s|\n",s2);
 	ft_printf("-----------\n");
 	
 	ft_printf("|%s|\n",s1);
+	printf("|%s|\n",s1);
 	ft_printf("|%s|\n",s2);
+	printf("|%s|\n",s2);
 	ft_printf("|%-.2s|\n",s1);
+	printf("|%-.2s|\n",s1);
 	ft_printf("|%-.5s|\n",s2);
+	printf("|%-.5s|\n",s2);
 	ft_printf("|%.2s|\n",s1);
+	printf("|%.2s|\n",s1);
 	ft_printf("|%.5s|\n",s2);
+	printf("|%.5s|\n",s2);
 	ft_printf("|%-.8s|\n",s1);
+	printf("|%-.8s|\n",s1);
 	ft_printf("|%-.15s|\n",s2);
+	printf("|%-.15s|\n",s2);
 	ft_printf("|%.8s|\n",s1);
+	printf("|%.8s|\n",s1);
 	ft_printf("|%.15s|\n",s2);
 	ft_printf("-----------\n");
 	
 	ft_printf("|%2s|\n",s1);
+	printf("|%2s|\n",s1);
 	ft_printf("|%5s|\n",s2);
+	printf("|%5s|\n",s2);
 	ft_printf("|%-2.2s|\n",s1);
+	printf("|%-2.2s|\n",s1);
 	ft_printf("|%-5.5s|\n",s2);
+	printf("|%-5.5s|\n",s2);
 	ft_printf("|%8.2s|\n",s1);
+	printf("|%8.2s|\n",s1);
 	ft_printf("|%17.5s|\n",s2);
+	printf("|%17.5s|\n",s2);
 	ft_printf("|%-9.8s|\n",s1);
+	printf("|%-9.8s|\n",s1);
 	ft_printf("|%-17.15s|\n",s2);
+	printf("|%-17.15s|\n",s2);
 	ft_printf("|%2.3s|\n",s1);
+	printf("|%2.3s|\n",s1);
 	ft_printf("|%5.15s|\n",s2);
 
 	ft_printf("-----------\n");
 	ft_printf("Basic: |%d|\n", num);
+	printf("Basic: |%d|\n", num);
 	ft_printf("Negative: |%d|\n", -num);
+	printf("Negative: |%d|\n", -num);
 	ft_printf("Zero: |%d|\n", zero);
+	printf("Zero: |%d|\n", zero);
 	ft_printf("Width 5: |%5d|\n", num);
+	printf("Width 5: |%5d|\n", num);
 	ft_printf("Width 5, negative: |%5d|\n", -num);
+	printf("Width 5, negative: |%5d|\n", -num);
 	ft_printf("Width 2 for 3 digits: |%2d|\n", 123);
+	printf("Width 2 for 3 digits: |%2d|\n", 123);
 	ft_printf("Width 5 with zeros: |%05d|\n", num);
+	printf("Width 5 with zeros: |%05d|\n", num);
 	ft_printf("Width 5 with zeros, negative: |%05d|\n", -num);
+	printf("Width 5 with zeros, negative: |%05d|\n", -num);
 	ft_printf("Left-justify width 5: |%-5d|\n", num);
+	printf("Left-justify width 5: |%-5d|\n", num);
 	ft_printf("Left-justify width 5, negative: |%-5d|\n", -num);
+	printf("Left-justify width 5, negative: |%-5d|\n", -num);
 	ft_printf("Precision 4: |%.4d|\n", num);
+	printf("Precision 4: |%.4d|\n", num);
 	ft_printf("Precision 4, negative: |%.4d|\n", -num);
+	printf("Precision 4, negative: |%.4d|\n", -num);
 	ft_printf("Precision 0: |%.0d|\n", num);
+	printf("Precision 0: |%.0d|\n", num);
 	ft_printf("Precision 0, zero: |%.0d|\n", zero);
+	printf("Precision 0, zero: |%.0d|\n", zero);
 	ft_printf("Width 8, Precision 4: |%8.4d|\n", num);
+	printf("Width 8, Precision 4: |%8.4d|\n", num);
 	ft_printf("Width 8, Precision 4, negative: |%8.4d|\n", -num);
+	printf("Width 8, Precision 4, negative: |%8.4d|\n", -num);
 	ft_printf("Width 2, Precision 4: |%2.4d|\n", num);
+	printf("Width 2, Precision 4: |%2.4d|\n", num);
 	ft_printf("Plus flag: |%+d|\n", num);
+	printf("Plus flag: |%+d|\n", num);
 	ft_printf("Plus flag, negative: |%+d|\n", -num);
+	printf("Plus flag, negative: |%+d|\n", -num);
 	ft_printf("Plus flag, zero: |%+d|\n", num);
+	printf("Plus flag, zero: |%+d|\n", num);
 	ft_printf("Space flag: |% d|\n", num);
+	printf("Space flag: |% d|\n", num);
 	ft_printf("Space flag, negative: |% d|\n", -num);
+	printf("Space flag, negative: |% d|\n", -num);
 	ft_printf("Space flag, zero: |% d|\n", zero);
+	printf("Space flag, zero: |% d|\n", zero);
 	ft_printf("Everything: |%+8.4d|\n", num);
+	printf("Everything: |%+8.4d|\n", num);
 	ft_printf("Everything, negative: |%+8.4d|\n", -num);
+	printf("Everything, negative: |%+8.4d|\n", -num);
 	ft_printf("Left-justify, plus, width, prec: |%-+8.4d|\n", num);
+	printf("Left-justify, plus, width, prec: |%-+8.4d|\n", num);
 	ft_printf("Space, width, precision: |% 8.4d|\n", num);
+	printf("Space, width, precision: |% 8.4d|\n", num);
 	ft_printf("Zero, width, no precision: |%08d|\n", num);
+	printf("Zero, width, no precision: |%08d|\n", num);
 	ft_printf("Max int: |%d|\n", 2147483647);
-	ft_printf("Min int: |%d|\n", -2147483648);
+	printf("Max int: |%d|\n", 2147483647);
 	ft_printf("Zero precision with zero: |%.0d|\n",num);
+	printf("Zero precision with zero: |%.0d|\n",num);
 	ft_printf("Zero width with zero: |%0d|\n", zero);
+	printf("Zero width with zero: |%0d|\n", zero);
 	ft_printf("Space and plus: |%+ d|\n", num);
-	ft_printf("Zero and minus: |%-05d|\n", num);
-	ft_printf("All together: |%-+ 8.4d|\n", num);
 	
 
 	ft_printf("-----------\n");
 	ft_printf("Basic: |%u|\n", num1);
+	printf("Basic: |%u|\n", num1);
 	ft_printf("Negative: |%u|\n", -num1);
+	printf("Negative: |%u|\n", -num1);
 	ft_printf("Zero: |%u|\n", zero2);
+	printf("Zero: |%u|\n", zero2);
 	ft_printf("Width 5: |%5u|\n", num1);
+	printf("Width 5: |%5u|\n", num1);
 	ft_printf("Width 5, negative: |%5u|\n", -num1);
+	printf("Width 5, negative: |%5u|\n", -num1);
 	ft_printf("Width 2 for 3 digits: |%2u|\n", 123);
+	printf("Width 2 for 3 digits: |%2u|\n", 123);
 	ft_printf("Width 5 with zero2s: |%05d|\n", num1);
+	printf("Width 5 with zero2s: |%05d|\n", num1);
 	ft_printf("Width 5 with zero2s, negative: |%05u|\n", -num1);
+	printf("Width 5 with zero2s, negative: |%05u|\n", -num1);
 	ft_printf("Left-justify width 5: |%-5d|\n", num1);
+	printf("Left-justify width 5: |%-5d|\n", num1);
 	ft_printf("Left-justify width 5, negative: |%-5u|\n", -num1);
+	printf("Left-justify width 5, negative: |%-5u|\n", -num1);
 	ft_printf("Precision 4: |%.4u|\n", num1);
+	printf("Precision 4: |%.4u|\n", num1);
 	ft_printf("Precision 4, negative: |%.4u|\n", -num1);
+	printf("Precision 4, negative: |%.4u|\n", -num1);
 	ft_printf("Precision 0: |%.0u|\n", num1);
+	printf("Precision 0: |%.0u|\n", num1);
 	ft_printf("Precision 0, zero2: |%.0d|\n", zero2);
+	printf("Precision 0, zero2: |%.0d|\n", zero2);
 	ft_printf("Width 8, Precision 4: |%8.4u|\n", num1);
+	printf("Width 8, Precision 4: |%8.4u|\n", num1);
 	ft_printf("Width 8, Precision 4, negative: |%8.4u|\n", -num1);
+	printf("Width 8, Precision 4, negative: |%8.4u|\n", -num1);
 	ft_printf("Width 2, Precision 4: |%2.4u|\n", num1);
+	printf("Width 2, Precision 4: |%2.4u|\n", num1);
 	ft_printf("Zero, width, no precision: |%08u|\n", num1);
+	printf("Zero, width, no precision: |%08u|\n", num1);
 	ft_printf("Max int: |%u|\n", 2147483647);
-	ft_printf("Min int: |%u|\n", -2147483648);
+	printf("Max int: |%u|\n", 2147483647);
 	ft_printf("Zero precision with zero2: |%.0u|\n",num1);
+	printf("Zero precision with zero2: |%.0u|\n",num1);
 	ft_printf("Zero width with zero2: |%0u|\n", zero2);
-	ft_printf("Zero and minus: |%-05u|\n", num1);
+	printf("Zero width with zero2: |%0u|\n", zero2);
+
 
 	ft_printf("tes with #: |%#x|\n",num1);
+	printf("tes with #: |%#x|\n",num1);
 	ft_printf("test with width and precision : |%4.3x|\n",num1);
-	ft_printf("tess zero, width, and precision: |%08.1x|\n",num1);
+	printf("test with width and precision : |%4.3x|\n",num1);
 	ft_printf("test zero and width: |%08x|\n",num1);
+	printf("test zero and width: |%08x|\n",num1);
 	ft_printf("test #, zero, width: |%#08x|\n",num1);
+	printf("test #, zero, width: |%#08x|\n",num1);
 	ft_printf("test with minus, #, width and precision: |%-#8.5x|\n",num1);
 }

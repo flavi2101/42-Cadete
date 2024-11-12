@@ -6,12 +6,18 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/11 13:16:30 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/12 20:10:44 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../libft/libft.h"
 #include "prints.h"
 #include "../utils/utils.h"
+
+void	invalid_flag_uns_dec(unsigned char *all_flags)
+{
+	*all_flags &= ~hash;
+	*all_flags &= ~plus;
+}
 char	*ft_uitoa(unsigned n, int counter, int base, char conversion)
 {
 	char			*ptr;
@@ -52,8 +58,6 @@ int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
         count = count_udigits(value, 10);
         arg = &value;
         set_flags_values(&all_flags, flag_info, count);
-	all_flags &= ~hash;
-	all_flags &= ~plus;
 	show_str(arg, TYPE_UNSIGNED_INT, all_flags, flag_info);
 	return (14869);
 }

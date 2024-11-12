@@ -1,41 +1,37 @@
 CC = cc
-
 CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -ggdb -O0 -fsanitize=address
-
 SRCS = ft_printf.c ./input_handler/flag_is_valid.c ./input_handler/get_flags_and_format.c \
-	./prints/print_char.c ./prints/print_string.c ./prints/print_pointer.c ./prints/print_decimal.c \
-	./prints/print_unsigned_decimal.c ./prints/print_hex.c ./prints/helper_print.c \
-	./prints/set_unset_flags.c ./utils/utils.c \
+        ./prints/print_char.c ./prints/print_string.c ./prints/print_pointer.c ./prints/print_decimal.c \
+        ./prints/print_unsigned_decimal.c ./prints/print_hex.c ./prints/helper_print.c \
+        ./prints/set_unset_flags.c ./utils/utils.c
 
-#NAME = libftprint.a 
 NAME = a.out
-
 LIBFT_DIR = ./libft
-LIBFT = $(LIBFT_DIR)/libft.a  # Full path to the library
-OBJS = $(SRCS:.c=.o)
+LIBFT = $(LIBFT_DIR)/libft.a
+OBJ_DIR = object_files
+OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-all: $(NAME)
+all: $(OBJ_DIR) $(NAME)
 
-# This is the linkder phase, put togheter all unit files
-$(NAME): $(LIBFT) $(OBJS) 
-	$(CC) $(CFLAGS) -o $@ $^ -L$(LIBFT_DIR) -lft
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
 
-#$(NAME): $(LIBFT) $(OBJS) 
-#	ar rcs $(NAME) $(LIFT) $(OBJS)
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-# This is the compiler phase - generate object files
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME) $(OBJS)
+	@rm -f $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
-

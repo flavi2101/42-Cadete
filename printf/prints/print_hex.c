@@ -3,6 +3,12 @@
 #include "prints.h"
 #include "../utils/utils.h"
 
+static void	invalid_flags_hex(unsigned char *all_flags)
+{
+	*all_flags &= ~space;
+	*all_flags &= ~plus;
+}
+
 static void	hex_notation(t_strfla *flag_info, char unsigned all_flags)
 {
 		ft_putstr_fd("0x",1);
@@ -24,8 +30,7 @@ int	print_hex(t_strfla *flag_info, va_list args)
         count = count_udigits(value, 16);
         arg = &value;
         set_flags_values(&all_flags, flag_info, count);
-	all_flags &= ~space;
-	all_flags &= ~plus;
+	invalid_flags_hex(&all_flags);
 	if (all_flags & minus && all_flags & hash)
 		hex_notation(flag_info, all_flags);
 	else if (!(all_flags & minus) && !(all_flags & dot) && (all_flags & zero) && all_flags & hash)
