@@ -3,16 +3,14 @@
 #include "prints.h"
 #include "../utils/utils.h"
 
-/*void	uitoa_with_malloc(unsigned int value,int *index, char *str_of_num, char conversion)
+static void	hex_notation(t_strfla *flag_info, char unsigned all_flags)
 {
-	if (value >= 16)
-		uitoa_with_malloc(value / 16, index, str_of_num, conversion);
-	if (conversion == 'x')
-		str_of_num[(*index)++] = "0123456789abcdef"[value % 16];
-	else
-		str_of_num[(*index)++] = "0123456789ABCDEF"[value % 16];
-}*/
-
+		ft_putstr_fd("0x",1);
+		if (all_flags & padding_precision)
+			flag_info->precision -= 2;
+		if (all_flags & padding_width)
+			flag_info->width -= 2;
+}
 
 int	print_hex(t_strfla *flag_info, va_list args)
 {
@@ -29,9 +27,9 @@ int	print_hex(t_strfla *flag_info, va_list args)
 	all_flags &= ~space;
 	all_flags &= ~plus;
 	if (all_flags & minus && all_flags & hash)
-		ft_putstr_fd("0x",1);
+		hex_notation(flag_info, all_flags);
 	else if (!(all_flags & minus) && !(all_flags & dot) && (all_flags & zero) && all_flags & hash)
-		ft_putstr_fd("0x",1);
+		hex_notation(flag_info, all_flags);
 	show_str(arg, TYPE_HEX, all_flags, flag_info);
 	return (14869);
 }

@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/11 15:58:42 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/12 00:10:37 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,8 +253,10 @@ int	main(void)
 	ft_printf("Zero width with zero2: |%0u|\n", zero2);
 	ft_printf("Zero and minus: |%-05u|\n", num1);
 
-	ft_printf("tes hex: |%#x|\n",num1);
-	ft_printf("tes hex: |%4.3x|\n",num1);
-	ft_printf("tes hex: |%08.1x|\n",num1);
-	ft_printf("tes hex: |%8x|\n",num1);
+	ft_printf("tes with #: |%#x|\n",num1);
+	ft_printf("test with width and precision : |%4.3x|\n",num1);
+	ft_printf("tess zero, width, and precision: |%08.1x|\n",num1);
+	ft_printf("test zero and width: |%08x|\n",num1);
+	ft_printf("test #, zero, width: |%#08x|\n",num1);
+	ft_printf("test with minus, #, width and precision: |%-#8.5x|\n",num1);
 }

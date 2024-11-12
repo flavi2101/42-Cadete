@@ -5,15 +5,20 @@
 
 void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, unsigned char flags)
 {
-		if (str_of_num[0] == '-')
-			ft_putstr_fd(str_of_num + 1, 1);
-		else if (value_type == TYPE_CHAR_PTR && flags & padding_precision)
-		{
-			while (info->precision-- > 0)
-				ft_putchar_fd(*str_of_num++, 1);
-		}
-		else
-			ft_putstr_fd(str_of_num, 1);
+	if (str_of_num[0] == '-')
+		ft_putstr_fd(str_of_num + 1, 1);
+	else if (value_type == TYPE_CHAR_PTR && flags & padding_precision)
+	{
+		while (info->precision-- > 0)
+			ft_putchar_fd(*str_of_num++, 1);
+	}
+	else if (flags & hash && (!(flags & minus) && !(flags & zero)))
+	{
+		ft_putstr_fd("0x", 1);
+		ft_putstr_fd(str_of_num, 1);
+	}
+	else
+		ft_putstr_fd(str_of_num, 1);
 }
 
 void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value)
@@ -94,6 +99,7 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 	char	*str_of_num;
 	int		padding_value;
 	int	len;
+
 	len = 0;	
 	str_of_num = get_len(value, value_type, &len, info->conversion);
 	if (str_of_num)
