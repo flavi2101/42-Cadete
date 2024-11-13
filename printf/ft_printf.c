@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/12 19:30:41 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/13 10:33:05 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	print_args(va_list args, t_strfla *flag_info)
 	}
 	return (print_pointer(args));
 }
-// check if i have two consecutives percentagem in the string
+/*
+check if i have two consecutives percentagem in the string
+doing here to avoid the cration of struct and memory allocaiton.
+*/ 
 int	check_percentage(const char *str, int *position)
 {
 	if (str[*position] && str[*position + 1] == '%' && ++(*position))
@@ -53,69 +56,45 @@ int	check_percentage(const char *str, int *position)
 	}
 	return (0);
 }
-// this is a trad off implemenation, or i parse the string twice
-// or i will need to store the string of each iteration to avoid
-// beggin the print and after find a invalid flag + conversion.
-int	invalid_input(const char *str_input)
-{
-	int			posit;
-	t_strfla	*flags_info;
+/*
+flags_len increse two for each iteration because
+of the % and the conversion (csdixp)
 
-	if (!str_input)
-		return (-1);
-	posit = 0;
-	while (str_input[posit])
-	{
-		while (str_input[posit] && str_input[posit] != '%')
-			posit++;
-		if (check_percentage(str_input, &posit))
-			continue ;
-		if (!str_input[posit])
-			return (0);
-		flags_info = get_flags_info(str_input + posit + 1, &posit);
-		if (flags_info == NULL)
-			return (1);
-		if (!handle_args(flags_info))
-			return (1);
-		free_flags(flags_info);
-		// the same problem of printf implementation below - posit increment
-		//if (str_input[posit] != '\0')
-		//	++posit;
-	}
-	return (0);
-}
+flags_info modify str_flags_len until the
+conversion,this is the reason of the last if and 
+the minus 1 below.
 
+In the return minus 1 to exclude de \0;
+ */
 int	ft_printf(const char *str, ...)
 {
 	t_strfla	*flags_info;
 	va_list		args;
 	int			args_len;
-	int			len_str_flags;
+	int			str_flags_len;
+	int			flags_len;
 
-	len_str_flags = 0;
+	str_flags_len = 0;
 	args_len = 0;
+	flags_len = 0;
 	va_start(args, str);
-	if (invalid_input(str))
-		return (-1);
-	while (str[len_str_flags])
+	while (str[str_flags_len])
 	{
-		while (str[len_str_flags] && str[len_str_flags] != '%')
-			ft_putchar_fd(str[len_str_flags++], 1);
+		while (str[str_flags_len] && str[str_flags_len] != '%')
+			ft_putchar_fd(str[str_flags_len++], 1);
 		// i have a problem with this percentage
-		if (check_percentage(str, &len_str_flags))
+		if (check_percentage(str, &str_flags_len) && ++flags_len)
 			continue ;
-		if (!str[len_str_flags])
-			return (len_str_flags);
-		flags_info = get_flags_info(str + len_str_flags + 1, &len_str_flags);
-		// removing the condition belown i am getting the correct size? 
-		//  since i change in get_flags_info to 1 i am change here to
-		args_len += print_args(args, flags_info) - flags_info->total_len - 1;
-		// i need comment this again 
-		if (str[len_str_flags] != '\0')
-			++len_str_flags;
+		if (!str[str_flags_len])
+			break;
+		flags_info = get_flags_info(str + str_flags_len + 1, &str_flags_len);
+		args_len += print_args(args, flags_info);
+		flags_len += flags_info->total_len + 2;	
+		if (str[str_flags_len] != '\0')
+			++str_flags_len;
 		free_flags(flags_info);
 	}
-	return (len_str_flags + args_len);
+	return (str_flags_len + args_len - flags_len - 1);
 }
 
 int	main(void)
@@ -123,16 +102,16 @@ int	main(void)
 	unsigned  num1 = 4052;	
 	unsigned int  zero2 = 0;
 	int  num = 42;	
-	char *s2 = "Hello my frind";        // Empty string
+	char c2 = 'Z';        // Uppercase letter
+	ft_printf("bato%%%c%10c",c2, c2);
+/*	char *s2 = "Hello my frind";        // Empty string
 	char *s1 = "cinco";   // Simple string
 	char c1 = 'a';        // Lowercase letter
-	char c2 = 'Z';        // Uppercase letter
 	char c3 = '@';        // Symbol
 	int  zero = 0;
 	ft_printf("Printing char\n");
 	ft_printf("|%c|\n",c1);
 	printf("|%c|\n",c1);
-	ft_printf("|%c|\n",c2);
 	printf("|%c|\n",c2);
 	ft_printf("|%c|\n",c3);
 	printf("|%c|\n",c3);
@@ -221,8 +200,8 @@ int	main(void)
 	ft_printf("Zero: |%d|\n", zero);
 	printf("Zero: |%d|\n", zero);
 	ft_printf("Width 5: |%5d|\n", num);
-	printf("Width 5: |%5d|\n", num);
-	ft_printf("Width 5, negative: |%5d|\n", -num);
+	printf("Width 5: |%5d|\n", num);*/
+	ft_printf("Width 5, negative: |%5d| |%8d|\n", -num, num);
 	printf("Width 5, negative: |%5d|\n", -num);
 	ft_printf("Width 2 for 3 digits: |%2d|\n", 123);
 	printf("Width 2 for 3 digits: |%2d|\n", 123);

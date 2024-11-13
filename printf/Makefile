@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -ggdb -O0 -fsanitize=address
-SRCS = ft_printf.c ./input_handler/flag_is_valid.c ./input_handler/get_flags_and_format.c \
-        ./prints/print_char.c ./prints/print_string.c ./prints/print_pointer.c ./prints/print_decimal.c \
+SRCS = ft_printf.c get_flags_and_format.c ./prints/print_char.c ./prints/print_string.c\
+         ./prints/print_pointer.c ./prints/print_decimal.c \
         ./prints/print_unsigned_decimal.c ./prints/print_hex.c ./prints/helper_print.c \
         ./prints/set_unset_flags.c ./utils/utils.c
 

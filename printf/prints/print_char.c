@@ -6,10 +6,9 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:23:38 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/12 19:55:26 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/13 09:52:38 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "prints.h"
 
 void	invalid_flag_char(unsigned char *all_flags)
@@ -27,14 +26,16 @@ int	print_char(t_strfla *flag_info, va_list args)
 	unsigned char	all_flags;
 	void	*arg;
 	int	count;
-	int	value;
+	int	temp_arg;
 
 	all_flags = 0x00;
 	count = 1;
-	value = va_arg(args, int);
-	arg = &value;
+	temp_arg = va_arg(args, int);
+	arg = &temp_arg;
 	set_flags_values(&all_flags, flag_info, count);
 	invalid_flag_char(&all_flags);
+	if (all_flags & padding_width)
+		count = flag_info->width;
 	show_str(arg, TYPE_CHAR, all_flags, flag_info);
-	return (14872);
+	return (count);
 }

@@ -6,10 +6,9 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/12 20:00:50 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/12 20:26:23 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../libft/libft.h"
 #include "prints.h"
 #include "../utils/utils.h"
 
