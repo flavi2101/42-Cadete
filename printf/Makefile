@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -ggdb -O0 -fsa
 SRCS = ft_printf.c get_flags_and_format.c ./prints/print_char.c ./prints/print_string.c\
          ./prints/print_pointer.c ./prints/print_decimal.c \
         ./prints/print_unsigned_decimal.c ./prints/print_hex.c ./prints/helper_print.c \
-        ./prints/set_unset_flags.c ./utils/utils.c
+        ./prints/print_util.c ./utils/utils.c
 
 NAME = a.out
 LIBFT_DIR = ./libft

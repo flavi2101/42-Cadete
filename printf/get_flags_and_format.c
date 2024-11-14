@@ -6,13 +6,13 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:27:51 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/13 09:48:00 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/14 09:35:18 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf.h"
+#include "ft_printf.h"
 #include "../libft/libft.h"
-#include "../utils/utils.h"
+#include "utils/utils.h"
 
 //calculate the lenght the flag separed with the lenght of values
 //after the dot must be a number to be a valid precision.
