@@ -6,15 +6,15 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/14 13:36:31 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/14 16:05:07 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "./libft/libft.h"
 #include "./prints/prints.h"
-#include <assert.h>
-#include <stdio.h>
+//#include <assert.h>
+//#include <stdio.h>
 static void	set_func_conversion(t_strfla *flag_info)
 {
 	if (flag_info->conversion == 'c')
@@ -93,7 +93,7 @@ int	ft_printf(const char *str, ...)
 	}
 	return (str_flags_len - flags_len + args_len);
 }
-
+/*
 int	main(void)
 {
 	int num = 1;
@@ -105,3 +105,4 @@ int	main(void)
 	assert(ft_printf("|%-10c|\n", 'c') == printf("|%-10c|\n", 'c'));
 	assert(ft_printf("|%p|\n", &num) == printf("|%p|\n", &num));
 }
+*/
