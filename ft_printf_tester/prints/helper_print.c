@@ -61,16 +61,13 @@ char	*get_len(void *value, e_argType value_type, int *len, char conversion)
 	char	*str;
 	
 	str = NULL;
-	// i need remove this c verification from here
 	if (value_type == TYPE_CHAR)
 	{
 		(*len)++;
-		str = malloc(sizeof(int) * 2);
-		if (str)
-		{
-			str[0] = *(int *)value;
-			str[1] = '\0';
-        }	}
+		str = malloc(sizeof(char) * 2);
+		str[0] = *(char *)value;
+		str[1] = '\0';
+	}
 	else if (value_type == TYPE_INT)
 	{
 		str = ft_itoa(*(int *)value);	
@@ -134,7 +131,7 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 		}
 		else if (general_case(info, flags, str_of_num, len))
 			remove_signal_atoi(str_of_num, value_type, info, flags);
-		if (value_type == TYPE_CHAR ||value_type == TYPE_INT || value_type == TYPE_UNSIGNED_INT || value_type == TYPE_HEX)
+		if ( value_type == TYPE_CHAR || value_type == TYPE_INT || value_type == TYPE_UNSIGNED_INT || value_type == TYPE_HEX)
 			free(str_of_num);
 	}
 	else
