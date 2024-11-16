@@ -23,7 +23,7 @@ OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 OBJ_BONUS = $(SRCS_BONUS:%.c=$(OBJ_DIR)/%.o)
 LIBFT_OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(shell ar t $(LIBFT))))
 
-all: $(NAME)
+all: $(OUT)
 
 $(NAME): $(LIBFT) $(OBJS)
 	@mkdir -p $(OBJ_DIR)
@@ -35,7 +35,7 @@ bonus: $(LIBFT) $(OBJ_BONUS)
 	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
 	ar rcs $(NAME) $(OBJ_BONUS) $(LIBFT_OBJS)
 
-out: $(LIBFT) $(OBJ_BONUS)
+$(OUT): $(LIBFT) $(OBJ_BONUS)
 	$(CC) $(CFLAGS) $(OBJ_BONUS) -L. -L$(LIBFT_DIR) -lft -o $(OUT)
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)

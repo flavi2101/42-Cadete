@@ -6,15 +6,16 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/15 00:04:11 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/16 10:47:48 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "./libft/libft.h"
 #include "./prints/prints.h"
-//#include <assert.h>
-//#include <stdio.h>
+#include <limits.h>
+#include <assert.h>
+#include <stdio.h>
 static void	set_func_conversion(t_strfla *flag_info)
 {
 	if (flag_info->conversion == 'c')
@@ -94,15 +95,7 @@ int	ft_printf(const char *str, ...)
 	return (str_flags_len - flags_len + args_len);
 }
 
-/*int	main(void)
+int	main(void)
 {
-	int num = 1;
-	ft_printf("test char:\n|%c|\n", 'c');
-	assert(ft_printf("|%c|\n", 'c') == printf("|%c|\n", 'c'));
-	ft_printf("test char 1:\n|%10c|\n", 'c');
-	assert(ft_printf("|%10c|\n", 'c') == printf("|%10c|\n", 'c'));
-	ft_printf("test char 2:\n|%-10c|\n", 'c');
-	assert(ft_printf("|%-10c|\n", 'c') == printf("|%-10c|\n", 'c'));
-	assert(ft_printf("|%p|\n", &num) == printf("|%p|\n", &num));
-}*/
 
+}

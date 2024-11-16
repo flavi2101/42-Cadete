@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/16 02:06:09 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/16 17:00:11 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,23 +97,28 @@ int	ft_printf(const char *str, ...)
 
 int	main(void)
 {
-	ft_printf("-->|%-16p|<-- ", (void*)0x1900);
-	ft_printf("|%5.s|", "aasf");
-	ft_printf("|%1.s|", "aasf");
-	ft_printf("|%.s|", "aasf");
-	ft_printf("|%.d|", 0);
+	ft_printf("|%5.s|\n", "aasf");
+	ft_printf("|%1.s|\n", "aasf");
+	ft_printf("|%.s|\n", "aasf");
+	ft_printf("|%5.2s|\n", "aasf");
+	ft_printf("|%1.10s|\n", "aasf");
+	ft_printf("|%.s|\n", "aasf");
 
 
+	ft_printf("|%5c|\n", 'A');
+	ft_printf("|%-10c|\n",'B');
+	ft_printf("|%5c|\n", 'C');
+	ft_printf("|%10c|\n",'D');
 
 
-
-
-
-
-
-
-
-
+	ft_printf("|%01d|\n", 0);
+ 	ft_printf("|%-1d|\n", 0);
+ 	ft_printf("|%-1d|\n", -9);
+ 	ft_printf("|%-2d|\n", -10);
+ 	ft_printf("|%-3d|\n", -101);
+ 	ft_printf("|%-10d|\n", INT_MIN);
+ 	ft_printf("|%-11p \n %-12p|\n", INT_MIN, INT_MAX);
+ 	ft_printf("|%-13p\n %-14p|\n", ULONG_MAX, -ULONG_MAX);
 
 }
 
