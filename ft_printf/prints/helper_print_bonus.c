@@ -1,6 +1,6 @@
 #include "../libft/libft.h"
-#include "prints.h"
-#include "../utils/utils.h"
+#include "prints_bonus.h"
+#include "../utils/utils_bonus.h"
 
 
 void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, unsigned char flags)

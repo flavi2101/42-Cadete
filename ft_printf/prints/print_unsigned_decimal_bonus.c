@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_decimal.c                                    :+:      :+:    :+:   */
+/*   print_unsigned_decimal_bonus.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/15 13:12:32 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/15 19:24:07 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "prints.h"
-#include "../utils/utils.h"
+#include "prints_bonus.h"
+#include "../utils/utils_bonus.h"
 
-// if the flag +,space or is the value negative the witdh and precision 
+// if the flag space is present the witdh and precision 
 // can be overwrite it. 
-// if arg < 0 the precision always increment the size, but the width will depend 
 
-static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, int arg)
+
+static void size_calc_un(unsigned char all_flags, t_strfla *flag_info, int *size)
 {
     int orig_size = *size;
 
@@ -25,7 +25,7 @@ static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, i
         if (flag_info->precision > orig_size)
             *size = flag_info->precision;
             
-        if (arg < 0 || (all_flags & plus) || (all_flags & space))
+        if (all_flags & space)
             (*size)++;
             
         if (flag_info->width > *size)
@@ -33,27 +33,33 @@ static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, i
     }
     else
     {
-        if (arg < 0 || (all_flags & plus) || (all_flags & space))
+        if (all_flags & space)
             (*size)++;
     }
 }
-int	print_decimal(t_strfla *flag_info, va_list args)
+static void	invalid_flag_uns_dec(unsigned char *all_flags)
+{
+	*all_flags &= ~hash;
+	*all_flags &= ~plus;
+}
+
+int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
 {
         unsigned char   all_flags;
         void    *arg;
         int     count;
-        int    value;
+        unsigned int    value;
 
         all_flags = 0x00;
-        value = va_arg(args, int);
+        value = va_arg(args, unsigned int);
 	if (value == 0)
 		count = 1;
 	else
-		count = count_digits(value);
+		count = count_udigits(value, 10);
         arg = &value;
         set_flags_values(&all_flags, flag_info, count);
-	all_flags &= ~hash;
-	size_calc(all_flags, flag_info, &count, value);
-	show_str(arg, TYPE_INT, all_flags, flag_info);
+	invalid_flag_uns_dec(&all_flags);
+	size_calc_un(all_flags, flag_info, &count);
+	show_str(arg, TYPE_UNSIGNED_INT, all_flags, flag_info);
 	return (count);
 }

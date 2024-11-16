@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_decimal.c                                    :+:      :+:    :+:   */
+/*   print_decimal_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/15 13:12:32 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/15 19:23:12 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "prints.h"
-#include "../utils/utils.h"
+#include "prints_bonus.h"
+#include "../utils/utils_bonus.h"
 
 // if the flag +,space or is the value negative the witdh and precision 
 // can be overwrite it. 

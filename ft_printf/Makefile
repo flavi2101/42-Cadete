@@ -7,57 +7,49 @@ SRCS = ft_printf.c get_flags_and_format.c ./prints/print_char.c ./prints/print_s
        ./prints/print_unsigned_decimal.c ./prints/print_hex.c ./prints/helper_print.c \
        ./prints/print_util.c ./utils/utils.c
 
+SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c ./prints/print_char_bonus.c ./prints/print_string_bonus.c\
+       ./prints/print_pointer_bonus.c ./prints/print_decimal_bonus.c \
+       ./prints/print_unsigned_decimal_bonus.c ./prints/print_hex_bonus.c ./prints/helper_print_bonus.c \
+       ./prints/print_util_bonus.c ./utils/utils_bonus.c
+
 NAME = libftprintf.a
-#NAME = a.out 
-LIBFT = ./libft/libft.a
+OUT  = a.out
+
+LIBFT_DIR = ./libft
+LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_DIR = object_files
 
-# Extract the object files from libft.a and store them in OBJ_DIR
-LIBFT_OBJS = $(addprefix $(OBJ_DIR)/, $(shell ar t $(LIBFT) | grep '\.o$$'))
-
-# Object files from your project sources
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJ_BONUS = $(SRCS_BONUS:%.c=$(OBJ_DIR)/%.o)
+LIBFT_OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(shell ar t $(LIBFT))))
 
-# Combine the object files from libft.a and your own source files
-ALL_OBJS = $(LIBFT_OBJS) $(OBJS)
+all: $(NAME)
 
-all: $(OBJ_DIR) $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+	@mkdir -p $(OBJ_DIR)
+	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
+	ar rcs $@ $(OBJS) $(LIBFT_OBJS)
 
-# Create the final static library libftprintf.a from all object files
- $(NAME): $(ALL_OBJS)
-	ar rcs $@ $^
+bonus: $(LIBFT) $(OBJ_BONUS)
+	@mkdir -p $(OBJ_DIR)
+	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
+	ar rcs $(NAME) $(OBJ_BONUS) $(LIBFT_OBJS)
 
-#$(NAME):$(LIBFT) $(OBJS)
-#	$(CC) $(CFLAGS) $(OBJS) -L ./libft -lft -o $(NAME)
-
-# Make sure the libft.a is built first
-$(LIBFT):
-	make -C ./libft
-
-# Compile your own source files into object files in OBJ_DIR
 $(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(@D)  # Ensure the object directory exists
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Extract object files from libft.a into OBJ_DIR
-$(OBJ_DIR)/%.o: $(LIBFT)
-	@mkdir -p $(OBJ_DIR)  # Ensure OBJ_DIR exists
-	ar x $(LIBFT) $@
-	mv $(@F) $(OBJ_DIR)/$(@F)
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
-
-# Clean up the object files
 clean:
 	rm -rf $(OBJ_DIR)
+	@make -C $(LIBFT_DIR) clean
 
-# Clean up and remove the final library
 fclean: clean
 	rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 
-# Rebuild everything from scratch
 re: fclean all
 
 .PHONY: all clean fclean re
-

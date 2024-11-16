@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_string.c                                     :+:      :+:    :+:   */
+/*   print_string_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:26:03 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/15 12:48:41 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/15 19:23:50 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../libft/libft.h"
-#include "prints.h"
+#include "prints_bonus.h"
 
 static void size_calc_str(unsigned char all_flags, t_strfla *flag_info, int *size)
 {

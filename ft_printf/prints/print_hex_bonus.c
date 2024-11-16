@@ -1,7 +1,7 @@
 
 #include "../libft/libft.h"
-#include "prints.h"
-#include "../utils/utils.h"
+#include "prints_bonus.h"
+#include "../utils/utils_bonus.h"
 
 static void size_calc_un_hex(unsigned char all_flags, t_strfla *flag_info, int *size)
 {
