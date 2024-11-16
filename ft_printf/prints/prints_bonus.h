@@ -1,5 +1,5 @@
-#ifndef PRINTS_H
-# define PRINTS_H
+#ifndef PRINTS_BONUS_H
+# define PRINTS_BONUS_H
 #include "../ft_printf_bonus.h"
 typedef enum t_val_type{
     TYPE_CHAR,
@@ -30,8 +30,8 @@ int     print_unsigned_decimal(t_strfla *flag_info, va_list args);
 void	*has_flag(t_strfla *input_flags, int looking_for);
 void	set_flags_values(unsigned char *flags, t_strfla *user_flag, int count);
 void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, unsigned char flags);
-void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value);
-int	general_case(t_strfla *info, unsigned char flags, char *value, int len);
+void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value, e_argType value_type);
+int	general_case(t_strfla *info, unsigned char flags, char *value, int len, e_argType value_type);
 char	*get_len(void *value, e_argType value_type, int *len, char conversion);
 int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *info);
 char	*ft_uitoa(unsigned n, int counter, int base, char conversion);

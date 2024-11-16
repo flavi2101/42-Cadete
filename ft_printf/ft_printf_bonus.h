@@ -6,11 +6,11 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:04:04 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/14 16:05:04 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/16 01:20:37 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef FT_PRINTF_BONUS_H
+# define FT_PRINTF_BONUS_H
 # include <stdarg.h>
 
 typedef struct s_flag_info_plus_conver

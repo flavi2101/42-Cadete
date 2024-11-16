@@ -1,16 +1,16 @@
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -ggdb -O0 -fsanitize=address
-CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints
+CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -ggdb -O0 -fsanitize=address
+#CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints
 
 SRCS = ft_printf.c get_flags_and_format.c ./prints/print_char.c ./prints/print_string.c\
        ./prints/print_pointer.c ./prints/print_decimal.c \
        ./prints/print_unsigned_decimal.c ./prints/print_hex.c ./prints/helper_print.c \
        ./prints/print_util.c ./utils/utils.c
 
-SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c ./prints/print_char_bonus.c ./prints/print_string_bonus.c\
-       ./prints/print_pointer_bonus.c ./prints/print_decimal_bonus.c \
-       ./prints/print_unsigned_decimal_bonus.c ./prints/print_hex_bonus.c ./prints/helper_print_bonus.c \
-       ./prints/print_util_bonus.c ./utils/utils_bonus.c
+SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c prints/print_char_bonus.c prints/print_string_bonus.c\
+       prints/print_pointer_bonus.c prints/print_decimal_bonus.c \
+       prints/print_unsigned_decimal_bonus.c prints/print_hex_bonus.c prints/helper_print_bonus.c \
+       prints/print_util_bonus.c utils/utils_bonus.c
 
 NAME = libftprintf.a
 OUT  = a.out
@@ -35,6 +35,8 @@ bonus: $(LIBFT) $(OBJ_BONUS)
 	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
 	ar rcs $(NAME) $(OBJ_BONUS) $(LIBFT_OBJS)
 
+out: $(LIBFT) $(OBJ_BONUS)
+	$(CC) $(CFLAGS) $(OBJ_BONUS) -L. -L$(LIBFT_DIR) -lft -o $(OUT)
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -47,7 +49,7 @@ clean:
 	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(OUT)
 	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all

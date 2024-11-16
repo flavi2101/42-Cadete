@@ -1,11 +1,11 @@
 #include "../libft/libft.h"
-#include "prints_bonus.h"
+#include "./prints_bonus.h"
 #include "../utils/utils_bonus.h"
 
 
 void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, unsigned char flags)
 {
-	if (str_of_num[0] == '-')
+	if (str_of_num[0] == '-' && (value_type != TYPE_CHAR && value_type != TYPE_CHAR_PTR))
 		ft_putstr_fd(str_of_num + 1, 1);
 	else if(value_type == TYPE_CHAR)
 		write(1,&str_of_num[0], 1);
@@ -23,17 +23,17 @@ void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, 
 		ft_putstr_fd(str_of_num, 1);
 }
 
-void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value)
+void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value, e_argType value_type)
 {
 		if ((flags & plus) && value[0] != '-' && (*padding_space_value)--)
 			ft_putchar_fd('+', 1);
 		else if (flags & space && value[0] != '-' && (*padding_space_value)--)
 			ft_putchar_fd(' ', 1);
-		else if (value[0] == '-' && (*padding_space_value)--)
+		else if (value[0] == '-' && (value_type != TYPE_CHAR && value_type != TYPE_CHAR_PTR) && (*padding_space_value)--)
 			ft_putchar_fd('-', 1);
 }
 
-int	general_case(t_strfla *info, unsigned char flags, char *value, int len)
+int	general_case(t_strfla *info, unsigned char flags, char *value, int len, e_argType value_type)
 {
 	int	padding_space_value;
 
@@ -49,7 +49,7 @@ int	general_case(t_strfla *info, unsigned char flags, char *value, int len)
 		if ((value[0] == '-') && padding_space_value == 1)
 			break;
 	}
-	is_pos_or_neg(&padding_space_value, flags, value);
+	is_pos_or_neg(&padding_space_value, flags, value, value_type);
 	if (info->precision - len > 0 && flags & padding_precision) 
 	{
 		while (info->precision-- -len> 0)
@@ -117,7 +117,7 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 		padding_value = info->width - len;
 		if (flags & minus)
 		{
-			is_pos_or_neg(&padding_value, flags, str_of_num);
+			is_pos_or_neg(&padding_value, flags, str_of_num, value_type);
 			if (info->precision - len > 0 && flags & padding_precision && value_type != TYPE_CHAR_PTR) 
 			{
 				while (info->precision-- -len> 0 && padding_value--)
@@ -129,13 +129,13 @@ int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *i
 		}
 		else if (!(flags & minus) && !(flags & dot) && (flags & zero))
 		{
-			is_pos_or_neg(&padding_value, flags, str_of_num);
+			is_pos_or_neg(&padding_value, flags, str_of_num, value_type);
 
 			while (padding_value-- > 0)
 				ft_putchar_fd('0', 1);
 			remove_signal_atoi(str_of_num, value_type, info, flags);
 		}
-		else if (general_case(info, flags, str_of_num, len))
+		else if (general_case(info, flags, str_of_num, len, value_type))
 			remove_signal_atoi(str_of_num, value_type, info, flags);
 		if (value_type == TYPE_CHAR ||value_type == TYPE_INT || value_type == TYPE_UNSIGNED_INT || value_type == TYPE_HEX)
 			free(str_of_num);
