@@ -6,12 +6,12 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:23:40 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/16 16:12:38 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/16 21:15:17 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
-#include "../ft_printf_bonus.h"
+#include "../ft_printf.h"
 
 int	parse(char *in_flags, int len_in_flags, char *check_flag)
 {
@@ -38,7 +38,7 @@ int	count_digits(int user_inp)
 	return (len);
 }
 
-int	count_udigits(unsigned int user_inp, int base)
+int	count_udigits(unsigned long long user_inp, int base)
 {
 	int	len;
 

@@ -6,13 +6,13 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:21:16 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/15 19:25:55 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/16 21:15:31 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
-# include "../ft_printf_bonus.h"
+# ifndef UTILS_H
+#define UTILS_H
+#include "../ft_printf.h"
 
 void	free_flags(t_strfla *flags_info);
 int		parse(char *in_flags, int len_in_flags, char *check_flag);

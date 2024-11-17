@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_unsigned_decimal_bonus.c                     :+:      :+:    :+:   */
+/*   print_decimal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/15 19:24:07 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/17 15:01:30 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "prints_bonus.h"
-#include "../utils/utils_bonus.h"
-
-// if the flag space is present the witdh and precision 
+#include "../../ft_printf.h"
+#include "../../utils/utils.h"
+#include "../../libft/libft.h"
+#include "../prints.h"
+#include "numbers.h"
+// if the flag +,space or is the value negative the witdh and precision 
 // can be overwrite it. 
+// if arg < 0 the precision always increment the size, but the width will depend 
 
-
-static void size_calc_un(unsigned char all_flags, t_strfla *flag_info, int *size)
+static char	*get_len(int value, int *len)
+{
+	char	*str;
+	
+	str = NULL;
+	str = ft_itoa(value);	
+	*len = count_digits(value);	
+	if (value < 0)
+		(*len)++;
+       	return (str);
+}
+static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, int arg)
 {
     int orig_size = *size;
 
@@ -25,7 +38,7 @@ static void size_calc_un(unsigned char all_flags, t_strfla *flag_info, int *size
         if (flag_info->precision > orig_size)
             *size = flag_info->precision;
             
-        if (all_flags & space)
+        if (arg < 0 || (all_flags & plus) || (all_flags & space))
             (*size)++;
             
         if (flag_info->width > *size)
@@ -33,33 +46,30 @@ static void size_calc_un(unsigned char all_flags, t_strfla *flag_info, int *size
     }
     else
     {
-        if (all_flags & space)
-            (*size)++;
+	 if ((all_flags & plus) || (all_flags & space))
+		(*size)++;
     }
 }
-static void	invalid_flag_uns_dec(unsigned char *all_flags)
-{
-	*all_flags &= ~hash;
-	*all_flags &= ~plus;
-}
-
-int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
+int	print_decimal(t_strfla *flag_info, va_list args)
 {
         unsigned char   all_flags;
-        void    *arg;
         int     count;
-        unsigned int    value;
+        int	value;
+	char	*str_of_num;
 
         all_flags = 0x00;
-        value = va_arg(args, unsigned int);
-	if (value == 0)
-		count = 1;
-	else
-		count = count_udigits(value, 10);
-        arg = &value;
+	count = 0;
+        value = va_arg(args, int);
         set_flags_values(&all_flags, flag_info, count);
-	invalid_flag_uns_dec(&all_flags);
-	size_calc_un(all_flags, flag_info, &count);
-	show_str(arg, TYPE_UNSIGNED_INT, all_flags, flag_info);
+	all_flags &= ~hash;
+	str_of_num = get_len(value, &count);
+	size_calc(all_flags, flag_info, &count, value);
+	if (str_of_num)
+	{
+		show_str_number(str_of_num, all_flags, flag_info, count_digits(value));
+		free(str_of_num);
+	}
+	else
+		free_flags(flag_info);
 	return (count);
 }

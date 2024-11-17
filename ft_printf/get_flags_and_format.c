@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_flags_and_format_bonus.c                       :+:      :+:    :+:   */
+/*   get_flags_and_format.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:27:51 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/15 19:21:06 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/17 15:25:08 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_bonus.h"
+#include "ft_printf.h"
 #include "../libft/libft.h"
-#include "utils/utils_bonus.h"
+#include "utils/utils.h"
 
 //calculate the lenght the flag separed with the lenght of values
 //after the dot must be a number to be a valid precision.
@@ -63,7 +63,7 @@ int len_fla_num, const char *ptr_aft_perc)
 	}
 	ft_memset(usr_inp_flags, 0, len_flags + 1);
 	usr_inp_flags[len_flags--] = '\0';
-	while (--len_fla_num >= 0 )
+	while (--len_fla_num >= 0 && len_flags >= 0)
 	{
 		current_char = *(ptr_aft_perc + len_fla_num);
 		if (current_char == '0'

@@ -1,5 +1,5 @@
 #include "../libft/libft.h"
-#include "prints_bonus.h"
+#include "prints.h"
 void	*has_flag(t_strfla *input_flags, int looking_for)
 {
 	const void	*flags;
@@ -31,31 +31,4 @@ void	set_flags_values(unsigned char *flags, t_strfla *user_flag, int count)
 		*flags |= plus;
 		*flags &= ~space;
 	}
-}
-char	*ft_uitoa(unsigned n, int counter, int base, char conversion)
-{
-	char			*ptr;
-	
-	if (n == 0)
-	{
-		ptr = (char *)malloc(sizeof(char) * (2));
-		ptr[1] = '\0';
-		ptr[0] = '0';
-		return (ptr);
-	}
-	ptr = (char *)malloc(sizeof(char) * (counter + 1));
-	if (!ptr)
-		return (NULL);
-	ptr[counter--] = '\0';
-	while (n != 0)
-	{
-		if (conversion == 'x')
-			ptr[counter--] = "0123456789abcdef"[(n % base)];
-		else if (conversion == 'X')
-			ptr[counter--] = "0123456789ABCDEF"[(n % base)];
-		else
-			ptr[counter--] = "0123456789"[(n % base)];
-		n = n / base;
-	}
-	return (ptr);
 }

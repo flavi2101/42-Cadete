@@ -1,8 +1,17 @@
 
-#include "../libft/libft.h"
-#include "prints_bonus.h"
-#include "../utils/utils_bonus.h"
-
+#include "../../libft/libft.h"
+#include "../prints.h"
+#include "../../utils/utils.h"
+#include "numbers.h"
+static char	*get_len(unsigned int value, int *len, char conversion)
+{
+	char	*str;
+	
+	str = NULL;
+	*len = count_udigits(value, 16);	
+	str = ft_uitoa(value, *len, 16, conversion);	
+       	return (str);
+}
 static void size_calc_un_hex(unsigned char all_flags, t_strfla *flag_info, int *size)
 {
 
@@ -32,26 +41,29 @@ static void	hex_notation(t_strfla *flag_info, char unsigned all_flags)
 int	print_hex(t_strfla *flag_info, va_list args)
 {
         unsigned char   all_flags;
-        void    *arg;
         int     count;
         unsigned int    value;
+	char	*str_of_num;
 
         all_flags = 0x00;
+	count = 0;
         value = va_arg(args,unsigned int);
-	if (value == 0)
-		count = 1;
-	else
-		count = count_udigits(value, 16);
-        arg = &value;
         set_flags_values(&all_flags, flag_info, count);
 	invalid_flags_hex(&all_flags);
-	if (all_flags & minus && all_flags & hash && (count +=2))
+	str_of_num = get_len(value, &count, flag_info->conversion);
+	if (str_of_num && all_flags & minus && all_flags & hash && (count +=2))
 		hex_notation(flag_info, all_flags);
-	else if ((all_flags & zero) && all_flags & hash && (count +=2))
+	else if (str_of_num && (all_flags & zero) && all_flags & hash && (count +=2))
 		hex_notation(flag_info, all_flags);
-	else if (all_flags & hash)
+	else if (str_of_num && all_flags & hash)
 		count += 2;
+	if (str_of_num)
+	{
+		show_str_number(str_of_num, all_flags, flag_info, count_udigits(value, 16));
+		free(str_of_num);
+	}
+	else
+		free_flags(flag_info);
 	size_calc_un_hex(all_flags, flag_info,&count);
-	show_str(arg, TYPE_HEX, all_flags, flag_info);
 	return (count);
 }

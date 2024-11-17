@@ -1,6 +1,6 @@
 #include "../libft/libft.h"
-#include "./prints_bonus.h"
-#include "../utils/utils_bonus.h"
+#include "./prints.h"
+#include "../utils/utils.h"
 
 
 void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, unsigned char flags)
@@ -23,13 +23,13 @@ void	remove_signal_atoi(char *str_of_num, e_argType value_type, t_strfla *info, 
 		ft_putstr_fd(str_of_num, 1);
 }
 
-void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value, e_argType value_type)
+void	is_pos_or_neg(int *padding_space_value, unsigned char flags, char *value, e_argtype value_type)
 {
 		if ((flags & plus) && value[0] != '-' && (*padding_space_value)--)
 			ft_putchar_fd('+', 1);
 		else if (flags & space && value[0] != '-' && (*padding_space_value)--)
 			ft_putchar_fd(' ', 1);
-		else if (value[0] == '-' && (value_type != TYPE_CHAR && value_type != TYPE_CHAR_PTR) && (*padding_space_value)--)
+		else if (value[0] == '-' && (value_type != type_char && value_type != type_char_ptr) && (*padding_space_value)--)
 			ft_putchar_fd('-', 1);
 }
 

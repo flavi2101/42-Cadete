@@ -1,6 +1,6 @@
 #ifndef PRINTS_BONUS_H
 # define PRINTS_BONUS_H
-#include "../ft_printf_bonus.h"
+#include "../ft_printf.h"
 typedef enum t_val_type{
     TYPE_CHAR,
     TYPE_INT,
@@ -24,13 +24,11 @@ typedef enum t_bit_flag
 } e_bit;
 int     print_char(t_strfla *flag_info, va_list args);
 int     print_string(t_strfla *flag_info, va_list args);
-int	print_pointer(va_list args);
-int     print_decimal(t_strfla *flag_info,va_list args);
-int     print_unsigned_decimal(t_strfla *flag_info, va_list args);
+int	print_pointer(t_strfla *flag_info, va_list args);
+int	print_decimal(t_strfla *flag_info, va_list args);
+int	print_hex(t_strfla *flag_info, va_list args);
+int	print_unsigned_decimal(t_strfla *flag_info, va_list args);
 void	*has_flag(t_strfla *input_flags, int looking_for);
 void	set_flags_values(unsigned char *flags, t_strfla *user_flag, int count);
-void	remove_signal_atoi(char *str_of_num, t_strfla *info, unsigned char flags);
 int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *info);
-char	*ft_uitoa(unsigned n, int counter, int base, char conversion);
-int	print_hex(t_strfla *flag_info, va_list args);
 #endif
