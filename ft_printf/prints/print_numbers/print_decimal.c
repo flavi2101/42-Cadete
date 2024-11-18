@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/17 15:01:30 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/18 12:55:30 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../ft_printf.h"
@@ -38,7 +38,7 @@ static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, i
         if (flag_info->precision > orig_size)
             *size = flag_info->precision;
             
-        if (arg < 0 || (all_flags & plus) || (all_flags & space))
+        if (arg >  0 && ((all_flags & plus) || (all_flags & space)))
             (*size)++;
             
         if (flag_info->width > *size)

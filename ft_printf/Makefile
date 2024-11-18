@@ -1,16 +1,17 @@
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror -I. -I./libft  -I./utils -I./prints -I./prints/print_numbers -ggdb -O0 -fsanitize=address
-CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -I./prints/print_numbers
+CFLAGS = -Wall -Wextra -Werror -I. -I./libft  -I./utils -I./prints -I./prints/print_numbers -ggdb -O0 -fsanitize=address
+#CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -I./prints/print_numbers
 
 SRCS = ft_printf.c get_flags_and_format.c\
 	prints/print_char.c prints/print_string.c prints/print_pointer.c prints/check_flags.c utils/utils.c\
-	prints/print_numbers/print_decimal.c prints/print_numbers/print_unsigned_decimal.c prints/print_numbers/print_hex.c prints/print_numbers/numbers_util.c
+	prints/print_numbers/print_decimal.c prints/print_numbers/print_unsigned_decimal.c prints/print_numbers/print_hex.c prints/print_numbers/numbers_util.c\
+	prints/hex_helper.c
        
 
-#SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c prints/print_char_bonus.c prints/print_string_bonus.c\
-       prints/print_pointer_bonus.c prints/print_decimal_bonus.c \
-       prints/print_unsigned_decimal_bonus.c prints/print_hex_bonus.c prints/helper_print_bonus.c \
-       prints/print_util_bonus.c utils/utils_bonus.c
+SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c\
+	prints/print_bonus.char_bonus.c prints/print_string_bonus.c prints/print_pointer_bonus.c prints_bonus.ch_bonus.ck_flags_bonus.c utils/utils_bonus.c\
+	prints/print_numbers/print_d_bonus.cimal_bonus.c prints/print_numbers/print_unsigned_d_bonus.cimal_bonus.c prints/print_numbers/print_hex_bonus.c prints/print_numbers/numbers_util_bonus.c\
+	prints/hex_helper_bonus.c
 
 NAME = libftprintf.a
 OUT  = a.out

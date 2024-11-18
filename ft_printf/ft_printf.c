@@ -6,13 +6,13 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/17 15:31:32 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/18 16:43:36 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libft/libft.h"
 #include "prints/prints.h"
-//#include <assert.h>
+#include <assert.h>
 #include <stdio.h>
 #include <limits.h>
 static void	set_func_conversion(t_strfla *flag_info)
@@ -90,10 +90,16 @@ int	ft_printf(const char *str, ...)
 	return (str_flags_len - flags_len + args_len);
 }
 
-/*int	main(void)
+int	main(void)
 {
-	 int ft_len;
-	 int og_len;
+/*	int ft_len;
+	int og_len;
+	long test = LONG_MIN;
+	long test1 = LONG_MAX;
+	unsigned long test3 = LONG_MIN;
+	unsigned long test4 = ULONG_MAX;
+	
+	ft_printf("%p %p %p %p",&test,&test1, &test3, &test4);
 
     // Test 1: Basic number
     printf("\nTest 1: Basic positive number\n");
@@ -262,5 +268,198 @@ int	ft_printf(const char *str, ...)
     og_len = printf("%+25d", -42);
     printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
     printf("-------------\n");
-}
+    
+// Test 1: Basic hexadecimal lowercase
+    printf("\nTest 1: Basic hexadecimal lowercase\n");
+    ft_len = ft_printf("%x", 42);
+    og_len = printf("%x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 2: Basic hexadecimal uppercase
+    printf("Test 2: Basic hexadecimal uppercase\n");
+    ft_len = ft_printf("%X", 42);
+    og_len = printf("%X", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 3: Hash flag lowercase
+    printf("Test 3: Hash flag lowercase\n");
+    ft_len = ft_printf("%#x", 42);
+    og_len = printf("%#x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 4: Hash flag uppercase
+    printf("Test 4: Hash flag uppercase\n");
+    ft_len = ft_printf("%#X", 42);
+    og_len = printf("%#X", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 5: Width right-aligned
+    printf("Test 5: Width right-aligned\n");
+    ft_len = ft_printf("%10x", 42);
+    og_len = printf("%10x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 6: Width left-aligned
+    printf("Test 6: Width left-aligned\n");
+    ft_len = ft_printf("%-10x", 42);
+    og_len = printf("%-10x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 7: Precision
+    printf("Test 7: Precision\n");
+    ft_len = ft_printf("%.8x", 42);
+    og_len = printf("%.8x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 8: Zero padding
+    printf("Test 8: Zero padding\n");
+    ft_len = ft_printf("%08x", 42);
+    og_len = printf("%08x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 9: Hash with zero padding
+    printf("Test 9: Hash with zero padding\n");
+    ft_len = ft_printf("%#08x", 42);
+    og_len = printf("%#08x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 10: Width and precision
+    printf("Test 10: Width and precision\n");
+    ft_len = ft_printf("%10.8x", 42);
+    og_len = printf("%10.8x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+  // Test 11: Hash with width and precision
+    printf("Test 11: Hash with width and precision\n");
+    ft_len = ft_printf("%#10.8x", 42);
+    og_len = printf("%#10.8x", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 12: Zero value with hash
+    printf("Test 12: Zero value with hash\n");
+    ft_len = ft_printf("|%#x|\n", 0);
+    og_len = printf("|%#x|\n", 0);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 13: Zero value with precision
+    printf("Test 13: Zero value with precision\n");
+    ft_len = ft_printf("|%.5x|\n", 0);
+    og_len = printf("|%.5x|\n", 0);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 14: Zero value with zero precision
+    printf("Test 14: Zero value with zero precision\n");
+    ft_len = ft_printf("|%.0x|\n", 0);
+    og_len = printf("|%.0x|\n", 0);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 15: UINT_MAX lowercase
+    printf("Test 15: UINT_MAX lowercase\n");
+    ft_len = ft_printf("|%x|\n", UINT_MAX);
+    og_len = printf("|%x|\n", UINT_MAX);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 16: UINT_MAX uppercase
+    printf("Test 16: UINT_MAX uppercase\n");
+    ft_len = ft_printf("|%X|\n", UINT_MAX);
+    og_len = printf("|%X|\n", UINT_MAX);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 17: Left-aligned with hash
+    printf("Test 17: Left-aligned with hash\n");
+    ft_len = ft_printf("|%-#10x|\n", 42);
+    og_len = printf("|%-#10x|\n", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 18: Precision larger than width
+    printf("Test 18: Precision larger than width\n");
+    ft_len = ft_printf("|%5.10x|\n", 42);
+    og_len = printf("|%5.10x|\n", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 19: Width larger than precision
+    printf("Test 19: Width larger than precision\n");
+    ft_len = ft_printf("|%10.5x|\n", 42);
+    og_len = printf("|%10.5x|\n", 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 20: Very large number
+    printf("Test 20: Very large number\n");
+    ft_len = ft_printf("|%x|\n", 0xDEADBEEF);
+    og_len = printf("|%x|\n", 0xDEADBEEF);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 21: Hash with very large number
+    printf("Test 21: Hash with very large number\n");
+    ft_len = ft_printf("|%#x|\n", 0xDEADBEEF);
+    og_len = printf("|%#x|\n", 0xDEADBEEF);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 22: Complex formatting
+    printf("Test 22: Complex formatting\n");
+    ft_len = ft_printf("|%#15.10X|\n", 0xABCDEF);
+    og_len = printf("|%#15.10X|\n", 0xABCDEF);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 23: Zero padding with hash
+    printf("Test 23: Zero padding with hash\n");
+    ft_len = ft_printf("|%#015x|\n", 0xABCDEF);
+    og_len = printf("|%#015x|", 0xABCDEF);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 24: Multiple values
+    printf("Test 24: Multiple values\n");
+    ft_len = ft_printf("|%x %X %#x|\n", 42, 42, 42);
+    og_len = printf("|%x %X %#x|\n", 42, 42, 42);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
+
+    // Test 25: Edge cases mixed
+    printf("Test 25: Edge cases mixed\n");
+    ft_len = ft_printf("|%#.0x %#.0X %.0x|\n", 0, 0, 0);
+    og_len = printf("|%#.0x %#.0X %.0x|\n", 0, 0, 0);
+    printf("\nft_len: %d, og_len: %d\n", ft_len, og_len);
+    printf("-------------\n");
 */
+//printf(" %-1s --------- %-2s \n", "", "-");
+//ft_printf(" %-1s --------- %-2s \n", "", "-"); // Test 1: Strings with minimum field width.
+
+int val1 = printf("%.1s%.2s%.3s%.4s", " - ", "", "4","");
+int val2 = ft_printf("%.1s%.2s%.3s%.4s", " - ", "", "4","") ;
+printf("\nor%d - my %d\n",val1, val2);
+/*assert(printf("|%-4u|\n",-14) == ft_printf("|%-4u|\n",-14));
+val1 = printf("|%-5u|\n",-15) ;
+val2 = ft_printf("|%-5u|\n",-15) ;
+assert(printf("|%-5u|\n",-15) == ft_printf("|%-4u|\n",-15));
+printf("\nor%d - my %d\n",val1, val2);
+val1 = printf("|%-6u|\n",-16) ;
+val2 = ft_printf("|%-6u|\n",-16) ;
+assert(printf("|%-4u|\n",-16) == ft_printf("|%-4u|\n",-16));
+printf("\nor%d - my %d\n",val1, val2);
+*/
+}
+
+

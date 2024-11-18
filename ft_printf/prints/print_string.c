@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:26:03 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/17 12:40:56 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/18 16:56:24 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../libft/libft.h"
@@ -29,13 +29,11 @@ static char	*get_len_str(void *value, int *len)
        	return (str);
 }
 // use the print_string to cut some lines 
-static void	show_str_str(char *str_of_str, unsigned char flags, t_strfla *info)
+static void	show_str_str(char *str_of_str, unsigned char flags, t_strfla *info, int len)
 {
 	int		padding_space_value;
-	int	len;
 	int	str_position;
 
-	len = 0;	
 	str_position = 0;
 	if (flags & padding_precision)
 		padding_space_value = info->width -  info->precision;  
@@ -71,16 +69,16 @@ static void size_calc_str(unsigned char all_flags, t_strfla *flag_info, int *siz
 {
     int orig_size = *size;
 
-    if (all_flags & padding_width || all_flags & padding_precision)
-    {
-        if (flag_info->precision < orig_size)
-            *size = flag_info->precision;
-            
-        if (flag_info->width > *size)
-            *size = flag_info->width;
-    }
+	if (all_flags & padding_width || all_flags & padding_precision)
+	{
+		if ((all_flags & dot) && flag_info->precision < orig_size)
+			*size = flag_info->precision;
+		    
+		if (flag_info->width != 0 && flag_info->width > *size)
+			*size = flag_info->width;
+	}
 }
-static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags, int count)
+static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags, int count, char **str_of_str)
 {
 	*all_flags &= ~plus;
 	*all_flags &= ~space;
@@ -90,6 +88,11 @@ static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags, int
 		*all_flags |= padding_precision;
 	else 
 		*all_flags &= ~padding_precision;
+	if (*all_flags & dot && flag_info->precision == 0)
+	{
+		free(*str_of_str);
+		*str_of_str=NULL;
+	}
 }
 
 int	print_string(t_strfla *flag_info, va_list args)
@@ -98,20 +101,22 @@ int	print_string(t_strfla *flag_info, va_list args)
 	int	count;
 	char	*value;
 	char	*str_of_str;
+	int 	len;
 
 	all_flags = 0x00;
 	count = 0;
 	value = va_arg(args, char *);
-	set_flags_values(&all_flags, flag_info, count);
-	invalid_flags_str(flag_info, &all_flags, count);
 	str_of_str = get_len_str(value, &count);
+	set_flags_values(&all_flags, flag_info, count);
+	invalid_flags_str(flag_info, &all_flags, count, &str_of_str);
+	len = count;
+	size_calc_str(all_flags, flag_info, &count);
 	if (str_of_str)
 	{
-		show_str_str(str_of_str, all_flags, flag_info);
+		show_str_str(str_of_str, all_flags, flag_info, len);
 		free(str_of_str);
 	}
 	else
-		free_flags(flag_info);
-	size_calc_str(all_flags, flag_info, &count);
+		return (0);
 	return (count);
 }

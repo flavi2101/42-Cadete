@@ -6,13 +6,14 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:18:59 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/16 21:19:20 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/17 16:20:19 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft_printf.h"
 #include "../libft/libft.h"
 #include "prints.h"
 #include "../utils/utils.h"
+
 static void	recursive_division(unsigned long long adrr)
 {
 	if (adrr >= 16)
@@ -50,10 +51,12 @@ void	invalid_flags_pointer(unsigned char *all_flags)
 int	print_pointer(t_strfla *flag_info, va_list args)
 {
 	unsigned long long	arg;
+	void			*ptr;
 	int					counter;
 	unsigned char		all_flags;
 
-	arg = (unsigned long long)va_arg(args, void *);
+	ptr = va_arg(args, void *);
+	arg = (unsigned long long)ptr;
 	if (!arg)
 	{
 		ft_putstr_fd("(nil)",1);

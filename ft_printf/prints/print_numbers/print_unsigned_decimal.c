@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/17 15:10:23 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/18 13:47:29 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../prints.h"
@@ -65,13 +65,12 @@ int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
         all_flags = 0x00;
 	count = 0;
         value = va_arg(args, unsigned int);
-	count = count_udigits(value, 10);
         set_flags_values(&all_flags, flag_info, count);
 	invalid_flag_uns_dec(&all_flags);
 	str_of_num = get_len(value, &count, flag_info->conversion);
 	if(str_of_num)
 	{
-		show_str_number(str_of_num, all_flags, flag_info, count_digits(value));
+		show_str_number(str_of_num, all_flags, flag_info, count);
 		free(str_of_num);
 	}
 	else

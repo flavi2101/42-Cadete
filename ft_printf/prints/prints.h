@@ -31,4 +31,5 @@ int	print_unsigned_decimal(t_strfla *flag_info, va_list args);
 void	*has_flag(t_strfla *input_flags, int looking_for);
 void	set_flags_values(unsigned char *flags, t_strfla *user_flag, int count);
 int	show_str(void *value, e_argType value_type, unsigned char flags, t_strfla *info);
+void	zero_x_printer(unsigned char flags, char conversion);
 #endif

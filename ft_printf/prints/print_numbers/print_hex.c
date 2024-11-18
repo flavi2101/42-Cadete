@@ -32,7 +32,10 @@ static void	invalid_flags_hex(unsigned char *all_flags)
 
 static void	hex_notation(t_strfla *flag_info, char unsigned all_flags)
 {
-	ft_putstr_fd("0x",1);
+	if (flag_info->conversion == 'x')
+		ft_putstr_fd("0x",1);
+	else
+		ft_putstr_fd("0X",1);
 	if (all_flags & padding_precision)
 		flag_info->precision -= 2;
 	if (all_flags & padding_width)
