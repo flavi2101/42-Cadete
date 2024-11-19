@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/18 12:58:22 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/18 21:28:45 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../ft_printf.h"
@@ -25,8 +25,6 @@ static char	*get_len(int value, int *len)
 	str = NULL;
 	str = ft_itoa(value);	
 	*len = count_digits(value);	
-	if (value < 0)
-		(*len)++;
        	return (str);
 }
 static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, int arg)
@@ -40,13 +38,14 @@ static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, i
             
         if (arg > 0 && ((all_flags & plus) || (all_flags & space)))
             (*size)++;
-            
+	else if (arg < 0)    
+            (*size)++;
         if (flag_info->width > *size)
             *size = flag_info->width;
     }
     else
     {
-	 if ((all_flags & plus) || (all_flags & space))
+	 if (arg < 0 || (all_flags & plus) || (all_flags & space))
 		(*size)++;
     }
 }
@@ -56,6 +55,7 @@ int	print_decimal(t_strfla *flag_info, va_list args)
         int     count;
         int	value;
 	char	*str_of_num;
+	int	len;
 
         all_flags = 0x00;
 	count = 0;
@@ -63,13 +63,14 @@ int	print_decimal(t_strfla *flag_info, va_list args)
         set_flags_values(&all_flags, flag_info, count);
 	all_flags &= ~hash;
 	str_of_num = get_len(value, &count);
+	len = count;
 	size_calc(all_flags, flag_info, &count, value);
 	if (str_of_num)
 	{
-		show_str_number(str_of_num, all_flags, flag_info, count_digits(value));
+		show_str_number(str_of_num, all_flags, flag_info, len);
 		free(str_of_num);
 	}
 	else
-		free_flags(flag_info);
+		return(0);
 	return (count);
 }

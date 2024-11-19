@@ -54,19 +54,19 @@ int	print_hex(t_strfla *flag_info, va_list args)
         set_flags_values(&all_flags, flag_info, count);
 	invalid_flags_hex(&all_flags);
 	str_of_num = get_len(value, &count, flag_info->conversion);
-	if (str_of_num && all_flags & minus && all_flags & hash && (count +=2))
+	if (str_of_num && value > 0 && all_flags & minus && all_flags & hash && (count +=2))
 		hex_notation(flag_info, all_flags);
-	else if (str_of_num && (all_flags & zero) && all_flags & hash && (count +=2))
+	else if (str_of_num && value > 0 &&  (all_flags & zero) && all_flags & hash && (count +=2))
 		hex_notation(flag_info, all_flags);
-	else if (str_of_num && all_flags & hash)
+	else if (str_of_num && value > 0 && all_flags & hash)
 		count += 2;
+	size_calc_un_hex(all_flags, flag_info,&count);
 	if (str_of_num)
 	{
 		show_str_number(str_of_num, all_flags, flag_info, count_udigits(value, 16));
 		free(str_of_num);
 	}
 	else
-		free_flags(flag_info);
-	size_calc_un_hex(all_flags, flag_info,&count);
+		return (0);
 	return (count);
 }

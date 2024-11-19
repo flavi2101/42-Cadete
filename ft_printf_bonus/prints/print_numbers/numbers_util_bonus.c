@@ -7,7 +7,8 @@ static void	remove_signal_atoi(char *str_of_num, unsigned char flags, char conve
 		ft_putstr_fd(str_of_num + 1, 1);
 	else if (!(flags & padding_precision) && (flags & hash) && !(flags & minus) && !(flags & zero))
 	{
-		zero_x_printer(flags, conversion);
+		if (str_of_num[0] != '0')
+			zero_x_printer(flags, conversion);
 		ft_putstr_fd(str_of_num, 1);
 	}
 	else

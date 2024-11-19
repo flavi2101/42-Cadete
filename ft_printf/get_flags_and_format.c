@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:27:51 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/17 15:25:08 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/18 19:53:23 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int len_fla_num, const char *ptr_aft_perc)
 {
 	char	*usr_inp_flags;
 	char	current_char;
+	int	run_flags;
 
+	run_flags = 0;
 	usr_inp_flags = (char *)malloc(sizeof(char) * (len_flags + 1));
 	if (!usr_inp_flags)
 	{
@@ -63,14 +65,15 @@ int len_fla_num, const char *ptr_aft_perc)
 	}
 	ft_memset(usr_inp_flags, 0, len_flags + 1);
 	usr_inp_flags[len_flags--] = '\0';
-	while (--len_fla_num >= 0 && len_flags >= 0)
+	while (run_flags < len_fla_num && len_flags >= 0)
 	{
-		current_char = *(ptr_aft_perc + len_fla_num);
+		current_char = *(ptr_aft_perc + run_flags++);
 		if (current_char == '0'
-			&& !ft_isdigit(*(ptr_aft_perc + len_fla_num - 1)))
+			&& !ft_isdigit(*(ptr_aft_perc + run_flags - 1)))
 			usr_inp_flags[len_flags--] = current_char;
 		else if (!ft_isdigit(current_char))
 			usr_inp_flags[len_flags--] = current_char;
+		run_flags++;
 	}
 	return (usr_inp_flags);
 }

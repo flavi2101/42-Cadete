@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/18 13:47:29 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/18 21:03:12 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../prints.h"
@@ -39,7 +39,7 @@ static void size_calc_un(unsigned char all_flags, t_strfla *flag_info, int *size
         if (all_flags & space)
             (*size)++;
             
-        if (flag_info->width > *size)
+        if (flag_info->width != 0 && flag_info->width > *size)
             *size = flag_info->width;
     }
     else
@@ -60,7 +60,7 @@ int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
         int     count;
 	char	*str_of_num;
         unsigned int    value;
-	
+	int	len;	
 
         all_flags = 0x00;
 	count = 0;
@@ -68,13 +68,14 @@ int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
         set_flags_values(&all_flags, flag_info, count);
 	invalid_flag_uns_dec(&all_flags);
 	str_of_num = get_len(value, &count, flag_info->conversion);
+	len = count;
+	size_calc_un(all_flags, flag_info, &count);
 	if(str_of_num)
 	{
-		show_str_number(str_of_num, all_flags, flag_info, count);
+		show_str_number(str_of_num, all_flags, flag_info, len);
 		free(str_of_num);
 	}
 	else
-		free_flags(flag_info);
-	size_calc_un(all_flags, flag_info, &count);
+		return (0);
 	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:18:59 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/17 16:20:19 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/19 13:21:44 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft_printf.h"
@@ -14,29 +14,29 @@
 #include "prints.h"
 #include "../utils/utils.h"
 
-static void	recursive_division(unsigned long long adrr)
+static void	recursive_division(unsigned long long adrr, int *counter)
 {
 	if (adrr >= 16)
-		recursive_division(adrr / 16);
+		recursive_division(adrr / 16, counter);
+	(*counter)++;
 	ft_putchar_fd("0123456789abcdef"[adrr % 16], 1);
 }
 
-static void	show_str_pointer(unsigned long long arg, unsigned char all_flags, int counter, t_strfla *flag_info)
+static void	show_str_pointer(unsigned long long arg, unsigned char all_flags, int *counter, t_strfla *flag_info)
 {
 	if(all_flags & minus)
 	{
 		ft_putstr_fd("0x", 1);
-		recursive_division(arg);
-		while (flag_info->width-- > counter)
+		recursive_division(arg, counter);
+		while (flag_info->width-- > *counter)
 			ft_putchar_fd(' ', 1);
 	}
 	else
 	{
-		while (flag_info->width-- > counter)
+		while (flag_info->width-- > *counter)
 			ft_putchar_fd(' ', 1);
 		ft_putstr_fd("0x", 1);
-		recursive_division(arg);
-		while (flag_info->width-- > counter);
+		recursive_division(arg, counter);
 	}
 }
 
@@ -63,9 +63,9 @@ int	print_pointer(t_strfla *flag_info, va_list args)
 		return (5);
 	}
 	all_flags = 0x00;
-	counter = count_udigits(arg, 16) + 2;
+	counter = 2;
 	set_flags_values(&all_flags, flag_info, counter);
 	invalid_flags_pointer(&all_flags);
-	show_str_pointer(arg, all_flags, counter, flag_info);
+	show_str_pointer(arg, all_flags, &counter, flag_info);
 	return (counter);
 }
