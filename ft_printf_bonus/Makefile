@@ -2,15 +2,15 @@ CC = cc
 #CFLAGS = -Wall -Wextra -Werror -I. -I./libft  -I./utils -I./prints -I./prints/print_numbers -ggdb -O0 -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror -I./libft -I. -I./utils -I./prints -I./prints/print_numbers
 
-SRCS = ft_printf.c get_flags_and_format.c\
+SRCS = ft_printf.c get_flags_and_format.c print_text.c\
 	prints/print_char.c prints/print_string.c prints/print_pointer.c prints/check_flags.c utils/utils.c\
 	prints/print_numbers/print_decimal.c prints/print_numbers/print_unsigned_decimal.c prints/print_numbers/print_hex.c prints/print_numbers/numbers_util.c\
-	prints/hex_helper.c
+	prints/hex_helper.c prints/string_helper.c
        
-SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c\
+SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c print_text_bonus.c\
 	prints/print_char_bonus.c prints/print_string_bonus.c prints/print_pointer_bonus.c prints/check_flags_bonus.c utils/utils_bonus.c\
 	prints/print_numbers/print_decimal_bonus.c prints/print_numbers/print_unsigned_decimal_bonus.c prints/print_numbers/print_hex_bonus.c prints/print_numbers/numbers_util_bonus.c\
-	prints/hex_helper_bonus.c
+	prints/hex_helper_bonus.c prints/string_helper_bonus.c
 
 
 NAME = libftprintf.a
@@ -31,10 +31,10 @@ $(NAME): $(LIBFT) $(OBJS)
 	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
 	ar rcs $@ $(OBJS) $(LIBFT_OBJS)
 
-bonus: $(LIBFT) $(OBJ_BONUS)
-	@mkdir -p $(OBJ_DIR)
-	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
-	ar rcs $(NAME) $(OBJ_BONUS) $(LIBFT_OBJS)
+#bonus: $(LIBFT) $(OBJ_BONUS)
+#	@mkdir -p $(OBJ_DIR)
+#	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
+#	ar rcs $(NAME) $(OBJ_BONUS) $(LIBFT_OBJS)
 
 out: $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L. -L$(LIBFT_DIR) -lft -o $(OUT)

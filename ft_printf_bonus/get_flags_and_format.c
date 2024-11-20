@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:27:51 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/18 19:55:20 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/19 16:15:55 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,32 @@
 //calculate the lenght the flag separed with the lenght of values
 //after the dot must be a number to be a valid precision.
 //insert in the struct this values as integers 
-static int	width_precision(t_strfla *flags_info, const char *flags, int *qnty)
+static void	width_precision(t_strfla *flags_info,
+	const char *flags, int *qnty, int *len)
 {
 	char	width;
 	char	precision;
-	int		len;
 
-	len = 0;
 	width = '1';
 	precision = '1';
-	while (!ft_isalpha(flags[len]))
+	while (!ft_isalpha(flags[*len]))
 	{
-		if (width && flags[len] != '0'
-			&& ft_isdigit(flags[len]) && flags[len -1] != '.')
+		if (width && flags[*len] != '0'
+			&& ft_isdigit(flags[*len]) && flags[*len -1] != '.')
 		{
-			flags_info->width = ft_atoi(&flags[len]);
+			flags_info->width = ft_atoi(&flags[*len]);
 			width = '\0';
 			*qnty += count_digits(flags_info->width);
 		}
-		if (precision && flags[len] == '.' && ft_isdigit(flags[len + 1]))
+		if (precision && flags[*len] == '.' && ft_isdigit(flags[*len + 1]))
 		{
-			flags_info->precision = ft_atoi(&flags[len + 1]);
+			flags_info->precision = ft_atoi(&flags[*len + 1]);
 			*qnty += count_digits(flags_info->precision);
 			precision = '\0';
 			width = '\0';
 		}
-		len++;
+		(*len)++;
 	}
-	return (len);
 }
 
 // store only flags in the return
@@ -54,7 +52,7 @@ int len_fla_num, const char *ptr_aft_perc)
 {
 	char	*usr_inp_flags;
 	char	current_char;
-	int	run_flags;
+	int		run_flags;
 
 	run_flags = 0;
 	usr_inp_flags = (char *)malloc(sizeof(char) * (len_flags + 1));
@@ -89,22 +87,18 @@ t_strfla	*get_flags_info(const char *ptr_percent, int *len)
 	int			len_nums;
 	int			len_flag;
 
+	len_flag_num = 0;
 	len_nums = 0;
 	flags_info = (t_strfla *)malloc(sizeof(t_strfla));
 	if (!flags_info)
 		return (NULL);
 	ft_memset(flags_info, 0, sizeof(t_strfla));
-	len_flag_num = width_precision(flags_info, ptr_percent, &len_nums);
-// was two the line below, i change is one because i am jump the letter in the caller 
+	width_precision(flags_info, ptr_percent, &len_nums, &len_flag_num);
 	*len += len_flag_num + 1;
 	flags_info->conversion = *(ptr_percent + len_flag_num);
 	len_flag = len_flag_num - len_nums;
 	flags_info->total_len = len_flag_num;
 	flags_info->flags = get_flags(flags_info, len_flag,
 			len_flag_num, ptr_percent);
-	if (!parse(flags_info->flags, flags_info->total_len - len_nums, "-0.# +"))
-		// return NULL if flags are invalid;
-		// i must make a clean in the usr_inp_flags and flag_info;
-		return (NULL);
 	return (flags_info);
 }

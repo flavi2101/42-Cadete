@@ -1,5 +1,6 @@
 #include "../libft/libft.h"
 #include "prints.h"
+
 void	zero_x_printer(unsigned char flags, char conversion)
 {
 	if (flags & hash)

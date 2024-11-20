@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/18 21:28:45 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/19 21:21:48 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../ft_printf.h"
@@ -16,51 +16,55 @@
 #include "numbers.h"
 // if the flag +,space or is the value negative the witdh and precision 
 // can be overwrite it. 
-// if arg < 0 the precision always increment the size, but the width will depend 
+// if arg < 0 the precision always increment the size,
+// but the width will depend 
 
 static char	*get_len(int value, int *len)
 {
 	char	*str;
-	
-	str = NULL;
-	str = ft_itoa(value);	
-	*len = count_digits(value);	
-       	return (str);
-}
-static void size_calc(unsigned char all_flags, t_strfla *flag_info, int *size, int arg)
-{
-    int orig_size = *size;
 
-    if (all_flags & padding_width || all_flags & padding_precision)
-    {
-        if (flag_info->precision > orig_size)
-            *size = flag_info->precision;
-            
-        if (arg > 0 && ((all_flags & plus) || (all_flags & space)))
-            (*size)++;
-	else if (arg < 0)    
-            (*size)++;
-        if (flag_info->width > *size)
-            *size = flag_info->width;
-    }
-    else
-    {
-	 if (arg < 0 || (all_flags & plus) || (all_flags & space))
-		(*size)++;
-    }
+	str = NULL;
+	str = ft_itoa(value);
+	*len = count_digits(value);
+	return (str);
 }
+
+static void	size_calc(unsigned char all_flags, t_strfla *flag_info,
+			int *size, int arg)
+{
+	int	orig_size;
+
+	orig_size = *size;
+	if (all_flags & padding_width || all_flags & padding_precision)
+	{
+		if (flag_info->precision > orig_size)
+			*size = flag_info->precision;
+		if (arg > 0 && ((all_flags & plus) || (all_flags & space)))
+			(*size)++;
+		else if (arg < 0)
+			(*size)++;
+		if (flag_info->width > *size)
+			*size = flag_info->width;
+	}
+	else
+	{
+		if (arg < 0 || (all_flags & plus) || (all_flags & space))
+			(*size)++;
+	}
+}
+
 int	print_decimal(t_strfla *flag_info, va_list args)
 {
-        unsigned char   all_flags;
-        int     count;
-        int	value;
-	char	*str_of_num;
-	int	len;
+	unsigned char	all_flags;
+	char			*str_of_num;
+	int				count;
+	int				value;
+	int				len;
 
-        all_flags = 0x00;
+	all_flags = 0x00;
 	count = 0;
-        value = va_arg(args, int);
-        set_flags_values(&all_flags, flag_info, count);
+	value = va_arg(args, int);
+	set_flags_values(&all_flags, flag_info, count);
 	all_flags &= ~hash;
 	str_of_num = get_len(value, &count);
 	len = count;
@@ -71,6 +75,6 @@ int	print_decimal(t_strfla *flag_info, va_list args)
 		free(str_of_num);
 	}
 	else
-		return(0);
+		return (0);
 	return (count);
 }

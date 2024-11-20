@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:18:59 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/19 13:21:44 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/19 18:26:21 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../ft_printf.h"
@@ -22,9 +22,10 @@ static void	recursive_division(unsigned long long adrr, int *counter)
 	ft_putchar_fd("0123456789abcdef"[adrr % 16], 1);
 }
 
-static void	show_str_pointer(unsigned long long arg, unsigned char all_flags, int *counter, t_strfla *flag_info)
+static void	show_str_pointer(unsigned long long arg, unsigned char all_flags,
+	int *counter, t_strfla *flag_info)
 {
-	if(all_flags & minus)
+	if (all_flags & minus)
 	{
 		ft_putstr_fd("0x", 1);
 		recursive_division(arg, counter);
@@ -42,16 +43,17 @@ static void	show_str_pointer(unsigned long long arg, unsigned char all_flags, in
 
 void	invalid_flags_pointer(unsigned char *all_flags)
 {
-	*all_flags &= ~plus;	
+	*all_flags &= ~plus;
 	*all_flags &= ~zero;
 	*all_flags &= ~padding_precision;
 	*all_flags &= ~hash;
 	*all_flags &= ~space;
 }
+
 int	print_pointer(t_strfla *flag_info, va_list args)
 {
 	unsigned long long	arg;
-	void			*ptr;
+	void				*ptr;
 	int					counter;
 	unsigned char		all_flags;
 
@@ -59,7 +61,7 @@ int	print_pointer(t_strfla *flag_info, va_list args)
 	arg = (unsigned long long)ptr;
 	if (!arg)
 	{
-		ft_putstr_fd("(nil)",1);
+		ft_putstr_fd("(nil)", 1);
 		return (5);
 	}
 	all_flags = 0x00;

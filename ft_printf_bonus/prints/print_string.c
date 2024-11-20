@@ -6,15 +6,16 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:26:03 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/18 17:00:25 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/19 19:10:42 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../libft/libft.h"
 #include "prints.h"
+
 static char	*get_len_str(void *value, int *len)
 {
 	char	*str;
-	
+
 	str = NULL;
 	if (!value)
 	{
@@ -26,28 +27,24 @@ static char	*get_len_str(void *value, int *len)
 		*len = ft_strlen((char *)value);
 		str = ft_strdup((const char *)(value));
 	}
-       	return (str);
+	return (str);
 }
 // use the print_string to cut some lines 
-static void	show_str_str(char *str_of_str, unsigned char flags, t_strfla *info, int len)
+
+static void	show_str_str(char *str_of_str, unsigned char flags,
+	t_strfla *info, int len)
 {
-	int		padding_space_value;
+	int	padding_space_value;
 	int	str_position;
 
 	str_position = 0;
 	if (flags & padding_precision)
-		padding_space_value = info->width -  info->precision;  
+		padding_space_value = info->width - info->precision;
 	else
-		padding_space_value = info->width -  len;  
+		padding_space_value = info->width - len;
 	if (flags & minus)
 	{
-		if (flags & padding_precision)
-		{
-			while (info->precision-- > 0)
-				ft_putchar_fd(str_of_str[str_position++], 1);
-		}
-		else
-			ft_putstr_fd(str_of_str, 1);
+		string_has_precision(str_of_str, info, &str_position, flags);
 		while (padding_space_value-- > 0)
 			ft_putchar_fd(' ', 1);
 	}
@@ -55,30 +52,27 @@ static void	show_str_str(char *str_of_str, unsigned char flags, t_strfla *info, 
 	{
 		while (padding_space_value-- > 0)
 			ft_putchar_fd(' ', 1);
-		if (flags & padding_precision)
-		{
-			while (info->precision-- > 0)
-				ft_putchar_fd(str_of_str[str_position++], 1);
-		}
-		else
-			ft_putstr_fd(str_of_str, 1);
+		string_has_precision(str_of_str, info, &str_position, flags);
 	}
 }
 
-static void size_calc_str(unsigned char all_flags, t_strfla *flag_info, int *size)
+static void	size_calc_str(unsigned char all_flags,
+		t_strfla *flag_info, int *size)
 {
-    int orig_size = *size;
+	int	orig_size;
 
-    if (all_flags & padding_width || all_flags & padding_precision)
-    {
-        if (all_flags & dot && flag_info->precision < orig_size)
-            *size = flag_info->precision;
-            
-        if (flag_info->width != 0 && flag_info->width > *size)
-            *size = flag_info->width;
-    }
+	orig_size = *size;
+	if (all_flags & padding_width || all_flags & padding_precision)
+	{
+		if (all_flags & dot && flag_info->precision < orig_size)
+			*size = flag_info->precision;
+		if (flag_info->width != 0 && flag_info->width > *size)
+			*size = flag_info->width;
+	}
 }
-static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags, int count, char **str_of_str)
+
+static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags,
+		int count, char **str_of_str)
 {
 	*all_flags &= ~plus;
 	*all_flags &= ~space;
@@ -86,7 +80,7 @@ static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags, int
 	*all_flags &= ~hash;
 	if (flag_info->precision < count && flag_info->precision > 0)
 		*all_flags |= padding_precision;
-	else 
+	else
 		*all_flags &= ~padding_precision;
 	if (*all_flags & dot && flag_info->precision == 0)
 	{
@@ -98,10 +92,10 @@ static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags, int
 int	print_string(t_strfla *flag_info, va_list args)
 {
 	unsigned char	all_flags;
-	int	count;
-	char	*value;
-	char	*str_of_str;
-	int	len;
+	char			*value;
+	char			*str_of_str;
+	int				count;
+	int				len;
 
 	all_flags = 0x00;
 	count = 0;

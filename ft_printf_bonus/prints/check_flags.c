@@ -1,5 +1,6 @@
 #include "../libft/libft.h"
 #include "prints.h"
+
 void	*has_flag(t_strfla *input_flags, int looking_for)
 {
 	const void	*flags;

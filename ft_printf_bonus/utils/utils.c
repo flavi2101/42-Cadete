@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:23:40 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/16 21:15:17 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/19 15:42:43 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "../ft_printf.h"
 
-int	parse(char *in_flags, int len_in_flags, char *check_flag)
+/*int	parse(char *in_flags, int len_in_flags, char *check_flag)
 {
 	while (len_in_flags-- > 0)
 	{
@@ -21,7 +21,7 @@ int	parse(char *in_flags, int len_in_flags, char *check_flag)
 			return (0);
 	}
 	return (1);
-}
+}*/
 
 int	count_digits(int user_inp)
 {
