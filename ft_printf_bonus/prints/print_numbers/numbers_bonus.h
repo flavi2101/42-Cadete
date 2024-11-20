@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   numbers.h                                          :+:      :+:    :+:   */
+/*   numbers_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:38:41 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 13:38:49 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:35:32 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NUMBERS_H
-# define NUMBERS_H
-# include "../../ft_printf.h"
+#ifndef NUMBERS_BONUS_H
+# define NUMBERS_BONUS_H
+# include "../../ft_printf_bonus.h"
 
 void	remove_signal_atoi(char *str_of_num, unsigned char flags);
 void	is_posi_or_neg(int *padding_space_value,

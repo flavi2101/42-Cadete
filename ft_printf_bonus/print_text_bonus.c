@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_helper.c                                    :+:      :+:    :+:   */
+/*   print_text_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 13:37:53 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 16:44:07 by flferrei         ###   ########.fr       */
+/*   Created: 2024/11/20 13:39:05 by flferrei          #+#    #+#             */
+/*   Updated: 2024/11/20 16:04:48 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
-#include "prints.h"
 
-void	string_has_precision(char *str_of_str, t_strfla *info,
-			int *str_position, unsigned char flags)
+void	print_text(const char *str, int *str_flags_len)
 {
-	if (flags & padding_precision)
-	{
-		while (info->precision-- > 0)
-			ft_putchar_fd(str_of_str[(*str_position)++], 1);
-	}
-	else
-		ft_putstr_fd(str_of_str, 1);
+	while (str[*str_flags_len] && str[*str_flags_len] != '%')
+		ft_putchar_fd(str[(*str_flags_len)++], 1);
 }

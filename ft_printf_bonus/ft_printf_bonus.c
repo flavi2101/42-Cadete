@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 19:04:10 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/20 19:04:12 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "./libft/libft.h"
-#include "prints/prints.h"
+#include "prints/prints_bonus.h"
 
 static void	set_func_conversion(t_strfla *flag_info)
 {

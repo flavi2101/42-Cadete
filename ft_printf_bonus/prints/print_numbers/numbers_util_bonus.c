@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   numbers_util.c                                     :+:      :+:    :+:   */
+/*   numbers_util_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:38:04 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 13:38:06 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:35:51 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../prints.h"
+#include "../prints_bonus.h"
 #include "../../libft/libft.h"
 
 static void	remove_signal_atoi(char *str_of_num,

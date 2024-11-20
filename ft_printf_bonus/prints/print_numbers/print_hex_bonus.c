@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_hex.c                                        :+:      :+:    :+:   */
+/*   print_hex_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:38:44 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 13:38:47 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:36:47 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/libft.h"
-#include "../prints.h"
-#include "../../utils/utils.h"
-#include "numbers.h"
+#include "../prints_bonus.h"
+#include "../../utils/utils_bonus.h"
+#include "numbers_bonus.h"
 
 static char	*get_len(unsigned int value, int *len, char conversion)
 {

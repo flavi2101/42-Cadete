@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_flags.c                                      :+:      :+:    :+:   */
+/*   check_flags_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:37:13 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 13:37:19 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:32:02 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
-#include "prints.h"
+#include "prints_bonus.h"
 
 void	*has_flag(t_strfla *input_flags, int looking_for)
 {

@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_helper.c                                    :+:      :+:    :+:   */
+/*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 13:37:53 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 16:44:07 by flferrei         ###   ########.fr       */
+/*   Created: 2024/11/07 16:21:16 by flferrei          #+#    #+#             */
+/*   Updated: 2024/11/20 14:42:47 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include "prints.h"
+#ifndef UTILS_BONUS_H
+# define UTILS_BONUS_H
+# include "../ft_printf_bonus.h"
 
-void	string_has_precision(char *str_of_str, t_strfla *info,
-			int *str_position, unsigned char flags)
-{
-	if (flags & padding_precision)
-	{
-		while (info->precision-- > 0)
-			ft_putchar_fd(str_of_str[(*str_position)++], 1);
-	}
-	else
-		ft_putstr_fd(str_of_str, 1);
-}
+void	free_flags(t_strfla *flags_info);
+int		parse(char *in_flags, int len_in_flags, char *check_flag);
+int		count_digits(int user_inp);
+int		count_udigits(unsigned int user_inp, int base);
+#endif

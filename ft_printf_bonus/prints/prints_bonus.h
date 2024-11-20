@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prints.h                                           :+:      :+:    :+:   */
+/*   prints_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:36:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 13:36:57 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:33:58 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTS_H
-# define PRINTS_H
-# include "../ft_printf.h"
+#ifndef PRINTS_BONUS_H
+# define PRINTS_BONUS_H
+# include "../ft_printf_bonus.h"
 
 /*typedef enum t_val_type
 {

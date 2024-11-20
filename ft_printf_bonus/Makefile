@@ -14,7 +14,7 @@ SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c print_text_bonus.c\
 
 
 NAME = libftprintf.a
-OUT  = a.out
+#OUT  = a.out
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -31,13 +31,15 @@ $(NAME): $(LIBFT) $(OBJS)
 	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
 	ar rcs $@ $(OBJS) $(LIBFT_OBJS)
 
-#bonus: $(LIBFT) $(OBJ_BONUS)
-#	@mkdir -p $(OBJ_DIR)
-#	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
-#	ar rcs $(NAME) $(OBJ_BONUS) $(LIBFT_OBJS)
+bonus: $(LIBFT) $(OBJ_BONUS)
+	@mkdir -p $(OBJ_DIR)
+	@(cd $(OBJ_DIR) && ar x ../$(LIBFT))
+	ar rcs $(NAME) $(OBJ_BONUS) $(LIBFT_OBJS)
 
-out: $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -L. -L$(LIBFT_DIR) -lft -o $(OUT)
+#out: $(LIBFT) $(OBJS)
+#	$(CC) $(CFLAGS) $(OBJS) -L. -L$(LIBFT_DIR) -lft -o $(OUT)
+#outb: $(LIBFT) $(OBJ_BONUS)
+#	$(CC) $(CFLAGS) $(OBJ_BONUS) -L. -L$(LIBFT_DIR) -lft -o $(OUT)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
