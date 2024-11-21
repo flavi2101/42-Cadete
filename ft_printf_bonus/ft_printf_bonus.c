@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:23:10 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 19:04:12 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:59:08 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,3 +90,34 @@ int	ft_printf(const char *str, ...)
 	}
 	return (str_flags_len - flags_len + args_len);
 }
+/*
+#include <stdio.h>
+int	main(void)
+{
+	printf("|%-1i|\n", 0);
+	ft_printf("|%-1i\n|", 0);
+	printf("-----\n");
+	printf("|%-5.i|\n", 0);
+	ft_printf("|%-5.i\n|", 0);
+	printf("-----\n");
+	printf("|%-5.0i|\n", 0);
+	ft_printf("|%-5.0i|\n", 0);
+	printf("-----\n");
+	printf("|%8.3x|\n", 8375);
+	ft_printf("|%8.3x|\n", 8375);
+	printf("-----\n");
+	printf("|%8.3d|\n",-8375);
+	ft_printf("|%8.3d|\n", -8375);
+	printf("-----\n");
+	ft_printf("|%08.3d|\n", 8375);
+	printf("-----\n");
+	printf("|%.0d|\n", 0);
+	ft_printf("|%.0d|\n", 0);
+	printf("-----\n");
+	printf("|%-8.s|\n", "\0");
+	ft_printf("|%-8.s|\n", "\0");
+	printf("-----\n");
+	printf("|%5i|\n", -2562);
+	ft_printf("|%5i|\n", -2562);
+}
+*/

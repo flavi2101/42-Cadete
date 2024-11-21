@@ -10,6 +10,7 @@ SRCS = ft_printf.c get_flags_and_format.c print_text.c\
 SRCS_BONUS = ft_printf_bonus.c get_flags_and_format_bonus.c print_text_bonus.c\
 	prints/print_char_bonus.c prints/print_string_bonus.c prints/print_pointer_bonus.c prints/check_flags_bonus.c utils/utils_bonus.c\
 	prints/print_numbers/print_decimal_bonus.c prints/print_numbers/print_unsigned_decimal_bonus.c prints/print_numbers/print_hex_bonus.c prints/print_numbers/numbers_util_bonus.c\
+	prints/print_numbers/numbers_util_two_bonus.c\
 	prints/hex_helper_bonus.c prints/string_helper_bonus.c
 
 

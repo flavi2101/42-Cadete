@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:38:44 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:47 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:53:02 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,14 @@ int	print_hex(t_strfla *flag_info, va_list args)
 	all_flags = 0x00;
 	count = 0;
 	value = va_arg(args, unsigned int);
-	set_flags_values(&all_flags, flag_info, count);
 	str_of_num = get_len(value, &count, flag_info->conversion);
+	set_flags_values(&all_flags, flag_info, count);
+	invalid_flags_hex(&all_flags, value, flag_info, &count);
+	if (all_flags & dot && flag_info->precision == 0)
+		return (print_nothing(flag_info->width, str_of_num));
+	size_calc_un_hex(all_flags, flag_info, &count);
 	if (str_of_num)
 	{
-		invalid_flags_hex(&all_flags, value, flag_info, &count);
-		size_calc_un_hex(all_flags, flag_info, &count);
 		show_str_number(str_of_num, all_flags,
 			flag_info, count_udigits(value, 16));
 		free(str_of_num);

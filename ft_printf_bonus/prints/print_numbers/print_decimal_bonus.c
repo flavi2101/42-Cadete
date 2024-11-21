@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 14:36:27 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:49:20 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../ft_printf_bonus.h"
@@ -53,6 +53,7 @@ static void	size_calc(unsigned char all_flags, t_strfla *flag_info,
 	}
 }
 
+
 int	print_decimal(t_strfla *flag_info, va_list args)
 {
 	unsigned char	all_flags;
@@ -64,9 +65,11 @@ int	print_decimal(t_strfla *flag_info, va_list args)
 	all_flags = 0x00;
 	count = 0;
 	value = va_arg(args, int);
+	str_of_num = get_len(value, &count);
 	set_flags_values(&all_flags, flag_info, count);
 	all_flags &= ~hash;
-	str_of_num = get_len(value, &count);
+	if (all_flags & dot && flag_info->precision == 0)
+		return (print_nothing(flag_info->width, str_of_num));
 	len = count;
 	size_calc(all_flags, flag_info, &count, value);
 	if (str_of_num)

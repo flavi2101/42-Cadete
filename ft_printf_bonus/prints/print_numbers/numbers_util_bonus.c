@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:38:04 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 14:35:51 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:41:31 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	is_posi_or_neg(int *padding_space_value,
 	}
 }
 
+
 static int	general_case(t_strfla *info, unsigned char flags,
 			char *value, int len)
 {
@@ -57,17 +58,14 @@ static int	general_case(t_strfla *info, unsigned char flags,
 	if (flags & padding_precision)
 		padding_space_value = info->width - info->precision;
 	else
+	{
 		padding_space_value = info->width - len;
+	}
+	is_posi_or_neg_general_case(&padding_space_value, flags, value);
 	if (flags & hash)
 		padding_space_value -= 2;
 	while (padding_space_value-- > 0)
-	{
 		ft_putchar_fd(' ', 1);
-		if ((flags & plus || flags & space) && padding_space_value == 1)
-			break ;
-		if ((value[0] == '-') && padding_space_value == 1)
-			break ;
-	}
 	is_posi_or_neg(&padding_space_value, flags, value);
 	if (info->precision - len > 0 && flags & padding_precision)
 	{

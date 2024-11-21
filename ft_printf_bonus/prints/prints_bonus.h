@@ -6,23 +6,13 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:36:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 14:33:58 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:49:17 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTS_BONUS_H
 # define PRINTS_BONUS_H
 # include "../ft_printf_bonus.h"
-
-/*typedef enum t_val_type
-{
-	TYPE_CHAR,
-	TYPE_INT,
-	TYPE_UNSIGNED_INT,
-	TYPE_CHAR_PTR,
-	TYPE_HEX,
-	TYPE_PTR
-} e_argType;*/
 
 typedef enum t_bit_flag
 {
@@ -47,4 +37,7 @@ int		show_str(void *value, unsigned char flags, t_strfla *info);
 void	zero_x_printer(unsigned char flags, char conversion);
 void	string_has_precision(char *str_of_str, t_strfla *info,
 			int *str_position, unsigned char flags);
+void	is_posi_or_neg_general_case(int *padding_space_value,
+			unsigned char flags, char *value);
+int	print_nothing(int width, char * str_of_num);
 #endif

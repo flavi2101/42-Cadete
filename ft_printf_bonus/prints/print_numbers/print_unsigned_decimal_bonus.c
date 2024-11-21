@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/20 14:37:07 by flferrei         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:57:49 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../prints_bonus.h"
@@ -65,9 +65,11 @@ int	print_unsigned_decimal(t_strfla *flag_info, va_list args)
 	all_flags = 0x00;
 	count = 0;
 	value = va_arg(args, unsigned int);
+	str_of_num = get_len(value, &count, flag_info->conversion);
 	set_flags_values(&all_flags, flag_info, count);
 	invalid_flag_uns_dec(&all_flags);
-	str_of_num = get_len(value, &count, flag_info->conversion);
+	if (all_flags & dot && flag_info->precision == 0)
+		return (print_nothing(flag_info->width, str_of_num));
 	len = count;
 	size_calc_un(all_flags, flag_info, &count);
 	if (str_of_num)
