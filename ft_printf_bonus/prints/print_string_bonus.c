@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 17:26:03 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/21 12:28:54 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/21 19:31:33 by flaviohenr       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../libft/libft.h"
@@ -29,7 +29,6 @@ static char	*get_len_str(void *value, int *len)
 	}
 	return (str);
 }
-// use the print_string to cut some lines 
 
 static void	show_str_str(char *str_of_str, unsigned char flags,
 	t_strfla *info, int len)
@@ -89,18 +88,6 @@ static void	invalid_flags_str(t_strfla *flag_info, unsigned char *all_flags,
 	}
 }
 
-static int	print_nothing_string(int width, char * str_of_num)
-{
-	int	len;
-
-	if(str_of_num)
-		free(str_of_num);
-	len = width;
-	while (width-- > 0)
-		ft_putchar_fd(' ',1);
-	return (len);
-}
-
 int	print_string(t_strfla *flag_info, va_list args)
 {
 	unsigned char	all_flags;
@@ -114,7 +101,7 @@ int	print_string(t_strfla *flag_info, va_list args)
 	value = va_arg(args, char *);
 	str_of_str = get_len_str(value, &count);
 	if (count == 0)
-		return (print_nothing_string(flag_info->width, str_of_str));
+		return (print_nothing(flag_info->width, str_of_str));
 	set_flags_values(&all_flags, flag_info, count);
 	invalid_flags_str(flag_info, &all_flags, count, &str_of_str);
 	len = count;
@@ -125,6 +112,6 @@ int	print_string(t_strfla *flag_info, va_list args)
 		free(str_of_str);
 	}
 	else
-		return (0);
+		print_nothing(flag_info->width, str_of_str);
 	return (count);
 }
