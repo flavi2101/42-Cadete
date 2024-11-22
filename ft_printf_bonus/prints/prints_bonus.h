@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:36:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/21 16:49:17 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/22 12:40:38 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ void	string_has_precision(char *str_of_str, t_strfla *info,
 			int *str_position, unsigned char flags);
 void	is_posi_or_neg_general_case(int *padding_space_value,
 			unsigned char flags, char *value);
-int	print_nothing(int width, char * str_of_num);
+int		print_nothing(int width, char *str_of_num);
 #endif

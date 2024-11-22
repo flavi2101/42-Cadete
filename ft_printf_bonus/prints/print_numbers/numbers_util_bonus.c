@@ -6,7 +6,7 @@
 /*   By: flferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 13:38:04 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/21 16:41:31 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/22 12:43:48 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	is_posi_or_neg(int *padding_space_value,
 		ft_putchar_fd('-', 1);
 	}
 }
-
 
 static int	general_case(t_strfla *info, unsigned char flags,
 			char *value, int len)

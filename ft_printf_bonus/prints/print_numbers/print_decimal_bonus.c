@@ -6,7 +6,7 @@
 /*   By: flaviohenr <flaviohenr@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:24:56 by flferrei          #+#    #+#             */
-/*   Updated: 2024/11/21 16:49:20 by flaviohenr       ###   ########.fr       */
+/*   Updated: 2024/11/22 12:42:56 by flferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../ft_printf_bonus.h"
@@ -52,7 +52,6 @@ static void	size_calc(unsigned char all_flags, t_strfla *flag_info,
 			(*size)++;
 	}
 }
-
 
 int	print_decimal(t_strfla *flag_info, va_list args)
 {
