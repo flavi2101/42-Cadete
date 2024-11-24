@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-
 int	check_term_or_break(int buffers,char *data, int *qty_buffer)
 {
 	int	real_size;
@@ -12,9 +11,9 @@ int	check_term_or_break(int buffers,char *data, int *qty_buffer)
 	while(real_size < buffers)
 	{
 		if (data[real_size] == '\n')
-			return (real_size);
+			return (real_size++);
 		else if (data[real_size] == '\0')
-			return (real_size);
+			return (real_size++);
 		real_size++;
 	}
 	(*qty_buffer)++;
@@ -58,7 +57,7 @@ char	*strjoin(char *dst, char *src, int src_len)
 	return (*file_info);
 }*/	
 
-char	*recursive_reading(int fd,char **file_info, int buffer_size, int *qty_buffers)
+int	recursive_reading(int fd,char **file_info, int buffer_size, int *qty_buffers)
 {
 	char	*data;
 	int	nmb_of_buffers;
@@ -66,11 +65,16 @@ char	*recursive_reading(int fd,char **file_info, int buffer_size, int *qty_buffe
 	char	*temp;
 
 	size = 0;
+	temp = NULL;
 	nmb_of_buffers = buffer_size * (*qty_buffers);
 	data = (char *)malloc(sizeof(char) * nmb_of_buffers);
 	if (!data)
-		return (NULL);
-	read(fd, data, nmb_of_buffers);
+		return (-1);
+	if (read(fd, data, nmb_of_buffers) <= 0)
+	{
+		free(data);
+		return (-1);
+	}
 	size =check_term_or_break(nmb_of_buffers, data, qty_buffers); 
 	if (size)
 	{
@@ -87,9 +91,9 @@ char	*recursive_reading(int fd,char **file_info, int buffer_size, int *qty_buffe
 		if (*file_info)
 			free(*file_info);
 		*file_info = temp;
-		recursive_reading(fd, file_info, buffer_size, qty_buffers);
+		return recursive_reading(fd, file_info, buffer_size, qty_buffers);
 	}
-	return (*file_info);
+	return (1);
 }
 
 char *get_next_line(int fd)
@@ -101,7 +105,7 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER == 0)	
 		return (NULL);
 	file_buffer = strjoin("","",0);
-	recursive_reading(fd, &file_buffer, BUFFER, &qnty_buffers);
+	while (recursive_reading(fd, &file_buffer, BUFFER, &qnty_buffers) > 0);
 	return (file_buffer);
 }
 
