@@ -3,12 +3,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-typedef struct s_store_index_of_break
-{
-	int	line_break;
-	struct	 s_store_index_of_break	*next;	
-}	t_index_break;
-
 int	check_term_or_break(int buffers,char *data)
 {
 	int real_size;
@@ -16,6 +10,8 @@ int	check_term_or_break(int buffers,char *data)
 	
 	while(++real_size < buffers)
 	{
+		if (data[real_size] == '\n')
+			return (++real_size);
 		if (data[real_size] == '\0')
 			return (real_size);
 	}
@@ -25,89 +21,93 @@ int	check_term_or_break(int buffers,char *data)
 char	*strjoin(char *dst, char *src, int src_len)
 {
 	int dst_len;
-	int cp_dst_len;
+	int 	len_d;
+	int	len_s;
 	char	*jointed;
 
 	dst_len = 0;
-	cp_dst_len = 0;
-
+	len_d = -1;
+	len_s = -1;
 	while(dst[dst_len])
 		dst_len++;
 	jointed = (char *)malloc(sizeof(char) * (dst_len + src_len + 1));	
 	if (!jointed)
 		return (NULL);
-	while (cp_dst_len < dst_len)
-		jointed[cp_dst_len++] = *dst++;
-	while (cp_dst_len < dst_len + src_len)
-		jointed[cp_dst_len++] = *src++;
+	while (dst[++len_d])
+		jointed[len_d] = dst[len_d];
+	while (++len_s < src_len)
+		jointed[len_d + len_s] = src[len_s];
 	jointed[dst_len + src_len] = '\0';
 	return (jointed);
 	
 }
 
-int	recursive_reading(int fd,char **file_info, int buffer_size, unsigned *len)
+char	*recursive_reading(int fd,char **file_info,char **line, int buffer_size)
 {
 	char	*data;
 	char	*temp;
-	int	zero_set;
+	int	size_break;
+	int	set_zero;
 
-	zero_set = 0;
+	set_zero = -1;
 	data = (char *)malloc(sizeof(char) * buffer_size);
+	while (++set_zero < buffer_size)
+		data[set_zero] = '\0';
 	if (!data)
-		return (-1);
-	while (zero_set < buffer_size)
-		data[zero_set++] = '\0';
+		*line = NULL;
+
 	if (read(fd, data, buffer_size) == 0)
 	{
 		free(data);
-		return (0);
+		return (*line);
 	}
 	else
 	{
-		temp = strjoin(*file_info, data, buffer_size);
-		if (*file_info)
-			free(*file_info);
-		*file_info = temp;
-		*len = check_term_or_break(buffer_size, data);
-		free(data);
-		return recursive_reading(fd, file_info, buffer_size, len) + *len;
+		size_break = check_term_or_break(buffer_size, data);
+		temp = strjoin(*line, data, size_break);
+		if (!temp)
+			free(data);
+		if (!temp)
+			return (NULL);
+		if (*line)
+			free(*line);
+		*line = temp;
+		if (size_break == buffer_size && data[size_break - 1] != '\n')
+		{
+			free(data);
+			recursive_reading(fd, file_info, line, (buffer_size << 1));
+		}
+		else
+		{
+			temp = strjoin(*file_info,data + size_break, buffer_size - size_break);
+			if (*file_info)
+				free(*file_info);
+			*file_info = temp;
+			free(data);	
+		}
 	}
+	return (*line);
 }
 
 char *get_next_line(int fd)
 {
 	static char	*file_buffer;	
-	static unsigned		len;
-	int		break_index;
 	char		*line;
-	int		cp_break_index;
+	int		size_in_file;
 
-	if (fd < 0 || BUFFER_SIZE == 0)	
+	if (fd < 0 || BUFFER_SIZE <= 0)	
 		return (NULL);
-	cp_break_index = 0;
-	break_index = 0;
-	if (!file_buffer)
-	{
+	size_in_file = 0;
+	if (!file_buffer)	
 		file_buffer = strjoin("","",0);
-		while (recursive_reading(fd, &file_buffer, BUFFER_SIZE, &len) > 0);
-		if (!file_buffer)
-			return (NULL);
-	}
-	if (len == 0)
-		return (NULL);
-	while(file_buffer[break_index] != '\n' && file_buffer[break_index] != '\0')
-		break_index++;
-	len -= ++break_index;
-	line = (char *)malloc(sizeof(char) * (break_index + 1));
-	if (!line)
-		return (NULL);
-	line[break_index--] = '\0';
-	while (break_index-- >= 0)
-		line[cp_break_index++] = *file_buffer++;	
-	return (line);
+	while(file_buffer[size_in_file])
+		++size_in_file;
+	line = strjoin("", file_buffer, size_in_file);
+	recursive_reading(fd, &file_buffer, &line, BUFFER_SIZE);
+	return line;
 }
  
-int main(int argc, char *argv[])
+/*int main(int argc, char *argv[])
 {
 	char *path = argv[1];
 	int count = 0;
@@ -128,4 +128,4 @@ int main(int argc, char *argv[])
 	write(1, line, count);
 	free(line);	
 	return (0);
-}
+}*/
