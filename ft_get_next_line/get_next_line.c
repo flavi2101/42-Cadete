@@ -26,15 +26,24 @@ char	*strjoin(char *dst, char *src, int src_len)
 	char	*jointed;
 
 	dst_len = 0;
-	len_d = -1;
+	len_d = 0;
 	len_s = -1;
-	while(dst[dst_len])
-		dst_len++;
+	if (dst)
+	{
+		while(dst[dst_len])
+			dst_len++;
+	}
 	jointed = (char *)malloc(sizeof(char) * (dst_len + src_len + 1));	
 	if (!jointed)
 		return (NULL);
-	while (dst[++len_d])
-		jointed[len_d] = dst[len_d];
+	if (dst)
+	{
+		while (dst[len_d])
+		{
+			jointed[len_d] = dst[len_d];
+			len_d++;
+		}
+	}
 	while (++len_s < src_len)
 		jointed[len_d + len_s] = src[len_s];
 	jointed[dst_len + src_len] = '\0';
@@ -42,98 +51,167 @@ char	*strjoin(char *dst, char *src, int src_len)
 	
 }
 
-char	*recursive_reading(int fd,char **file_info,char **line, int buffer_size)
+char	*recursive_reading(int fd,char **file_info, int buffer_size)
 {
 	char	*data;
 	char	*temp;
 	int	size_break;
 	int	set_zero;
 
-	set_zero = -1;
-	data = (char *)malloc(sizeof(char) * buffer_size);
+	set_zero = 0;
+	data = (char *)malloc(sizeof(char) * (buffer_size));
 	if(!data )
 	{
-		free(*line);
-		*line = (NULL);
-		return (*line);
+		if (*file_info)
+			free(*file_info);
+		*file_info = (NULL);
+		return (*file_info);
 	}
-	while (++set_zero < buffer_size)
-		data[set_zero] = '\0';
+	while (set_zero < buffer_size)
+		data[set_zero++] = '\0';
 	set_zero = read(fd, data, buffer_size);
-	if (set_zero == 0)
+	if (set_zero <= 0)
 	{
 		free(data);
-		// infiny loop because the remainder in the file_info 
-		if (*line && **line == '\0')
-		{
-			free(*line);
-			*line = (NULL);
-		}
-		return (*line);
-	}
-	else if (set_zero < 0)
-	{
-		free(data);
-		free(*line);
-		*line = NULL;
-		return (*line);
+		return (NULL);
 	}
 	size_break = check_term_or_break(buffer_size, data);
-	temp = strjoin(*line, data, size_break);
+	if(!(*file_info))
+		temp = strjoin(NULL, data, size_break);
+	else
+		temp = strjoin(*file_info, data, size_break);
 	if (!temp)
 	{
 		free(data);
-		free(*line);
-		*line = NULL;
-		return (*line);
+		if(*file_info)
+			free(*file_info);
+		*file_info = NULL;
+		return (*file_info);
 	}
-	if (*line)
-		free(*line);
-	*line = temp;
+	if (*file_info)
+		free(*file_info);
+	*file_info= temp;
 	if (size_break == buffer_size && data[size_break - 1] != '\n')
 	{
 		free(data);
-		recursive_reading(fd, file_info, line, (buffer_size << 1));
+		return recursive_reading(fd, file_info, (buffer_size << 1));
 	}
-	else
+	temp = strjoin(*file_info,data + size_break, buffer_size - size_break);
+	free(data);
+	if (!temp)
 	{
-		temp = strjoin(*file_info,data + size_break, buffer_size - size_break);
-		if (!temp)
-		{
-			free(*file_info);
-			free(*line);
-			free(data);
-			return (NULL);
-		}
-		else 
-			free(*file_info);
-		*file_info = temp;
-		free(data);	
+		free(*file_info);
+		*file_info = NULL;
+		return (NULL);
 	}
-	return (*line);
+	free(*file_info);
+	*file_info = temp;
+	return *file_info;
 }
-
 
 
 char *get_next_line(int fd)
 {
-	static char	*file_buffer;	
-	char		*line;
-	int		size_in_file;
+    static char *file_buffer = NULL;  // Explicitly initialize
+    int counter;
+    int total;
+    char *line;
+    char *temp;
 
+    // Reset variables
+    line = NULL;
+    temp = NULL;
+    counter = 0;
+    total = 0;
+
+    if (fd < 0 || BUFFER_SIZE <= 0)
+        return (NULL);
+
+    // If no buffer, read initial data
+    if (!file_buffer) {
+        file_buffer = recursive_reading(fd, &file_buffer, BUFFER_SIZE);
+        if (!file_buffer)
+            return (NULL);
+    }
+
+    // Find line length
+    while(file_buffer[counter] && file_buffer[counter] != '\n')
+        counter++;
+
+    // Include newline if present
+    if (file_buffer[counter] == '\n')
+        counter++;
+
+    // Calculate total buffer length
+    while(file_buffer[total])
+        total++;
+
+    // Extract line
+    line = strjoin(NULL, file_buffer, counter);
+    if (!line) {
+        // Free buffer if line creation fails
+        free(file_buffer);
+        file_buffer = NULL;
+        return (NULL);
+    }
+
+    // Create new buffer with remaining content
+    if (counter < total) {
+        temp = strjoin(NULL, file_buffer + counter, total - counter);
+        free(file_buffer);
+        file_buffer = temp;
+    } else {
+        // Buffer is exhausted
+        free(file_buffer);
+        file_buffer = NULL;
+    }
+
+    return line;
+}
+
+
+
+/*
+char *get_next_line(int fd)
+{
+	static char	*file_buffer;	
+	int	counter;
+	int	total;
+	char		*line;
+	char		*temp;
+
+	line = NULL;
+	temp = NULL;
+	total = 0;
+	counter = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)	
 		return (NULL);
-	size_in_file = 0;
+	file_buffer = recursive_reading(fd, &file_buffer, BUFFER_SIZE);
 	if (!file_buffer)
-		file_buffer = strjoin("","",0);
-	while(file_buffer[size_in_file])
-		++size_in_file;
-	line = strjoin("", file_buffer, size_in_file);
-	if(!line)
 		return (NULL);
-	return	recursive_reading(fd, &file_buffer, &line, BUFFER_SIZE);
+	while(file_buffer[counter] != '\n')
+		counter++;
+	while(file_buffer[total])
+		total++;
+	line = strjoin("", file_buffer, counter + 1);
+	if(!line)
+	{
+		free(file_buffer);
+		return (NULL);
+	}
+	temp = strjoin(NULL, file_buffer + counter + 1, (total - counter -1)) ;
+	if(!temp)
+	{
+		free(line);
+		free(file_buffer);	
+		return (NULL);
+	}
+	free(file_buffer);
+	file_buffer = temp;
+	return line;
 }
-#include <stdio.h> 
+*/
+/*#include <stdio.h> 
 int main(int argc, char *argv[])
 {
 	char *path = argv[1];
@@ -142,8 +220,11 @@ int main(int argc, char *argv[])
 		return (-1);
 	int fd = open (path, O_RDONLY);
 	while((a = get_next_line(fd)))
+	{
 		printf("%s", a);
+		free(a);
+	}
 	return (0);
 }
-
+*/
 
