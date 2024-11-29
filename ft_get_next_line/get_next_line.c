@@ -3,19 +3,19 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-int	check_term_or_break(int buffers,char *data)
+int	check_term_or_break(char *data)
 {
 	int real_size;
 	real_size = -1;
 	
-	while(++real_size < buffers)
+	while(++real_size < BUFFER_SIZE)
 	{
 		if (data[real_size] == '\n')
 			return (++real_size);
 		if (data[real_size] == '\0')
 			return (real_size++);
 	}
-	return (buffers);
+	return (BUFFER_SIZE);
 }
 
 char	*strjoin(char *dst, char *src, int src_len)
@@ -48,69 +48,71 @@ char	*strjoin(char *dst, char *src, int src_len)
 	
 }
 
-char	*clear_mem(char *mem1, char* data)
+char	*clear_mem(char *mem1, char* data, int *end_file)
 {
 	if (data)
 		free(data);
 	if(mem1)
 		free(mem1);
 	mem1 = NULL;
-	return (mem1);
+	*end_file = 1;
+	return (NULL);
 }
 
-char	*read_data(int fd, char **file_info, int buffer_size, int *end_file)
+char	*read_data(int fd, char **file_info, int *end_file)
 {
 	int	set_zero;
 	char 	*data;
 
 	set_zero = 0;
-	data = (char *)malloc(sizeof(char) * (buffer_size));
+	data = (char *)malloc(sizeof(char) * (BUFFER_SIZE));
 	if(!data )
-		return clear_mem(*file_info, NULL);
-	while (set_zero < buffer_size)
+		return clear_mem(*file_info, NULL, end_file);
+	while (set_zero < BUFFER_SIZE)
 		data[set_zero++] = '\0';
-	set_zero = read(fd, data, buffer_size);
+	set_zero = read(fd, data, BUFFER_SIZE);
 	if (set_zero <= 0)
 	{
 		*end_file = 1;
 		free(data);
-		if(*file_info)
+		if(*file_info && set_zero == 0)
 			return (*file_info);
+		free(*file_info);
 		return (NULL);
 	}
 	return data;
 }
 
-char	*recursive_reading(int fd,char **file_info, int buffer_size, int *end_file)
+char	*recursive_reading(int fd,char **file_info, int *end_file)
 {
 	char	*data;
 	char	*temp;
 	int	size_break;
 
-	data = read_data(fd, file_info, buffer_size, end_file);
+	data = read_data(fd, file_info, end_file);
 	if(!data)
 		return NULL;
 	if (data && *end_file == 1)
 		return data;
-	size_break = check_term_or_break(buffer_size, data);
+	size_break = check_term_or_break(data);
 	if(!(*file_info))
 		temp = strjoin(NULL, data, size_break);
 	else
 		temp = strjoin(*file_info, data, size_break);
 	if (!temp)
-		return (clear_mem(*file_info, data));
+		return (clear_mem(*file_info, data, end_file));
 	if (*file_info)
 		free(*file_info);
 	*file_info= temp;
-	if (size_break == buffer_size && (*file_info)[size_break -1] != '\n' && *((*file_info) + size_break -1) != '\0')
+	if (size_break == BUFFER_SIZE && (*file_info)[size_break -1] != '\n' && *((*file_info) + size_break -1) != '\0')
 	{
 		free(data);
-		return recursive_reading(fd, file_info, (buffer_size << 1), end_file);
+		return recursive_reading(fd, file_info, end_file);
 	}
-	temp = strjoin(*file_info,data + size_break, buffer_size - size_break);
+	temp = strjoin(*file_info,data + size_break, BUFFER_SIZE - size_break);
 	free(data);
 	if (!temp)
-		return (clear_mem(*file_info, NULL));
+		return (clear_mem(*file_info, NULL, end_file));
 	free(*file_info);
 	*file_info = temp;
 	return *file_info;
@@ -132,9 +134,12 @@ char *get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	file_buffer = recursive_reading(fd, &file_buffer, BUFFER_SIZE, &counter);
-	if (!file_buffer && counter)
-		return (NULL);
+	file_buffer = recursive_reading(fd, &file_buffer, &counter);
+	if (!file_buffer)
+	{
+		if (counter)
+			return (NULL);
+	}
 	counter = 0;
 	while(file_buffer[counter] && file_buffer[counter] != '\n')
 		counter++;
@@ -215,7 +220,7 @@ int main(int argc, char *argv[])
 	{
 		printf("%s", a);
 		free(a);
-		printf("---------------");
+		printf("---------------\n");
 	}
 	return (0);
 }
