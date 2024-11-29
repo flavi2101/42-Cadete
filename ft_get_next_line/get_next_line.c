@@ -5,10 +5,10 @@
 
 int	check_term_or_break(char *data)
 {
-	int real_size;
+	int	real_size;
+
 	real_size = -1;
-	
-	while(++real_size < BUFFER_SIZE)
+	while (++real_size < BUFFER_SIZE)
 	{
 		if (data[real_size] == '\n')
 			return (++real_size);
@@ -20,15 +20,15 @@ int	check_term_or_break(char *data)
 
 char	*strjoin(char *dst, char *src, int src_len)
 {
-	int dst_len;
+	char	*jointed;
+	int	dst_len;
 	int 	len_d;
 	int	len_s;
-	char	*jointed;
 
 	dst_len = 0;
 	len_d = 0;
 	len_s = 0;
-	while(dst && dst[dst_len])
+	while (dst && dst[dst_len])
 		dst_len++;
 	jointed = (char *)malloc(sizeof(char) * (dst_len + src_len + 1));	
 	if (!jointed)
@@ -52,7 +52,7 @@ char	*clear_mem(char *mem1, char* data, int *end_file)
 {
 	if (data)
 		free(data);
-	if(mem1)
+	if (mem1)
 		free(mem1);
 	mem1 = NULL;
 	*end_file = 1;
@@ -75,7 +75,7 @@ char	*read_data(int fd, char **file_info, int *end_file)
 	{
 		*end_file = 1;
 		free(data);
-		if(*file_info && set_zero == 0)
+		if (*file_info && set_zero == 0)
 			return (*file_info);
 		free(*file_info);
 		return (NULL);
@@ -122,10 +122,11 @@ char	*recursive_reading(int fd,char **file_info, int *end_file)
 char *get_next_line(int fd)
 {
 	static char *file_buffer = NULL;  // Explicitly initialize
-	int counter;
-	int total;
-	char *line;
-	char *temp;
+	char		*line;
+	char		*temp;
+	int		counter;
+	int		total;
+	
 
 	line = NULL;
 	temp = NULL;
@@ -159,15 +160,13 @@ char *get_next_line(int fd)
 		temp = strjoin(NULL, file_buffer + counter, total - counter);
 		free(file_buffer);
 		file_buffer = temp;
-	} else
+	}else
 	{
 		free(file_buffer);
 		file_buffer = NULL;
 	}
 	return line;
 }
-
-
 
 /*
 char *get_next_line(int fd)
